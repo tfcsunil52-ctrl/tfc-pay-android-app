@@ -110,12 +110,8 @@ const AppLock = ({
                             <Lock className="w-10 h-10 text-green-700 dark:text-green-500" strokeWidth={1.5} />
                             <ArrowRight className="w-4 h-4 text-green-700 dark:text-green-500 absolute -right-2 top-0 bg-background rounded-full" />
                         </div>
-                    ) : biometricActive ? (
-                        biometricSuccess ? (
-                            <ShieldCheck className="w-10 h-10 text-green-700 dark:text-green-500 animate-in zoom-in duration-300" strokeWidth={1.5} />
-                        ) : (
-                            <Fingerprint className="w-10 h-10 text-green-700 dark:text-green-500 animate-pulse" strokeWidth={1.5} />
-                        )
+                    ) : (biometricActive && biometricSuccess) ? (
+                        <ShieldCheck className="w-10 h-10 text-green-700 dark:text-green-500 animate-in zoom-in duration-300" strokeWidth={1.5} />
                     ) : (
                         <Lock className="w-10 h-10 text-green-700 dark:text-green-500" strokeWidth={1.5} />
                     )}

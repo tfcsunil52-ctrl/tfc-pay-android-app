@@ -49,7 +49,7 @@ const tickets: SupportTicket[] = [
         id: "TICK-83901",
         subject: "Cashback not received for DTH",
         status: "closed",
-        date: "Feb 08, 2024",
+        date: "Feb 08, 2026",
         category: "Offers",
         lastMessage: "Cashback has been credited to your wallet."
     }

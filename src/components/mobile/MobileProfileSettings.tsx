@@ -289,7 +289,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                             </button>
                         </div>
                         <div className="text-center">
-                            <p className="text-xs text-muted-foreground">Active since - Feb 2024</p>
+                            <p className="text-xs text-muted-foreground">Active since - Feb 2026</p>
                         </div>
                     </div>
 
@@ -441,7 +441,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                             <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 text-center">Your Referral Code</p>
                             <div className="flex items-center gap-2 bg-muted/30 p-2 rounded-xl border border-dashed border-green-700/30 dark:border-green-500/30">
                                 <div className="flex-1 text-center">
-                                    <span className="text-xl font-bold font-mono tracking-wider text-green-700 dark:text-green-500">TFCPAY2024</span>
+                                    <span className="text-xl font-bold font-mono tracking-wider text-green-700 dark:text-green-500">TFCPAY2026</span>
                                 </div>
                                 <Button size="sm" variant="ghost" className="h-10 w-10 p-0 rounded-full hover:bg-green-600/10 dark:hover:bg-green-500/10" onClick={() => alert("Code copied to clipboard!")}>
                                     <Copy className="w-4 h-4 text-green-700 dark:text-green-500" />
@@ -454,13 +454,13 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                     <div>
                         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 px-1">Share via</p>
                         <div className="grid grid-cols-3 gap-3">
-                            <button className="flex flex-col items-center gap-2 p-4 rounded-xl bg-[#25D366]/10 border border-[#25D366]/20 hover:bg-[#25D366]/20 transition-colors" onClick={() => window.open('https://wa.me/?text=Join TFC Pay using my code TFCPAY2024', '_blank')}>
+                            <button className="flex flex-col items-center gap-2 p-4 rounded-xl bg-[#25D366]/10 border border-[#25D366]/20 hover:bg-[#25D366]/20 transition-colors" onClick={() => window.open('https://wa.me/?text=Join TFC Pay using my code TFCPAY2026', '_blank')}>
                                 <div className="w-10 h-10 rounded-full bg-[#25D366] flex items-center justify-center text-white shadow-sm">
                                     <MessageCircle className="w-5 h-5" />
                                 </div>
                                 <span className="text-xs font-medium text-foreground">WhatsApp</span>
                             </button>
-                            <button className="flex flex-col items-center gap-2 p-4 rounded-xl bg-[#0088cc]/10 border border-[#0088cc]/20 hover:bg-[#0088cc]/20 transition-colors" onClick={() => window.open('https://t.me/share/url?url=https://tfcpay.com&text=Join TFC Pay using my code TFCPAY2024', '_blank')}>
+                            <button className="flex flex-col items-center gap-2 p-4 rounded-xl bg-[#0088cc]/10 border border-[#0088cc]/20 hover:bg-[#0088cc]/20 transition-colors" onClick={() => window.open('https://t.me/share/url?url=https://tfcpay.com&text=Join TFC Pay using my code TFCPAY2026', '_blank')}>
                                 <div className="w-10 h-10 rounded-full bg-[#0088cc] flex items-center justify-center text-white shadow-sm">
                                     <Send className="w-5 h-5 ml-0.5" />
                                 </div>
@@ -470,7 +470,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                                 if (navigator.share) {
                                     navigator.share({
                                         title: 'TFC Pay',
-                                        text: 'Join TFC Pay using my code TFCPAY2024',
+                                        text: 'Join TFC Pay using my code TFCPAY2026',
                                         url: 'https://tfcpay.com',
                                     })
                                 } else {

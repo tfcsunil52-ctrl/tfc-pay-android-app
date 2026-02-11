@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Mail, Phone, User, ArrowRight, Shield } from "lucide-react";
+import { Mail, Phone, User, ArrowRight, Shield, LayoutGrid } from "lucide-react";
 import { Button } from "../ui/Button";
 import { Input } from "../ui/Input";
 import { getAssetPath } from "../../utils/assets";
@@ -149,9 +149,9 @@ const MobileLogin = ({ onContinue, onSignupClick, onPinLoginClick, hasPinSet = f
                                 <div className="pt-4 border-t border-border/50">
                                     <button
                                         onClick={onPinLoginClick}
-                                        className="w-full h-12 flex items-center justify-center gap-2 text-sm font-semibold text-green-700 dark:text-green-500 hover:bg-green-600/5 dark:hover:bg-green-500/5 rounded-xl transition-all"
+                                        className="w-full h-12 flex items-center justify-center gap-2 text-sm font-semibold text-green-700 dark:text-green-500 hover:bg-green-600/5 dark:hover:bg-green-500/5 border border-green-700/50 dark:border-green-500/50 rounded-xl transition-all"
                                     >
-                                        <Shield className="w-4 h-4" />
+                                        <LayoutGrid className="w-4 h-4" />
                                         Login with PIN
                                     </button>
                                 </div>
@@ -174,7 +174,7 @@ const MobileLogin = ({ onContinue, onSignupClick, onPinLoginClick, hasPinSet = f
                 {/* Footer */}
                 <div className="flex-shrink-0 text-center py-6 mt-auto">
                     <p className="text-xs text-muted-foreground/60">
-                        TFC Pay © 2024 • Fast & Secure Payments
+                        TFC Pay © 2026 • Fast & Secure Payments
                     </p>
                 </div>
             </div>

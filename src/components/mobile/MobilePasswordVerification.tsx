@@ -157,7 +157,7 @@ const MobilePasswordVerification = ({
                 {/* Footer */}
                 <div className="flex-shrink-0 text-center pb-6">
                     <p className="text-xs text-muted-foreground/60">
-                        TFC Pay © 2024 • Fast & Secure Payments
+                        TFC Pay © 2026 • Fast & Secure Payments
                     </p>
                 </div>
             </div>
