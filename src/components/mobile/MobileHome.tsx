@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback } from "../ui/Avatar";
 import ScanQR from "./ScanQR";
 import ContactList from "./transfer/ContactList";
 import BeneficiaryList from "./transfer/BeneficiaryList";
+import { getAssetPath } from "../../utils/assets";
 import { BankAccounts } from "./profile/BankAccounts";
 import type { Transaction, TabType } from "../../types";
 
@@ -84,7 +85,7 @@ const quickServices = [
     { icon: Fuel, label: "Piped Gas", targetTitle: "Piped Gas", image: "/Icons/Piped Gas.webp" },
     { icon: Phone, label: "Landline", targetTitle: "Landline", image: "/Icons/Landline .webp" },
     { icon: Droplets, label: "Water", targetTitle: "Water Bill", image: "/Icons/Water Bill.webp" },
-];
+].map(s => ({ ...s, image: s.image ? getAssetPath(s.image) : undefined }));
 
 // Banner carousel component
 const BannerCarousel = ({ onNavigate }: { onNavigate: (tab: TabType) => void }) => {
@@ -93,7 +94,7 @@ const BannerCarousel = ({ onNavigate }: { onNavigate: (tab: TabType) => void }) 
         { src: "/offer-banner.webp", alt: "5% Cashback" },
         { src: "/offer-banner-2.webp", alt: "Flat ₹100 Cashback" },
         { src: "/offer-banner-3.webp", alt: "20% Off on DTH" }
-    ];
+    ].map(b => ({ ...b, src: getAssetPath(b.src) }));
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -176,7 +177,7 @@ const MobileHome = ({
                     </button>
                     <div className="absolute left-1/2 -translate-x-1/2">
                         <img
-                            src={isDarkMode ? "/tfcpay-logo.png" : "/tfcpay-logo-light.png"}
+                            src={getAssetPath(isDarkMode ? "/tfcpay-logo.png" : "/tfcpay-logo-light.png")}
                             alt="TFC Pay"
                             className="h-5 w-auto object-contain"
                         />

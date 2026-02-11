@@ -3,6 +3,7 @@ import { ArrowLeft, Mail, Phone, User, Lock, Eye, EyeOff, Shield, ArrowRight } f
 import { Button } from "../ui/Button";
 import { Input } from "../ui/Input";
 import AppLock from "./AppLock";
+import { getAssetPath } from "../../utils/assets";
 
 interface MobileSignupProps {
     onSignup: (data: SignupData) => void;
@@ -109,7 +110,7 @@ const MobileSignup = ({ onSignup, onBackToLogin, isDarkMode = true }: MobileSign
                     {/* Logo */}
                     <div className="flex justify-center mb-6">
                         <img
-                            src={isDarkMode ? "/tfcpay-logo.png" : "/tfcpay-logo-light.png"}
+                            src={getAssetPath(isDarkMode ? "/tfcpay-logo.png" : "/tfcpay-logo-light.png")}
                             alt="TFC Pay"
                             className="h-8 w-auto"
                         />

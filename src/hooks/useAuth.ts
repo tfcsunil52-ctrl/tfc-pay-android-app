@@ -80,6 +80,11 @@ export const useAuth = () => {
             type,
             pin: localStorage.getItem('tfc_pin') || undefined
         };
+
+        // Store last used identifier for PIN login
+        localStorage.setItem('tfc_last_identifier', identifier);
+        localStorage.setItem('tfc_last_type', type);
+
         setAuthState(prev => ({
             ...prev,
             isAuthenticated: true,
@@ -164,6 +169,11 @@ export const useAuth = () => {
             localStorage.setItem('tfc_pin', pin);
             localStorage.setItem('tfc_app_lock_enabled', 'true');
         }
+
+        // Store last used identifier for PIN login
+        localStorage.setItem('tfc_last_identifier', identifier);
+        localStorage.setItem('tfc_last_type', type);
+
         const user: User = {
             id: Math.random().toString(36).substring(7),
             identifier,

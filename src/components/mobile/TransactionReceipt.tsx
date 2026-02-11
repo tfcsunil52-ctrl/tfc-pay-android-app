@@ -4,6 +4,8 @@ import { Button } from "../ui/Button";
 import { Card, CardContent } from "../ui/Card";
 import type { Transaction } from "../../types";
 
+import { getAssetPath } from "../../utils/assets";
+
 interface TransactionReceiptProps {
     transaction: Transaction;
     onClose: () => void;
@@ -153,7 +155,7 @@ const TransactionReceipt = ({ transaction, onClose, onShare, onReport }: Transac
                 </div>
 
                 <div className="mt-8 text-center">
-                    <img src="/tfcpay-logo.png" alt="TFC Pay" className="h-6 mx-auto opacity-50 grayscale" />
+                    <img src={getAssetPath("/tfcpay-logo.png")} alt="TFC Pay" className="h-6 mx-auto opacity-50 grayscale" />
                     <p className="text-[10px] text-muted-foreground mt-2">Powered by TFC Pay Secure Systems</p>
                 </div>
             </div>

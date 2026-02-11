@@ -27,6 +27,14 @@ interface TFCPayAppProps {
 }
 
 const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProps) => {
+    const {
+        isAuthenticated, login, logout, signup,
+        hasPinSet, appLockEnabled, biometricEnabled,
+        setPin, changePin, removePin, setAppLockEnabled, setBiometricEnabled
+    } = useAuth();
+    const { balance, previousBalance, transactions, addMoney, processPayment, onBalanceSeen } = useWallet();
+    const { isDarkMode, toggleTheme } = useTheme(initialTheme);
+
     const [activeTab, setActiveTab] = useState<TabType>(initialTab);
     const [showSettings, setShowSettings] = useState(false);
     const [showAddMoney, setShowAddMoney] = useState(false);
@@ -42,15 +50,7 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
     const [showSignup, setShowSignup] = useState(false);
     const [rememberMe, setRememberMe] = useState(true);
     const [unreadNotifications, setUnreadNotifications] = useState(3);
-    const [isLocked, setIsLocked] = useState(true); // App starts locked
-
-    const { balance, previousBalance, transactions, addMoney, processPayment, onBalanceSeen } = useWallet();
-    const { isDarkMode, toggleTheme } = useTheme(initialTheme);
-    const {
-        isAuthenticated, login, logout, signup,
-        hasPinSet, appLockEnabled, biometricEnabled,
-        setPin, changePin, removePin, setAppLockEnabled, setBiometricEnabled
-    } = useAuth();
+    const [isLocked, setIsLocked] = useState(appLockEnabled && hasPinSet); // App starts locked if PIN is set and lock is enabled
 
     // Handle navigation
     const handleNavigate = (tab: TabType) => {
@@ -186,14 +186,23 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
         }
     };
 
-    // App Lock Screen (check if app lock is enabled AND PIN exists)
-    if (isLocked && appLockEnabled && hasPinSet) {
+    // App Lock Screen 
+    if (isLocked && hasPinSet && (appLockEnabled || !isAuthenticated)) {
         return (
             <AppLock
-                onUnlock={() => setIsLocked(false)}
+                onUnlock={() => {
+                    setIsLocked(false);
+                    if (!isAuthenticated) {
+                        // If we were at the login screen, clicking unlock should log us in
+                        const lastId = localStorage.getItem('tfc_last_identifier') || 'User';
+                        const lastType = (localStorage.getItem('tfc_last_type') as any) || 'mobile';
+                        login(lastId, lastType, true);
+                    }
+                }}
                 onSwitchAccount={() => {
                     logout();
                     setIsLocked(false);
+                    // Don't auto-login if they want to switch account
                 }}
                 savedPin={localStorage.getItem('tfc_pin')}
                 biometricEnabled={biometricEnabled}

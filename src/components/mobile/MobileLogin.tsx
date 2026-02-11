@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Mail, Phone, User, ArrowRight, Shield } from "lucide-react";
 import { Button } from "../ui/Button";
 import { Input } from "../ui/Input";
+import { getAssetPath } from "../../utils/assets";
 
 interface MobileLoginProps {
     onContinue: (identifier: string, type: 'email' | 'mobile' | 'userid', rememberMe: boolean) => void;
@@ -67,7 +68,7 @@ const MobileLogin = ({ onContinue, onSignupClick, onPinLoginClick, hasPinSet = f
                 <div className="flex-shrink-0 flex flex-col items-center pt-12 pb-8 animate-in fade-in duration-700 font-sans">
                     <div className="mb-6">
                         <img
-                            src={isDarkMode ? "/tfcpay-logo.png" : "/tfcpay-logo-light.png"}
+                            src={getAssetPath(isDarkMode ? "/tfcpay-logo.png" : "/tfcpay-logo-light.png")}
                             alt="TFC Pay"
                             className="h-8 w-auto"
                         />

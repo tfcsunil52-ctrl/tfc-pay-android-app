@@ -3,6 +3,7 @@ import { ChevronDown, ChevronUp, History, MessageSquare, Clock, ArrowLeft, Mail,
 import { Card, CardContent } from "../ui/Card";
 import MobileChatScreen from "./MobileChatScreen";
 import type { SupportTicket } from "../../types";
+import { getAssetPath } from "../../utils/assets";
 
 const faqs = [
     {
@@ -143,7 +144,7 @@ const MobileSupport = () => {
                     >
                         <CardContent className="p-3 flex flex-col items-center text-center gap-2">
                             <div className="w-16 h-16 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                <img src="/Icons/support-agent.webp" alt="Live Chat" className="w-full h-full object-contain" />
+                                <img src={getAssetPath("/Icons/support-agent.webp")} alt="Live Chat" className="w-full h-full object-contain" />
                             </div>
                             <div>
                                 <h4 className="text-base font-bold">Live Chat</h4>
@@ -157,7 +158,7 @@ const MobileSupport = () => {
                     >
                         <CardContent className="p-3 flex flex-col items-center text-center gap-2">
                             <div className="w-16 h-16 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                <img src="/ticket history.webp" alt="Ticket History" className="w-full h-full object-contain" />
+                                <img src={getAssetPath("/ticket history.webp")} alt="Ticket History" className="w-full h-full object-contain" />
                             </div>
                             <div>
                                 <h4 className="text-base font-bold">Ticket History</h4>

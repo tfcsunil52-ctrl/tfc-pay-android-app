@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { ArrowLeft, Smartphone, RefreshCw } from "lucide-react";
 import { Button } from "../ui/Button";
+import { getAssetPath } from "../../utils/assets";
 
 interface MobileOTPVerificationProps {
     identifier: string;
@@ -111,7 +112,7 @@ const MobileOTPVerification = ({
             {/* Logo */}
             <div className="flex justify-center mb-10 animate-in zoom-in-95 duration-500">
                 <img
-                    src={isDarkMode ? "/tfcpay-logo.png" : "/tfcpay-logo-light.png"}
+                    src={getAssetPath(isDarkMode ? "/tfcpay-logo.png" : "/tfcpay-logo-light.png")}
                     alt="TFC Pay Logo"
                     className="h-8 w-auto"
                 />

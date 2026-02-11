@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { ArrowLeft, Send, User } from "lucide-react";
 import { Button } from "../ui/Button";
 import { Input } from "../ui/Input";
+import { getAssetPath } from "../../utils/assets";
 
 interface Message {
     id: number;
@@ -105,7 +106,7 @@ const MobileChatScreen = ({ onBack }: MobileChatScreenProps) => {
                 </button>
                 <div className="ml-4 flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full border border-green-700/20 dark:border-green-500/20 overflow-hidden bg-card">
-                        <img src="/Icons/support-agent.webp" alt="Support Agent" className="w-full h-full object-cover scale-x-[-1]" />
+                        <img src={getAssetPath("/Icons/support-agent.webp")} alt="Support Agent" className="w-full h-full object-cover scale-x-[-1]" />
                     </div>
                     <div>
                         <h2 className="font-bold text-foreground">TFC Support</h2>
@@ -123,7 +124,7 @@ const MobileChatScreen = ({ onBack }: MobileChatScreenProps) => {
                     >
                         {message.isBot && (
                             <div className="w-8 h-8 rounded-full border border-green-700/20 dark:border-green-500/20 overflow-hidden bg-card flex-shrink-0">
-                                <img src="/Icons/support-agent.webp" alt="Agent" className="w-full h-full object-cover scale-x-[-1]" />
+                                <img src={getAssetPath("/Icons/support-agent.webp")} alt="Agent" className="w-full h-full object-cover scale-x-[-1]" />
                             </div>
                         )}
                         <div
@@ -150,7 +151,7 @@ const MobileChatScreen = ({ onBack }: MobileChatScreenProps) => {
                 {isTyping && (
                     <div className="flex gap-2 justify-start">
                         <div className="w-8 h-8 rounded-full border border-green-700/20 dark:border-green-500/20 overflow-hidden bg-card flex-shrink-0">
-                            <img src="/Icons/support-agent.webp" alt="Agent" className="w-full h-full object-cover scale-x-[-1]" />
+                            <img src={getAssetPath("/Icons/support-agent.webp")} alt="Agent" className="w-full h-full object-cover scale-x-[-1]" />
                         </div>
                         <div className="bg-card border border-border p-3 rounded-2xl rounded-tl-sm">
                             <div className="flex gap-1">

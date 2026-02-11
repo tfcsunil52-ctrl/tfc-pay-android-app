@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ArrowLeft, Eye, EyeOff, Lock } from "lucide-react";
 import { Button } from "../ui/Button";
 import { Input } from "../ui/Input";
+import { getAssetPath } from "../../utils/assets";
 
 interface MobilePasswordVerificationProps {
     identifier: string;
@@ -69,7 +70,7 @@ const MobilePasswordVerification = ({
                 {/* Logo */}
                 <div className="flex justify-center mb-8 animate-in zoom-in-95 duration-500">
                     <img
-                        src={isDarkMode ? "/tfcpay-logo.png" : "/tfcpay-logo-light.png"}
+                        src={getAssetPath(isDarkMode ? "/tfcpay-logo.png" : "/tfcpay-logo-light.png")}
                         alt="TFC Pay"
                         className="h-8 w-auto"
                     />
