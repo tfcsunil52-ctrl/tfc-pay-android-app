@@ -24,6 +24,7 @@ interface MobileHomeProps {
     transactions?: Transaction[];
     onAddMoney?: () => void;
     onServiceSelect?: (serviceTitle: string) => void;
+    onSeeAllServices?: () => void;
     onRewardsClick?: () => void;
     onNotificationsClick?: () => void;
     unreadNotifications?: number;
@@ -147,6 +148,7 @@ const MobileHome = ({
     transactions = [],
     onAddMoney,
     onServiceSelect,
+    onSeeAllServices,
     onRewardsClick,
     onNotificationsClick,
     unreadNotifications = 0
@@ -339,9 +341,6 @@ const MobileHome = ({
                 <section>
                     <div className="flex items-center justify-between mb-3">
                         <h3 className="font-semibold text-foreground text-sm">Recharge & Pay Bills</h3>
-                        <button onClick={() => onNavigate("services")} className="text-green-700 dark:text-green-500 text-xs font-bold flex items-center gap-1 hover:underline">
-                            See All <ChevronRight className="w-3.5 h-3.5" />
-                        </button>
                     </div>
                     <Card className="bg-white dark:bg-card border-green-700/10 dark:border-border overflow-hidden relative shadow-lg">
                         <CardContent className="p-3 relative z-10">
@@ -365,6 +364,20 @@ const MobileHome = ({
                                     </button>
                                 ))}
                             </div>
+
+                            <div className="mt-4 px-1">
+                                <button
+                                    onClick={() => onSeeAllServices?.()}
+                                    className="w-full flex items-center justify-center gap-2 text-xs font-bold text-green-700 dark:text-green-500 bg-green-50 dark:bg-green-900/20 py-3 rounded-xl hover:bg-green-100 dark:hover:bg-green-900/30 transition-all active:scale-[0.98] border border-green-700/5 dark:border-green-500/5 shadow-sm"
+                                >
+                                    <span>View More</span>
+                                    <div className="arrow-animated">
+                                        <ChevronRight className="w-3.5 h-3.5" />
+                                        <ChevronRight className="w-3.5 h-3.5" />
+                                        <ChevronRight className="w-3.5 h-3.5" />
+                                    </div>
+                                </button>
+                            </div>
                         </CardContent>
                     </Card>
                 </section>
@@ -376,7 +389,7 @@ const MobileHome = ({
                 <section>
                     <div className="flex items-center justify-between mb-3">
                         <h3 className="font-semibold text-foreground">Recent Activity</h3>
-                        <button className="text-green-700 dark:text-green-500 text-xs" onClick={() => onProfileClick?.("wallet")}>View All</button>
+                        <button className="text-green-700 dark:text-green-500 text-xs" onClick={() => onNavigate("history")}>View All</button>
                     </div>
                     <div className="space-y-2">
                         {transactions.map((tx, index) => (

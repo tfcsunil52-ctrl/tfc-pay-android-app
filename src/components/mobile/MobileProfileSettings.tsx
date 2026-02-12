@@ -192,8 +192,8 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                             <FileText className="w-4 h-4 text-muted-foreground" /> Transaction History
                         </h3>
                         <div className="space-y-3">
-                            {transactions.length > 0 ? (
-                                transactions.map((tx, index) => (
+                            {transactions.filter(t => t.type === 'wallet').length > 0 ? (
+                                transactions.filter(t => t.type === 'wallet').map((tx, index) => (
                                     <div key={index} onClick={() => setSelectedTransaction(tx)} className="cursor-pointer transition-transform active:scale-[0.98]">
                                         <Card className="bg-card border-border hover:bg-muted/50 transition-colors">
                                             <CardContent className="p-3 flex items-center justify-between">

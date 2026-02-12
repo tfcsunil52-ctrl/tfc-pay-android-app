@@ -1,6 +1,7 @@
 export { default as MobileHome } from "./MobileHome";
 export { default as MobileServices } from "./MobileServices";
 export { default as MobileOffers } from "./MobileOffers";
+export { default as MobileHistory } from "./MobileHistory";
 export { default as MobileSupport } from "./MobileSupport";
 export { default as MobileChatScreen } from "./MobileChatScreen";
 export { default as MobileAddMoney } from "./MobileAddMoney";

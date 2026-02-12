@@ -28,45 +28,29 @@ const faqs = [
     },
 ];
 
-const tickets: SupportTicket[] = [
-    {
-        id: "TICK-84920",
-        subject: "Money deducted but recharge failed",
-        status: "open",
-        date: "Today, 10:45 AM",
-        category: "Recharge",
-        lastMessage: "We are checking with the operator."
-    },
-    {
-        id: "TICK-84815",
-        subject: "Unable to add money from HDFC bank",
-        status: "resolved",
-        date: "Yesterday, 02:30 PM",
-        category: "Wallet",
-        lastMessage: "Issue has been resolved. Please try again."
-    },
-    {
-        id: "TICK-83901",
-        subject: "Cashback not received for DTH",
-        status: "closed",
-        date: "Feb 08, 2026",
-        category: "Offers",
-        lastMessage: "Cashback has been credited to your wallet."
-    }
-];
+interface MobileSupportProps {
+    initialMessage?: string;
+    onClearMessage?: () => void;
+    tickets?: SupportTicket[];
+    onResolveTicket?: (id: string) => void;
+}
 
-const MobileSupport = () => {
+const MobileSupport = ({ initialMessage, onClearMessage, tickets = [], onResolveTicket }: MobileSupportProps) => {
     const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
-    const [showChat, setShowChat] = useState(false);
+    const [showChat, setShowChat] = useState(!!initialMessage);
     const [showTickets, setShowTickets] = useState(false);
-    const [selectedTicket, setSelectedTicket] = useState<SupportTicket | null>(null);
+    const [chatTicketId, setChatTicketId] = useState<string | undefined>(undefined);
 
     const toggleFAQ = (index: number) => {
         setExpandedIndex(expandedIndex === index ? null : index);
     };
 
     if (showChat) {
-        return <MobileChatScreen onBack={() => setShowChat(false)} />;
+        return <MobileChatScreen
+            onBack={() => { setShowChat(false); setChatTicketId(undefined); onClearMessage?.(); }}
+            initialMessage={initialMessage}
+            initialTicketId={chatTicketId}
+        />;
     }
 
     if (showTickets) {
@@ -83,7 +67,10 @@ const MobileSupport = () => {
                         <Card
                             key={ticket.id}
                             className="bg-card border-border hover:border-green-700/50 dark:hover:border-green-500/50 transition-all cursor-pointer group shadow-sm"
-                            onClick={() => setSelectedTicket(ticket)}
+                            onClick={() => {
+                                setChatTicketId(ticket.id);
+                                setShowChat(true);
+                            }}
                         >
                             <CardContent className="p-4">
                                 <div className="flex items-center justify-between mb-3">
@@ -105,6 +92,20 @@ const MobileSupport = () => {
                                         <p className="text-[11px] text-muted-foreground italic line-clamp-2 leading-relaxed">
                                             Last update: {ticket.lastMessage}
                                         </p>
+                                    </div>
+                                )}
+                                {ticket.status === 'open' && onResolveTicket && (
+                                    <div className="mt-3 flex justify-end animate-in fade-in zoom-in duration-300">
+                                        <button
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                onResolveTicket(ticket.id);
+                                            }}
+                                            className="text-[10px] font-bold uppercase tracking-wider text-green-700 dark:text-green-500 hover:bg-green-600/10 dark:hover:bg-green-500/10 px-3 py-1.5 rounded-full border border-green-700/20 dark:border-green-500/20 transition-all hover:scale-105 active:scale-95"
+                                        >
+                                            Mark as Resolved
+                                        </button>
                                     </div>
                                 )}
                             </CardContent>

@@ -10,6 +10,8 @@ export interface Transaction {
     method?: string;
     icon: React.ComponentType<{ className?: string }>;
     isCredit: boolean;
+    type?: 'mobile_recharge' | 'bill_payment' | 'cc_to_bank' | 'wallet';
+    category?: string; // e.g., "Mobile Recharge", "Electricity", "DTH", "Transfer", "Add Money"
 }
 
 // Service type
@@ -21,7 +23,7 @@ export interface Service {
 }
 
 // Navigation tab type
-export type TabType = "home" | "services" | "offers" | "profile";
+export type TabType = "home" | "offers" | "history" | "profile";
 
 // Theme type
 export type ThemeMode = "dark" | "light";
@@ -67,4 +69,14 @@ export interface SupportTicket {
     date: string;
     lastMessage?: string;
     category: string;
+}
+
+// Notification type
+export interface Notification {
+    id: string;
+    title: string;
+    message: string;
+    time: string;
+    type: 'payment' | 'offer' | 'info';
+    isRead: boolean;
 }

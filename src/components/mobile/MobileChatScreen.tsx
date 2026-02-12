@@ -9,10 +9,13 @@ interface Message {
     text: string;
     isBot: boolean;
     timestamp: Date;
+    ticketId?: string;
 }
 
 interface MobileChatScreenProps {
     onBack: () => void;
+    initialMessage?: string;
+    initialTicketId?: string;
 }
 
 const initialMessages: Message[] = [
@@ -31,9 +34,35 @@ const quickReplies = [
     "Talk to agent",
 ];
 
-const MobileChatScreen = ({ onBack }: MobileChatScreenProps) => {
-    const [messages, setMessages] = useState<Message[]>(initialMessages);
-    const [inputValue, setInputValue] = useState("");
+const MobileChatScreen = ({ onBack, initialMessage = "", initialTicketId }: MobileChatScreenProps) => {
+    // Load messages from localStorage or use initialMessages
+    const [messages, setMessages] = useState<Message[]>(() => {
+        const stored = localStorage.getItem('chat_messages');
+        if (stored) {
+            try {
+                const parsed = JSON.parse(stored);
+                // Convert timestamp strings back to Date objects
+                const loaded = parsed.map((m: any) => ({ ...m, timestamp: new Date(m.timestamp) }));
+
+                // Filter messages older than 2 months AND remove known dummy messages (IDs 101-106)
+                const twoMonthsAgo = new Date();
+                twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
+
+                const filtered = loaded.filter((m: Message) =>
+                    m.timestamp > twoMonthsAgo &&
+                    !(m.id >= 101 && m.id <= 106) // Remove dummy messages
+                );
+
+                return filtered.length > 0 ? filtered : initialMessages;
+            } catch (e) {
+                console.error("Failed to parse messages", e);
+                return initialMessages;
+            }
+        }
+        return initialMessages;
+    });
+
+    const [inputValue, setInputValue] = useState(initialMessage);
     const [isTyping, setIsTyping] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -42,8 +71,15 @@ const MobileChatScreen = ({ onBack }: MobileChatScreenProps) => {
     };
 
     useEffect(() => {
+        // Save messages to localStorage whenever they change
+        localStorage.setItem('chat_messages', JSON.stringify(messages));
         scrollToBottom();
     }, [messages]);
+
+    // Filter messages if a ticket is selected
+    const displayMessages = initialTicketId
+        ? messages.filter(m => m.ticketId === initialTicketId || m.id === 1)
+        : messages;
 
     const getBotResponse = (userMessage: string): string => {
         const lower = userMessage.toLowerCase();
@@ -70,6 +106,7 @@ const MobileChatScreen = ({ onBack }: MobileChatScreenProps) => {
             text: text.trim(),
             isBot: false,
             timestamp: new Date(),
+            ticketId: initialTicketId // Associate new message with current ticket if any
         };
 
         setMessages((prev) => [...prev, userMessage]);
@@ -83,6 +120,7 @@ const MobileChatScreen = ({ onBack }: MobileChatScreenProps) => {
                 text: getBotResponse(text),
                 isBot: true,
                 timestamp: new Date(),
+                ticketId: initialTicketId
             };
             setMessages((prev) => [...prev, botMessage]);
             setIsTyping(false);
@@ -117,7 +155,7 @@ const MobileChatScreen = ({ onBack }: MobileChatScreenProps) => {
 
             {/* Messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                {messages.map((message) => (
+                {displayMessages.map((message) => (
                     <div
                         key={message.id}
                         className={`flex gap-2 ${message.isBot ? "justify-start" : "justify-end"}`}
@@ -183,12 +221,19 @@ const MobileChatScreen = ({ onBack }: MobileChatScreenProps) => {
 
             {/* Input Area */}
             <form onSubmit={handleSubmit} className="p-4 border-t border-border bg-card">
-                <div className="flex gap-2">
-                    <Input
+                <div className="flex gap-2 items-end">
+                    <textarea
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
                         placeholder="Type a message..."
-                        className="flex-1 bg-background border-border"
+                        className="flex-1 bg-background border border-border rounded-lg p-3 min-h-[44px] max-h-[120px] resize-none focus:outline-none focus:ring-1 focus:ring-green-700 dark:focus:ring-green-500 text-sm"
+                        rows={1}
+                        style={{ height: 'auto' }}
+                        onInput={(e) => {
+                            const target = e.target as HTMLTextAreaElement;
+                            target.style.height = 'auto';
+                            target.style.height = `${Math.min(target.scrollHeight, 120)}px`;
+                        }}
                     />
                     <Button
                         type="submit"

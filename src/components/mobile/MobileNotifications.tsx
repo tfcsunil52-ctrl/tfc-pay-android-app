@@ -1,68 +1,31 @@
-import { useState, useEffect } from "react";
-import { ArrowLeft, Check, Bell, X, Info, CreditCard, Gift } from "lucide-react";
-import { Button } from "../ui/Button";
+import { useEffect } from "react";
+import { ArrowLeft, Bell, X, Info, CreditCard, Gift } from "lucide-react";
 import { Card, CardContent } from "../ui/Card";
-
-interface Notification {
-    id: string;
-    title: string;
-    message: string;
-    time: string;
-    type: 'payment' | 'offer' | 'info';
-    isRead: boolean;
-}
+import type { Notification } from "../../types";
 
 interface MobileNotificationsProps {
     onClose: () => void;
     isDarkMode?: boolean;
-    onOpen?: () => void; // Callback when panel opens to reset counter
+    onOpen?: () => void;
+    notifications: Notification[];
+    onDelete: (id: string) => void;
+    onMarkAllAsRead: () => void;
 }
 
-const MobileNotifications = ({ onClose, isDarkMode = true, onOpen }: MobileNotificationsProps) => {
-    const [notifications, setNotifications] = useState<Notification[]>([
-        {
-            id: '1',
-            title: 'Payment Successful',
-            message: 'Your payment of ₹500 to Electricity Bill was successful.',
-            time: '2 mins ago',
-            type: 'payment',
-            isRead: false
-        },
-        {
-            id: '2',
-            title: 'Super Offer! 🎁',
-            message: 'Get flat 50% cashback on your first DTH recharge of the week.',
-            time: '1 hour ago',
-            type: 'offer',
-            isRead: false
-        },
-        {
-            id: '3',
-            title: 'Account Update',
-            message: 'Your KYC verification is pending. Please complete it to increase limits.',
-            time: '5 hours ago',
-            type: 'info',
-            isRead: true
-        },
-        {
-            id: '4',
-            title: 'Cashback Received',
-            message: 'Congratulations! You received ₹50 cashback for your referral.',
-            time: 'Yesterday',
-            type: 'offer',
-            isRead: true
-        }
-    ]);
+const MobileNotifications = ({
+    onClose,
+    isDarkMode = true,
+    onOpen,
+    notifications = [],
+    onDelete,
+    onMarkAllAsRead
+}: MobileNotificationsProps) => {
 
     // Auto-mark all notifications as read when panel opens
     useEffect(() => {
-        setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
-        onOpen?.(); // Notify parent to reset counter
-    }, []); // Run only once on mount
-
-    const deleteNotification = (id: string) => {
-        setNotifications(notifications.filter(n => n.id !== id));
-    };
+        onMarkAllAsRead();
+        onOpen?.();
+    }, []);
 
     const getIcon = (type: Notification['type']) => {
         switch (type) {
@@ -113,7 +76,7 @@ const MobileNotifications = ({ onClose, isDarkMode = true, onOpen }: MobileNotif
                                         {notification.time}
                                     </span>
                                     <button
-                                        onClick={() => deleteNotification(notification.id)}
+                                        onClick={() => onDelete(notification.id)}
                                         className="p-1.5 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-muted rounded-md relative z-10"
                                     >
                                         <X className="w-4 h-4 text-muted-foreground" />

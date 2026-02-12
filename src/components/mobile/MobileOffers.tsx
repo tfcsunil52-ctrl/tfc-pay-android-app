@@ -2,51 +2,17 @@ import { Gift, Percent, Clock, ChevronRight, Star, Sparkles } from "lucide-react
 import { Card, CardContent } from "../ui/Card";
 import { Badge } from "../ui/Badge";
 
-const featuredOffers = [
-    {
-        title: "Flat ₹100 Cashback",
-        description: "On your first mobile recharge above ₹199",
-        code: "FIRST100",
-        validTill: "31 Jan 2026",
-        color: "from-green-600/30 to-green-600/10 dark:from-green-500/30 dark:to-green-500/10",
-    },
-    {
-        title: "20% Off on DTH",
-        description: "Maximum cashback up to ₹75",
-        code: "DTH20",
-        validTill: "15 Feb 2026",
-        color: "from-purple-500/30 to-purple-500/10",
-    },
-];
+import { useRewards } from "../../hooks/useRewards";
 
-const allOffers = [
-    {
-        category: "Mobile",
-        title: "₹50 Cashback",
-        description: "On recharge of ₹299 or more",
-        icon: Percent,
-    },
-    {
-        category: "Electricity",
-        title: "₹25 Cashback",
-        description: "First electricity bill payment",
-        icon: Gift,
-    },
-    {
-        category: "Premium",
-        title: "Zero Fee",
-        description: "On rent payments this month",
-        icon: Sparkles,
-    },
-    {
-        category: "Referral",
-        title: "Earn ₹100",
-        description: "For each successful referral",
-        icon: Star,
-    },
-];
+interface MobileOffersProps {
+    onNavigate?: (tab: import("../../types").TabType) => void;
+}
 
-const MobileOffers = () => {
+const MobileOffers = ({ onNavigate }: MobileOffersProps) => {
+    const { offers, totalCashback, pendingCashback } = useRewards();
+
+    const featuredOffers = offers.filter(o => o.color);
+    const allOffers = offers.filter(o => !o.color);
     return (
         <div className="flex flex-col h-full overflow-hidden relative">
             {/* Background Blurs for Light Mode */}
@@ -94,7 +60,10 @@ const MobileOffers = () => {
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-3">
                                         <div className="w-10 h-10 bg-green-600/10 dark:bg-green-500/10 rounded-full flex items-center justify-center">
-                                            <offer.icon className="w-5 h-5 text-green-700 dark:text-green-500" />
+                                            {(() => {
+                                                const Icon = offer.icon;
+                                                return Icon ? <Icon className="w-5 h-5 text-green-700 dark:text-green-500" /> : null;
+                                            })()}
                                         </div>
                                         <div>
                                             <div className="flex items-center gap-2">
@@ -118,15 +87,20 @@ const MobileOffers = () => {
                     <CardContent className="p-4">
                         <div className="flex items-center justify-between mb-4">
                             <h4 className="font-semibold text-foreground">Your Cashback</h4>
-                            <button className="text-green-700 dark:text-green-500 text-sm font-medium">History</button>
+                            <button
+                                onClick={() => onNavigate?.('history')}
+                                className="text-green-700 dark:text-green-500 text-sm font-medium hover:underline"
+                            >
+                                History
+                            </button>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="bg-green-600/10 dark:bg-secondary rounded-2xl p-4 text-center border border-green-700/10 dark:border-transparent">
-                                <p className="text-3xl font-black text-green-700 dark:text-green-500">₹325</p>
+                                <p className="text-3xl font-black text-green-700 dark:text-green-500">₹{totalCashback}</p>
                                 <p className="text-[10px] font-bold text-green-800/60 dark:text-muted-foreground uppercase tracking-wider">Total Earned</p>
                             </div>
                             <div className="bg-secondary/80 dark:bg-secondary rounded-2xl p-4 text-center border border-border/50 dark:border-transparent">
-                                <p className="text-3xl font-black text-foreground">₹75</p>
+                                <p className="text-3xl font-black text-foreground">₹{pendingCashback}</p>
                                 <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Pending</p>
                             </div>
                         </div>

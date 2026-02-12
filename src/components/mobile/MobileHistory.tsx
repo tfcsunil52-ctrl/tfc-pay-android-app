@@ -1,0 +1,549 @@
+import { useState } from "react";
+import {
+    ArrowLeft, Smartphone, Zap, CreditCard, Wallet, ChevronRight,
+    CheckCircle2, XCircle, Clock, Filter, Calendar, HelpCircle, Tag,
+    PieChart as PieChartIcon, TrendingUp, TrendingDown
+} from "lucide-react";
+import { Card, CardContent } from "../ui/Card";
+import { Button } from "../ui/Button";
+import { Badge } from "../ui/Badge";
+import type { Transaction } from "../../types";
+
+interface MobileHistoryProps {
+    isDarkMode?: boolean;
+    transactions?: Transaction[];
+    onGetHelp?: (message: string) => void;
+}
+
+const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp }: MobileHistoryProps) => {
+    const [activeView, setActiveView] = useState<'home' | 'mobile_recharge' | 'bill_payment' | 'cc_to_bank' | 'wallet' | 'spending'>('home');
+    const [selectedTransactions, setSelectedTransactions] = useState<string[]>([]);
+    const [periodFilter, setPeriodFilter] = useState<'this_month' | '15_days' | 'last_month'>('this_month');
+
+    const handleTransactionSelect = (id: string) => {
+        setSelectedTransactions(prev =>
+            prev.includes(id) ? prev.filter(txId => txId !== id) : [...prev, id]
+        );
+    };
+
+    const handleGetHelp = () => {
+        if (selectedTransactions.length === 0) {
+            alert("Please select at least one transaction to get help");
+            return;
+        }
+
+        const selectedDetails = transactions
+            .filter(tx => tx.id && selectedTransactions.includes(tx.id))
+            .map(tx => `Transaction ID: ${tx.id || 'N/A'}\nAmount: ${tx.amount}\nDate: ${tx.date || 'N/A'}\nStatus: ${tx.status || 'N/A'}`)
+            .join('\n\n');
+
+        const message = `I need help with the following transaction(s):\n${selectedDetails}\n\nPlease look into this.`;
+        onGetHelp?.(message);
+    };
+
+
+    // Filter transactions
+    const getFilteredTransactions = (type?: Transaction['type']) => {
+        let filtered = type ? transactions.filter((tx: Transaction) => tx.type === type) : transactions;
+
+        // Apply date filter
+        const now = new Date('2026-02-12'); // Using current date from context
+        const startDate = new Date(now);
+
+        if (periodFilter === 'this_month') {
+            startDate.setDate(1); // First day of current month
+        } else if (periodFilter === '15_days') {
+            startDate.setDate(now.getDate() - 15);
+        } else if (periodFilter === 'last_month') {
+            startDate.setMonth(now.getMonth() - 1);
+            startDate.setDate(1);
+            const endDate = new Date(now.getFullYear(), now.getMonth(), 0);
+            filtered = filtered.filter((tx: Transaction) => {
+                const txDate = new Date(tx.date || '');
+                return txDate >= startDate && txDate <= endDate;
+            });
+            return filtered;
+        }
+
+        return filtered.filter((tx: Transaction) => new Date(tx.date || '') >= startDate);
+    };
+
+    // Calculate spending by category
+    const getSpendingByCategory = () => {
+        const transactionsData = getFilteredTransactions();
+        const categories: { [key: string]: number } = {};
+
+        transactionsData.forEach((tx: Transaction) => {
+            if (tx.status === 'success' && !tx.isCredit) {
+                const category = tx.category || 'Other';
+                const amount = typeof tx.amount === 'string' ? parseFloat(tx.amount.replace(/[^0-9.]/g, '')) : tx.amount;
+                categories[category] = (categories[category] || 0) + amount;
+            }
+        });
+
+        return Object.entries(categories).map(([name, value]) => ({ name, value }));
+    };
+
+    // Render History Home View
+    const renderHomeView = () => (
+        <div className="flex flex-col h-full overflow-hidden relative">
+            {/* Background Blurs for Light Mode */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 dark:hidden">
+                <div className="absolute top-[20%] left-[10%] w-[60%] h-[40%] rounded-full bg-blue-100/40 blur-[80px]" />
+                <div className="absolute bottom-[10%] right-[10%] w-[60%] h-[40%] rounded-full bg-purple-100/40 blur-[80px]" />
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-4 space-y-5 relative z-10">
+                {/* Header */}
+                <header>
+                    <h1 className="text-xl font-bold text-foreground mb-1">Transaction History</h1>
+                    <p className="text-sm text-muted-foreground">View your transaction history and reports</p>
+                </header>
+
+                {/* Quick Access Cards */}
+                <section className="grid grid-cols-2 gap-3">
+                    <Card
+                        className="bg-white dark:bg-card border-green-700/10 dark:border-border hover:border-green-700/50 dark:hover:border-green-500/50 transition-all cursor-pointer group hover:scale-[1.02] hover:shadow-lg"
+                        onClick={() => setActiveView('mobile_recharge')}
+                    >
+                        <CardContent className="p-4">
+                            <div className="flex flex-col gap-3">
+                                <div className="w-12 h-12 bg-green-600/10 dark:bg-green-500/10 rounded-xl flex items-center justify-center">
+                                    <Smartphone className="w-6 h-6 text-green-700 dark:text-green-500" />
+                                </div>
+                                <div className="flex-1">
+                                    <h3 className="font-semibold text-foreground text-sm">Mobile Recharge</h3>
+                                    <p className="text-xs text-muted-foreground">{transactions.filter(t => t.type === 'mobile_recharge').length} transactions</p>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <Card
+                        className="bg-white dark:bg-card border-green-700/10 dark:border-border hover:border-green-700/50 dark:hover:border-green-500/50 transition-all cursor-pointer group hover:scale-[1.02] hover:shadow-lg"
+                        onClick={() => setActiveView('bill_payment')}
+                    >
+                        <CardContent className="p-4">
+                            <div className="flex flex-col gap-3">
+                                <div className="w-12 h-12 bg-blue-600/10 dark:bg-blue-500/10 rounded-xl flex items-center justify-center">
+                                    <Zap className="w-6 h-6 text-blue-700 dark:text-blue-500" />
+                                </div>
+                                <div className="flex-1">
+                                    <h3 className="font-semibold text-foreground text-sm">Bill Payments</h3>
+                                    <p className="text-xs text-muted-foreground">{transactions.filter(t => t.type === 'bill_payment').length} transactions</p>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <Card
+                        className="bg-white dark:bg-card border-green-700/10 dark:border-border hover:border-green-700/50 dark:hover:border-green-500/50 transition-all cursor-pointer group hover:scale-[1.02] hover:shadow-lg"
+                        onClick={() => setActiveView('cc_to_bank')}
+                    >
+                        <CardContent className="p-4">
+                            <div className="flex flex-col gap-3">
+                                <div className="w-12 h-12 bg-purple-600/10 dark:bg-purple-500/10 rounded-xl flex items-center justify-center">
+                                    <CreditCard className="w-6 h-6 text-purple-700 dark:text-purple-500" />
+                                </div>
+                                <div className="flex-1">
+                                    <h3 className="font-semibold text-foreground text-sm">CC to Bank</h3>
+                                    <p className="text-xs text-muted-foreground">{transactions.filter(t => t.type === 'cc_to_bank').length} transactions</p>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <Card
+                        className="bg-white dark:bg-card border-green-700/10 dark:border-border hover:border-green-700/50 dark:hover:border-green-500/50 transition-all cursor-pointer group hover:scale-[1.02] hover:shadow-lg"
+                        onClick={() => setActiveView('wallet')}
+                    >
+                        <CardContent className="p-4">
+                            <div className="flex flex-col gap-3">
+                                <div className="w-12 h-12 bg-orange-600/10 dark:bg-orange-500/10 rounded-xl flex items-center justify-center">
+                                    <Wallet className="w-6 h-6 text-orange-700 dark:text-orange-500" />
+                                </div>
+                                <div className="flex-1">
+                                    <h3 className="font-semibold text-foreground text-sm">Wallet History</h3>
+                                    <p className="text-xs text-muted-foreground">{transactions.filter(t => t.type === 'wallet').length} transactions</p>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </section>
+
+                {/* Spending Report Card */}
+                <Card
+                    className="bg-gradient-to-r from-green-600/20 to-green-600/10 dark:from-green-500/20 dark:to-green-500/10 border-green-700/30 dark:border-green-500/30 cursor-pointer hover:scale-[1.01] transition-all"
+                    onClick={() => setActiveView('spending')}
+                >
+                    <CardContent className="p-4">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <div className="w-12 h-12 bg-green-700 dark:bg-green-500 rounded-full flex items-center justify-center">
+                                    <PieChartIcon className="w-6 h-6 text-white dark:text-black" />
+                                </div>
+                                <div>
+                                    <h4 className="font-semibold text-foreground">Spending Reports</h4>
+                                    <p className="text-sm text-muted-foreground">View detailed spending analysis</p>
+                                </div>
+                            </div>
+                            <ChevronRight className="w-5 h-5 text-green-700 dark:text-green-500" />
+                        </div>
+                    </CardContent>
+                </Card>
+
+                {/* Recent Transactions */}
+                <section>
+                    <h3 className="font-semibold text-foreground mb-3">Recent Transactions</h3>
+                    <div className="space-y-2">
+                        {getFilteredTransactions().slice(0, 5).map((tx) => (
+                            <Card key={tx.id} className="bg-card border-border">
+                                <CardContent className="p-3 flex items-center justify-between">
+                                    <div className="flex items-center gap-3">
+                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${tx.status === 'pending' ? 'bg-yellow-600/20 dark:bg-yellow-500/20' :
+                                            (tx.status === 'failed' || !tx.isCredit) ? 'bg-red-600/20 dark:bg-red-500/20' :
+                                                'bg-green-600/20 dark:bg-green-500/20'
+                                            }`}>
+                                            <tx.icon className={`w-5 h-5 ${tx.status === 'pending' ? 'text-yellow-700 dark:text-yellow-500' :
+                                                (tx.status === 'failed' || !tx.isCredit) ? 'text-red-700 dark:text-red-500' :
+                                                    'text-green-700 dark:text-green-500'
+                                                }`} />
+                                        </div>
+                                        <div>
+                                            <p className="text-sm font-medium text-foreground">{tx.name}</p>
+                                            <p className="text-xs text-muted-foreground">{tx.time} • {tx.date}</p>
+                                        </div>
+                                    </div>
+                                    <span className={`font-semibold text-sm ${tx.status === 'pending' ? 'text-yellow-700 dark:text-yellow-500' :
+                                        (tx.status === 'failed' || !tx.isCredit) ? 'text-red-700 dark:text-red-500' :
+                                            'text-green-700 dark:text-green-500'
+                                        }`}>
+                                        {typeof tx.amount === 'string' ? tx.amount : `₹${tx.amount}`}
+                                    </span>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
+                </section>
+            </div>
+        </div>
+    );
+
+    // Render Transaction List View
+    const renderTransactionListView = (type: Transaction['type'], title: string, subtitle: string) => {
+        const transactions = getFilteredTransactions(type);
+
+        return (
+            <div className="flex flex-col h-full bg-background animate-in slide-in-from-right duration-300">
+                {/* Header */}
+                <header className="flex items-center justify-between p-4 border-b border-border bg-white dark:bg-card sticky top-0 z-10">
+                    <div className="flex items-center gap-3">
+                        <button
+                            onClick={() => {
+                                setActiveView('home');
+                                setSelectedTransactions([]);
+                            }}
+                            className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center hover:bg-card/80 transition-colors"
+                        >
+                            <ArrowLeft className="w-5 h-5 text-foreground" />
+                        </button>
+                        <div>
+                            <h2 className="font-bold text-foreground text-lg">{title}</h2>
+                            <p className="text-xs text-muted-foreground">{subtitle}</p>
+                        </div>
+                    </div>
+                    {selectedTransactions.length > 0 && (
+                        <Badge className="bg-green-600/20 dark:bg-green-500/20 text-green-700 dark:text-green-500 border-0">
+                            {selectedTransactions.length} Selected
+                        </Badge>
+                    )}
+                </header>
+
+                <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                    {/* Period Filter */}
+                    <div className="flex gap-2 overflow-x-auto pb-2">
+                        <button
+                            onClick={() => setPeriodFilter('this_month')}
+                            className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${periodFilter === 'this_month'
+                                ? 'bg-green-700 text-white dark:bg-green-500 dark:text-black'
+                                : 'bg-card text-muted-foreground border border-border'
+                                }`}
+                        >
+                            This Month
+                        </button>
+                        <button
+                            onClick={() => setPeriodFilter('15_days')}
+                            className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${periodFilter === '15_days'
+                                ? 'bg-green-700 text-white dark:bg-green-500 dark:text-black'
+                                : 'bg-card text-muted-foreground border border-border'
+                                }`}
+                        >
+                            Last 15 Days
+                        </button>
+                        <button
+                            onClick={() => setPeriodFilter('last_month')}
+                            className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${periodFilter === 'last_month'
+                                ? 'bg-green-700 text-white dark:bg-green-500 dark:text-black'
+                                : 'bg-card text-muted-foreground border border-border'
+                                }`}
+                        >
+                            Last Month
+                        </button>
+                    </div>
+
+                    {/* Transactions List */}
+                    <div className="space-y-3">
+                        {transactions.length > 0 ? (
+                            transactions.map((tx) => {
+                                const txId = tx.id || '';
+                                return (
+                                    <Card
+                                        key={txId}
+                                        className={`bg-card border transition-all cursor-pointer ${selectedTransactions.includes(txId)
+                                            ? 'border-green-700 dark:border-green-500 bg-green-600/5 dark:bg-green-500/5'
+                                            : 'border-border hover:border-green-700/50 dark:hover:border-green-500/50'
+                                            }`}
+                                        onClick={() => handleTransactionSelect(txId)}
+                                    >
+                                        <CardContent className="p-4">
+                                            <div className="flex items-start justify-between mb-2">
+                                                <div className="flex items-center gap-3 flex-1">
+                                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${tx.status === 'pending' ? 'bg-yellow-600/20 dark:bg-yellow-500/20' :
+                                                        (tx.status === 'failed' || !tx.isCredit) ? 'bg-red-600/20 dark:bg-red-500/20' :
+                                                            'bg-green-600/20 dark:bg-green-500/20'
+                                                        }`}>
+                                                        <tx.icon className={`w-5 h-5 ${tx.status === 'pending' ? 'text-yellow-700 dark:text-yellow-500' :
+                                                            (tx.status === 'failed' || !tx.isCredit) ? 'text-red-700 dark:text-red-500' :
+                                                                'text-green-700 dark:text-green-500'
+                                                            }`} />
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="text-sm font-semibold text-foreground truncate">{tx.name}</p>
+                                                        <p className="text-xs text-muted-foreground">{tx.time} • {tx.date}</p>
+                                                    </div>
+                                                    {selectedTransactions.includes(tx.id) && (
+                                                        <CheckCircle2 className="w-5 h-5 text-green-700 dark:text-green-500 flex-shrink-0" />
+                                                    )}
+                                                </div>
+                                                <span className={`font-bold text-sm ml-2 ${tx.isCredit ? 'text-green-700 dark:text-green-500' : 'text-red-600 dark:text-red-500'}`}>
+                                                    {typeof tx.amount === 'string' ? tx.amount : `₹${tx.amount}`}
+                                                </span>
+                                            </div>
+                                            <div className="flex items-center justify-between text-xs">
+                                                <span className="text-muted-foreground">Ref: {tx.referenceId}</span>
+                                                <Badge
+                                                    variant="outline"
+                                                    className={`text-[10px] ${tx.status === 'success' ? 'border-green-700/20 text-green-700 dark:border-green-500/20 dark:text-green-500 bg-green-600/5' :
+                                                        tx.status === 'pending' ? 'border-yellow-700/20 text-yellow-700 dark:border-yellow-500/20 dark:text-yellow-500 bg-yellow-600/5' :
+                                                            'border-red-700/20 text-red-700 dark:border-red-500/20 dark:text-red-500 bg-red-600/5'
+                                                        }`}
+                                                >
+                                                    {tx.status === 'success' ? (
+                                                        <><CheckCircle2 className="w-3 h-3 mr-1" /> Success</>
+                                                    ) : tx.status === 'pending' ? (
+                                                        <><Clock className="w-3 h-3 mr-1" /> Pending</>
+                                                    ) : (
+                                                        <><XCircle className="w-3 h-3 mr-1" /> Failed</>
+                                                    )}
+                                                </Badge>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                );
+                            })
+                        ) : (
+                            <div className="text-center py-8 text-muted-foreground">
+                                <p className="text-sm">No transactions found for this period</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Bottom Action Bar */}
+                {selectedTransactions.length > 0 && (
+                    <div className="sticky bottom-0 p-4 bg-white dark:bg-card border-t border-border">
+                        <Button
+                            onClick={handleGetHelp}
+                            className="w-full bg-green-700 hover:bg-green-800 dark:bg-green-500 dark:hover:bg-green-400 text-white dark:text-black font-bold"
+                        >
+                            <HelpCircle className="w-5 h-5 mr-2" />
+                            Get Help for Selected ({selectedTransactions.length})
+                        </Button>
+                    </div>
+                )}
+            </div>
+        );
+    };
+
+    // Render Spending Report View
+    const renderSpendingView = () => {
+        const spendingData = getSpendingByCategory();
+        const totalSpending = spendingData.reduce((sum, item) => sum + item.value, 0);
+
+        // Simple pie chart colors
+        const colors = ['#15803d', '#0ea5e9', '#8b5cf6', '#f59e0b', '#ef4444', '#06b6d4'];
+
+        return (
+            <div className="flex flex-col h-full bg-background animate-in slide-in-from-right duration-300">
+                {/* Header */}
+                <header className="flex items-center p-4 border-b border-border bg-white dark:bg-card sticky top-0 z-10">
+                    <button
+                        onClick={() => setActiveView('home')}
+                        className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center hover:bg-card/80 transition-colors"
+                    >
+                        <ArrowLeft className="w-5 h-5 text-foreground" />
+                    </button>
+                    <div className="ml-4">
+                        <h2 className="font-bold text-foreground text-lg">Spending Reports</h2>
+                        <p className="text-xs text-muted-foreground">Analyze your expenses</p>
+                    </div>
+                </header>
+
+                <div className="flex-1 overflow-y-auto p-4 space-y-5">
+                    {/* Period Filter */}
+                    <div className="flex gap-2">
+                        <button
+                            onClick={() => setPeriodFilter('this_month')}
+                            className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${periodFilter === 'this_month'
+                                ? 'bg-green-700 text-white dark:bg-green-500 dark:text-black'
+                                : 'bg-card text-muted-foreground border border-border'
+                                }`}
+                        >
+                            This Month
+                        </button>
+                        <button
+                            onClick={() => setPeriodFilter('15_days')}
+                            className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${periodFilter === '15_days'
+                                ? 'bg-green-700 text-white dark:bg-green-500 dark:text-black'
+                                : 'bg-card text-muted-foreground border border-border'
+                                }`}
+                        >
+                            Last 15 Days
+                        </button>
+                        <button
+                            onClick={() => setPeriodFilter('last_month')}
+                            className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${periodFilter === 'last_month'
+                                ? 'bg-green-700 text-white dark:bg-green-500 dark:text-black'
+                                : 'bg-card text-muted-foreground border border-border'
+                                }`}
+                        >
+                            Last Month
+                        </button>
+                    </div>
+
+                    {/* Total Spending Card */}
+                    <Card className="bg-gradient-to-r from-green-600/20 to-green-600/10 dark:from-green-500/20 dark:to-green-500/10 border-green-700/30 dark:border-green-500/30">
+                        <CardContent className="p-6 text-center">
+                            <p className="text-sm text-muted-foreground mb-2">Total Spending</p>
+                            <h2 className="text-4xl font-black text-green-700 dark:text-green-500">₹{totalSpending.toLocaleString()}</h2>
+                            <p className="text-xs text-muted-foreground mt-2">
+                                {periodFilter === 'this_month' ? 'This Month' :
+                                    periodFilter === '15_days' ? 'Last 15 Days' : 'Last Month'}
+                            </p>
+                        </CardContent>
+                    </Card>
+
+                    {/* Simple Pie Chart Visualization */}
+                    {spendingData.length > 0 ? (
+                        <>
+                            <Card className="bg-card border-border">
+                                <CardContent className="p-6">
+                                    <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
+                                        <PieChartIcon className="w-4 h-4 text-green-700 dark:text-green-500" />
+                                        Category Breakdown
+                                    </h3>
+
+                                    {/* Simple Progress Bars instead of actual pie chart */}
+                                    <div className="space-y-4">
+                                        {spendingData.map((item, index) => {
+                                            const percentage = ((item.value / totalSpending) * 100).toFixed(1);
+                                            return (
+                                                <div key={item.name}>
+                                                    <div className="flex items-center justify-between mb-2">
+                                                        <div className="flex items-center gap-2">
+                                                            <div
+                                                                className="w-3 h-3 rounded-full"
+                                                                style={{ backgroundColor: colors[index % colors.length] }}
+                                                            />
+                                                            <span className="text-sm font-medium text-foreground">{item.name}</span>
+                                                        </div>
+                                                        <div className="text-right">
+                                                            <p className="text-sm font-bold text-foreground">₹{item.value.toLocaleString()}</p>
+                                                            <p className="text-xs text-muted-foreground">{percentage}%</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
+                                                        <div
+                                                            className="h-full rounded-full transition-all duration-500"
+                                                            style={{
+                                                                width: `${percentage}%`,
+                                                                backgroundColor: colors[index % colors.length]
+                                                            }}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </CardContent>
+                            </Card>
+
+                            {/* Top Categories */}
+                            <Card className="bg-card border-border">
+                                <CardContent className="p-4">
+                                    <h3 className="font-semibold text-foreground mb-3">Top Spending Categories</h3>
+                                    <div className="space-y-3">
+                                        {spendingData.slice(0, 3).map((item, index) => (
+                                            <div key={item.name} className="flex items-center justify-between">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="w-8 h-8 bg-green-600/10 dark:bg-green-500/10 rounded-full flex items-center justify-center">
+                                                        <span className="text-xs font-bold text-green-700 dark:text-green-500">
+                                                            #{index + 1}
+                                                        </span>
+                                                    </div>
+                                                    <span className="text-sm font-medium text-foreground">{item.name}</span>
+                                                </div>
+                                                <span className="text-sm font-bold text-green-700 dark:text-green-500">
+                                                    ₹{item.value.toLocaleString()}
+                                                </span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </>
+                    ) : (
+                        <div className="text-center py-8 text-muted-foreground">
+                            <p className="text-sm">No spending data available for this period</p>
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
+    };
+
+    // Main render
+    if (activeView === 'mobile_recharge') {
+        return renderTransactionListView('mobile_recharge', 'Mobile Recharge', 'All mobile recharge transactions');
+    }
+
+    if (activeView === 'bill_payment') {
+        return renderTransactionListView('bill_payment', 'Bill Payments', 'All bill payment transactions');
+    }
+
+    if (activeView === 'cc_to_bank') {
+        return renderTransactionListView('cc_to_bank', 'CC to Bank', 'All credit card to bank transfers');
+    }
+
+    if (activeView === 'wallet') {
+        return renderTransactionListView('wallet', 'Wallet History', 'All wallet top-up transactions');
+    }
+
+    if (activeView === 'spending') {
+        return renderSpendingView();
+    }
+
+    return renderHomeView();
+};
+
+export default MobileHistory;

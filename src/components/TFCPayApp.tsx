@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Home, Grid, Gift, Headphones, AlertTriangle } from "lucide-react";
+import { Home, Gift, History, Headphones, AlertTriangle, ArrowLeft } from "lucide-react";
 import {
     MobileHome,
     MobileServices,
     MobileOffers,
+    MobileHistory,
     MobileSupport,
     MobileAddMoney,
     MobileRewards,
@@ -19,6 +20,8 @@ import type { SignupData } from "./mobile/MobileSignup";
 import { useWallet } from "../hooks/useWallet";
 import { useTheme } from "../hooks/useTheme";
 import { useAuth } from "../hooks/useAuth";
+import { useNotifications } from "../hooks/useNotifications";
+import { useTickets } from "../hooks/useTickets";
 import type { TabType } from "../types";
 
 interface TFCPayAppProps {
@@ -34,6 +37,8 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
     } = useAuth();
     const { balance, previousBalance, transactions, addMoney, processPayment, onBalanceSeen } = useWallet();
     const { isDarkMode, toggleTheme } = useTheme(initialTheme);
+    const { notifications, unreadCount, addNotification, markAllAsRead, deleteNotification } = useNotifications();
+    const { tickets, resolveTicket } = useTickets();
 
     const [activeTab, setActiveTab] = useState<TabType>(initialTab);
     const [showSettings, setShowSettings] = useState(false);
@@ -42,6 +47,7 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
     const [showNotifications, setShowNotifications] = useState(false);
     const [settingsSubPanel, setSettingsSubPanel] = useState<string | null>(null);
     const [selectedService, setSelectedService] = useState<string | null>(null);
+    const [showAllServices, setShowAllServices] = useState(false);
     const [lowBalanceWarning, setLowBalanceWarning] = useState(false);
     const [loginIdentifier, setLoginIdentifier] = useState<string>('');
     const [loginType, setLoginType] = useState<'email' | 'mobile' | 'userid'>('mobile');
@@ -49,13 +55,20 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
     const [showPassword, setShowPassword] = useState(false);
     const [showSignup, setShowSignup] = useState(false);
     const [rememberMe, setRememberMe] = useState(true);
-    const [unreadNotifications, setUnreadNotifications] = useState(3);
+    // Unread count is now managed by useNotifications hook
     const [isLocked, setIsLocked] = useState(appLockEnabled && hasPinSet); // App starts locked if PIN is set and lock is enabled
+    const [supportMessage, setSupportMessage] = useState<string | undefined>(undefined);
 
     // Handle navigation
     const handleNavigate = (tab: TabType) => {
         setActiveTab(tab);
         setSelectedService(null);
+        setSupportMessage(undefined);
+    };
+
+    const handleGetHelp = (message: string) => {
+        setSupportMessage(message);
+        setActiveTab('profile');
     };
 
     // Handle profile/settings click
@@ -69,17 +82,22 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
     // Handle service selection from home
     const handleServiceSelect = (serviceTitle: string) => {
         setSelectedService(serviceTitle);
-        setActiveTab("services");
+        setShowAllServices(true);
+    };
+
+    // Handle see all services
+    const handleSeeAllServices = () => {
+        setShowAllServices(true);
     };
 
     // Handle payment
-    const handlePayment = (amount: number, serviceName: string): boolean => {
+    const handlePayment = (amount: number, serviceName: string, type?: 'mobile_recharge' | 'bill_payment' | 'cc_to_bank' | 'wallet', category?: string): boolean => {
         if (amount > balance) {
             setLowBalanceWarning(true);
             setTimeout(() => setLowBalanceWarning(false), 3000);
             return false;
         }
-        return processPayment(amount, serviceName);
+        return processPayment(amount, serviceName, type, category);
     };
 
     // Handle login flow
@@ -136,14 +154,26 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
     };
 
     const handleNotificationsOpened = () => {
-        setUnreadNotifications(0);
+        // Handled in MobileNotifications component via onMarkAllAsRead
+    };
+
+    const handleResolveTicket = (ticketId: string) => {
+        const ticket = tickets.find(t => t.id === ticketId);
+        if (ticket) {
+            resolveTicket(ticketId, "Ticket resolved via Mobile App.");
+            addNotification({
+                title: "Ticket Resolved",
+                message: `Your ticket ${ticket.id} regarding "${ticket.subject}" has been marked as resolved.`,
+                type: 'info'
+            });
+        }
     };
 
     // Tab navigation items
     const tabs = [
         { id: "home" as TabType, label: "Home", icon: Home },
-        { id: "services" as TabType, label: "Services", icon: Grid },
         { id: "offers" as TabType, label: "Offers", icon: Gift },
+        { id: "history" as TabType, label: "History", icon: History },
         { id: "profile" as TabType, label: "Support", icon: Headphones },
     ];
 
@@ -162,25 +192,23 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
                         transactions={transactions}
                         onAddMoney={() => setShowAddMoney(true)}
                         onServiceSelect={handleServiceSelect}
+                        onSeeAllServices={handleSeeAllServices}
                         onRewardsClick={() => setShowRewards(true)}
                         onNotificationsClick={() => setShowNotifications(true)}
-                        unreadNotifications={unreadNotifications}
-                    />
-                );
-            case "services":
-                return (
-                    <MobileServices
-                        isDarkMode={isDarkMode}
-                        onPayment={handlePayment}
-                        initialService={selectedService}
-                        onServiceConsumed={() => setSelectedService(null)}
-                        onNavigate={handleNavigate}
+                        unreadNotifications={unreadCount}
                     />
                 );
             case "offers":
-                return <MobileOffers />;
+                return <MobileOffers onNavigate={handleNavigate} />;
+            case "history":
+                return <MobileHistory isDarkMode={isDarkMode} transactions={transactions} onGetHelp={handleGetHelp} />;
             case "profile":
-                return <MobileSupport />;
+                return <MobileSupport
+                    initialMessage={supportMessage}
+                    onClearMessage={() => setSupportMessage(undefined)}
+                    tickets={tickets}
+                    onResolveTicket={handleResolveTicket}
+                />;
             default:
                 return <MobileHome onNavigate={handleNavigate} />;
         }
@@ -348,7 +376,35 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
                         onClose={() => setShowNotifications(false)}
                         isDarkMode={isDarkMode}
                         onOpen={handleNotificationsOpened}
+                        notifications={notifications}
+                        onDelete={deleteNotification}
+                        onMarkAllAsRead={markAllAsRead}
                     />
+                )}
+
+                {showAllServices && (
+                    <div className="absolute inset-0 z-50 bg-background">
+                        <MobileServices
+                            isDarkMode={isDarkMode}
+                            onPayment={handlePayment}
+                            initialService={selectedService}
+                            onServiceConsumed={() => setSelectedService(null)}
+                            onNavigate={(tab) => {
+                                setShowAllServices(false);
+                                setSelectedService(null);
+                                handleNavigate(tab);
+                            }}
+                        />
+                        <button
+                            onClick={() => {
+                                setShowAllServices(false);
+                                setSelectedService(null);
+                            }}
+                            className="absolute top-4 left-4 w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center hover:bg-card/80 transition-colors z-10"
+                        >
+                            <ArrowLeft className="w-5 h-5 text-foreground" />
+                        </button>
+                    </div>
                 )}
             </div>
         </div>

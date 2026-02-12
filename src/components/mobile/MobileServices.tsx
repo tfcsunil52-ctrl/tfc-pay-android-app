@@ -134,7 +134,7 @@ const services = {
 
 interface MobileServicesProps {
     isDarkMode?: boolean;
-    onPayment?: (amount: number, serviceName: string) => boolean;
+    onPayment?: (amount: number, serviceName: string, type?: 'mobile_recharge' | 'bill_payment' | 'cc_to_bank' | 'wallet', category?: string) => boolean;
     initialService?: string | null;
     onServiceConsumed?: () => void;
     onNavigate?: (tab: TabType) => void;
@@ -202,7 +202,7 @@ const MobileServices = ({
 
             <div className="flex-1 overflow-y-auto p-4 space-y-5 relative z-10">
                 {/* Header */}
-                <header>
+                <header className="pl-12">
                     <h1 className="text-xl font-bold text-foreground mb-1">All Services</h1>
                     <p className="text-sm text-muted-foreground">Pay bills & recharge instantly</p>
                 </header>
@@ -333,14 +333,39 @@ const PaymentView = ({ service, onBack, onPayment }: PaymentViewProps) => {
     const subscriptionServices = ["Netflix", "Amazon Prime", "Disney+ Hotstar", "Zee5", "SonyLIV", "Spotify"];
 
 
+
     const handlePay = () => {
         if (!consumerId || !amount) {
             alert("Please enter all details");
             return;
         }
 
+        // Determine transaction type and category based on service
+        let transactionType: 'mobile_recharge' | 'bill_payment' | 'cc_to_bank' | 'wallet' = 'bill_payment';
+        let category = service.title;
+
+        // Map service titles to appropriate types
+        if (service.title.toLowerCase().includes('mobile') || service.title.toLowerCase().includes('prepaid') || service.title.toLowerCase().includes('postpaid')) {
+            transactionType = 'mobile_recharge';
+        } else if (service.title.toLowerCase().includes('dth') ||
+            service.title.toLowerCase().includes('electricity') ||
+            service.title.toLowerCase().includes('gas') ||
+            service.title.toLowerCase().includes('water') ||
+            service.title.toLowerCase().includes('broadband') ||
+            service.title.toLowerCase().includes('cable') ||
+            service.title.toLowerCase().includes('landline') ||
+            service.title.toLowerCase().includes('piped') ||
+            service.title.toLowerCase().includes('datacard') ||
+            service.title.toLowerCase().includes('bill') ||
+            service.title.toLowerCase().includes('challan') ||
+            service.title.toLowerCase().includes('municipal') ||
+            service.title.toLowerCase().includes('house tax') ||
+            service.title.toLowerCase().includes('hospital')) {
+            transactionType = 'bill_payment';
+        }
+
         if (onPayment) {
-            const paymentInitiated = onPayment(parseFloat(amount), service.title);
+            const paymentInitiated = onPayment(parseFloat(amount), service.title, transactionType, category);
             if (!paymentInitiated) {
                 return;
             }
