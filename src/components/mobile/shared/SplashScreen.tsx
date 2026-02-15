@@ -12,45 +12,121 @@ const SplashScreen = ({ onComplete, isDarkMode = true }: SplashScreenProps) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsVisible(false);
-            setTimeout(onComplete, 500); // Wait for fade out animation
-        }, 2500); // Splash duration
+            setTimeout(onComplete, 500);
+        }, 3000);
 
         return () => clearTimeout(timer);
     }, [onComplete]);
 
     return (
-        <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-            <div className="relative flex flex-col items-center">
-                {/* Logo with scaling and bounce animation */}
-                <div className="animate-in zoom-in-50 duration-700 ease-out">
-                    <div className="w-24 h-24 mb-6 relative">
-                        {/* Background glow effect */}
-                        <div className="absolute inset-0 bg-green-500/20 blur-3xl rounded-full scale-150 animate-pulse" />
-                        <img
-                            src={getAssetPath("/tfcpay-logo.png")}
-                            alt="TFC Pay"
-                            className="w-full h-full object-contain relative z-10"
-                        />
-                    </div>
+        <div style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 9999,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: isDarkMode ? '#0d1117' : '#f8fafc',
+            transition: 'opacity 500ms ease-out',
+            opacity: isVisible ? 1 : 0,
+            pointerEvents: 'none'
+        }}>
+            <style>{`
+                @keyframes logoReveal {
+                    0% { opacity: 0; transform: scale(0.5) rotate(-10deg); filter: blur(10px); }
+                    70% { opacity: 1; transform: scale(1.1) rotate(0); filter: blur(0); }
+                    100% { opacity: 1; transform: scale(1) rotate(0); filter: blur(0); }
+                }
+                @keyframes textSlideUp {
+                    0% { opacity: 0; transform: translateY(20px); }
+                    100% { opacity: 1; transform: translateY(0); }
+                }
+                @keyframes glowPulse {
+                    0% { transform: scale(1); opacity: 0.3; }
+                    50% { transform: scale(1.5); opacity: 0.6; }
+                    100% { transform: scale(1); opacity: 0.3; }
+                }
+                @keyframes dotBounce {
+                    0%, 100% { transform: translateY(0); }
+                    50% { transform: translateY(-6px); }
+                }
+            `}</style>
+
+            <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                {/* Background Glow */}
+                <div style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    width: '120px',
+                    height: '120px',
+                    backgroundColor: '#15803d',
+                    borderRadius: '50%',
+                    filter: 'blur(40px)',
+                    transform: 'translate(-50%, -50%)',
+                    animation: 'glowPulse 2s infinite ease-in-out',
+                    zIndex: 0
+                }} />
+
+                {/* Logo */}
+                <div style={{
+                    width: '100px',
+                    height: '100px',
+                    marginBottom: '24px',
+                    animation: 'logoReveal 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+                    zIndex: 1
+                }}>
+                    <img
+                        src={getAssetPath("/tfcpay-logo.png")}
+                        alt="TFC Pay"
+                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                    />
                 </div>
 
-                {/* Text reveal with tracking-in-expand */}
-                <div className="space-y-2 text-center overflow-hidden">
-                    <h1 className="text-4xl font-black tracking-tighter text-foreground animate-in slide-in-from-bottom-full duration-1000 delay-150 fill-mode-both">
-                        TFC <span className="text-green-700 dark:text-green-500">PAY</span>
+                {/* App Name */}
+                <div style={{ textAlign: 'center', zIndex: 1 }}>
+                    <h1 style={{
+                        fontSize: '32px',
+                        fontWeight: '900',
+                        color: isDarkMode ? '#f8fafc' : '#0d1117',
+                        margin: 0,
+                        letterSpacing: '-1px',
+                        animation: 'textSlideUp 0.6s 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both'
+                    }}>
+                        TFC <span style={{ color: '#22c55e' }}>PAY</span>
                     </h1>
-                    <p className="text-muted-foreground text-xs font-medium tracking-[0.3em] uppercase animate-in fade-in duration-1000 delay-500 fill-mode-both">
+                    <p style={{
+                        fontSize: '10px',
+                        fontWeight: '600',
+                        color: isDarkMode ? '#94a3b8' : '#64748b',
+                        marginTop: '4px',
+                        letterSpacing: '4px',
+                        textTransform: 'uppercase',
+                        opacity: 0,
+                        animation: 'textSlideUp 0.6s 0.6s ease-out forwards'
+                    }}>
                         Secure • Fast • Reliable
                     </p>
                 </div>
 
-                {/* Loading indicator at the bottom */}
-                <div className="absolute -bottom-24 left-1/2 -translate-x-1/2">
-                    <div className="flex gap-1.5">
-                        <div className="w-1.5 h-1.5 rounded-full bg-green-700/40 dark:bg-green-500/40 animate-bounce [animation-delay:-0.3s]" />
-                        <div className="w-1.5 h-1.5 rounded-full bg-green-700/60 dark:bg-green-500/60 animate-bounce [animation-delay:-0.15s]" />
-                        <div className="w-1.5 h-1.5 rounded-full bg-green-700 dark:bg-green-500 animate-bounce" />
-                    </div>
+                {/* Loading Dots */}
+                <div style={{
+                    display: 'flex',
+                    gap: '6px',
+                    marginTop: '40px',
+                    opacity: 0,
+                    animation: 'textSlideUp 0.5s 0.8s ease-out forwards'
+                }}>
+                    {[0, 1, 2].map(i => (
+                        <div key={i} style={{
+                            width: '6px',
+                            height: '6px',
+                            borderRadius: '50%',
+                            backgroundColor: '#22c55e',
+                            animation: `dotBounce 0.6s ${i * 0.1}s infinite ease-in-out`
+                        }} />
+                    ))}
                 </div>
             </div>
         </div>
