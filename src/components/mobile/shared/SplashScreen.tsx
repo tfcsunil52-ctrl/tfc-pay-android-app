@@ -15,9 +15,9 @@ const SplashScreen = ({ onComplete, isDarkMode = true }: SplashScreenProps) => {
             const completeTimer = setTimeout(() => {
                 setPhase('none');
                 onComplete();
-            }, 600); // Fade duration
+            }, 300); // Super snappy fade
             return () => clearTimeout(completeTimer);
-        }, 2500); // 2.5 seconds logo display
+        }, 1000); // Ultra quick 1s display
 
         return () => clearTimeout(fadeTimer);
     }, [onComplete]);
@@ -28,27 +28,27 @@ const SplashScreen = ({ onComplete, isDarkMode = true }: SplashScreenProps) => {
         <div style={{
             position: 'fixed',
             inset: 0,
-            zIndex: 9999999,
+            zIndex: 99999999,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: isDarkMode ? '#0d1117' : '#f8fafc',
-            transition: 'opacity 500ms ease-in-out',
+            backgroundColor: isDarkMode ? '#0d1117' : '#ffffff',
+            transition: 'opacity 300ms ease-in-out',
             opacity: phase === 'showing' ? 1 : 0,
             pointerEvents: 'none',
         }}>
             <style>{`
                 @keyframes simplePop {
-                    0% { transform: scale(0.6); opacity: 0; }
-                    50% { transform: scale(1.05); opacity: 1; }
+                    0% { transform: scale(0.5); opacity: 0; }
+                    60% { transform: scale(1.05); opacity: 1; }
                     100% { transform: scale(1); opacity: 1; }
                 }
             `}</style>
 
             <div style={{
-                width: '160px',
-                height: '160px',
-                animation: 'simplePop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+                width: '200px',
+                height: '200px',
+                animation: 'simplePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
             }}>
                 <img
                     src={getAssetPath("/tfcpay-logo.png")}

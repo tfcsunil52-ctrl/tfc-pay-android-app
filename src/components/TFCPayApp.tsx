@@ -61,6 +61,10 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
     const [supportMessage, setSupportMessage] = useState<string | undefined>(undefined);
     const [showSplash, setShowSplash] = useState(true);
 
+    if (showSplash) {
+        return <SplashScreen onComplete={() => setShowSplash(false)} isDarkMode={isDarkMode} />;
+    }
+
     // Handle navigation
     const handleNavigate = (tab: TabType) => {
         setActiveTab(tab);
@@ -179,9 +183,6 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
         { id: "profile" as TabType, label: "Support", icon: Headphones },
     ];
 
-    if (showSplash) {
-        return <SplashScreen onComplete={() => setShowSplash(false)} isDarkMode={isDarkMode} />;
-    }
 
     // Render content based on active tab
     const renderContent = () => {
