@@ -10,19 +10,27 @@ const SplashScreen = ({ onComplete, isDarkMode = true }: SplashScreenProps) => {
     const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
+        console.log("SplashScreen: Mounted");
         const timer = setTimeout(() => {
+            console.log("SplashScreen: Fading out");
             setIsVisible(false);
-            setTimeout(onComplete, 500);
+            setTimeout(() => {
+                console.log("SplashScreen: Completing");
+                onComplete();
+            }, 500);
         }, 3000);
 
-        return () => clearTimeout(timer);
+        return () => {
+            clearTimeout(timer);
+            console.log("SplashScreen: Unmounted");
+        };
     }, [onComplete]);
 
     return (
         <div style={{
             position: 'fixed',
             inset: 0,
-            zIndex: 9999,
+            zIndex: 100000,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -30,7 +38,8 @@ const SplashScreen = ({ onComplete, isDarkMode = true }: SplashScreenProps) => {
             backgroundColor: isDarkMode ? '#0d1117' : '#f8fafc',
             transition: 'opacity 500ms ease-out',
             opacity: isVisible ? 1 : 0,
-            pointerEvents: 'none'
+            pointerEvents: 'none',
+            visibility: isVisible ? 'visible' : 'hidden'
         }}>
             <style>{`
                 @keyframes logoReveal {
@@ -78,9 +87,10 @@ const SplashScreen = ({ onComplete, isDarkMode = true }: SplashScreenProps) => {
                     zIndex: 1
                 }}>
                     <img
-                        src={getAssetPath("/tfcpay-logo.png")}
+                        src="tfcpay-logo.png"
                         alt="TFC Pay"
                         style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                        onError={(e) => console.error("SplashScreen Logo Load Error", e)}
                     />
                 </div>
 
