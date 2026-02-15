@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAssetPath } from "../../utils/assets";
+import { getAssetPath } from "../../../utils/assets";
 
 interface SplashScreenProps {
     onComplete: () => void;
