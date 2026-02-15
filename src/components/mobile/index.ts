@@ -13,3 +13,4 @@ export { default as MobileOTPVerification } from "./MobileOTPVerification";
 export { default as MobilePasswordVerification } from "./MobilePasswordVerification";
 export { default as MobileSignup } from "./MobileSignup";
 export { default as AppLock } from "./AppLock";
+export { default as SplashScreen } from "./shared/SplashScreen";

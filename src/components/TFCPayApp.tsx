@@ -15,6 +15,7 @@ import {
     MobilePasswordVerification,
     MobileSignup,
     AppLock,
+    SplashScreen,
 } from "./mobile";
 import type { SignupData } from "./mobile/MobileSignup";
 import { useWallet } from "../hooks/useWallet";
@@ -58,6 +59,7 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
     // Unread count is now managed by useNotifications hook
     const [isLocked, setIsLocked] = useState(appLockEnabled && hasPinSet); // App starts locked if PIN is set and lock is enabled
     const [supportMessage, setSupportMessage] = useState<string | undefined>(undefined);
+    const [showSplash, setShowSplash] = useState(true);
 
     // Handle navigation
     const handleNavigate = (tab: TabType) => {
@@ -288,6 +290,7 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
 
     return (
         <div className={`h-screen w-full max-w-md mx-auto flex flex-col ${isDarkMode ? "dark" : ""}`}>
+            {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} isDarkMode={isDarkMode} />}
             <div className="flex-1 flex flex-col bg-background text-foreground relative overflow-hidden">
                 {/* Low Balance Warning */}
                 {lowBalanceWarning && (
