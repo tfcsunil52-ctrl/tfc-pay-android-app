@@ -17,7 +17,7 @@ const SplashScreen = ({ onComplete, isDarkMode = true }: SplashScreenProps) => {
                 onComplete();
             }, 600); // Fade duration
             return () => clearTimeout(completeTimer);
-        }, 2000); // 2 seconds logo display
+        }, 2500); // 2.5 seconds logo display
 
         return () => clearTimeout(fadeTimer);
     }, [onComplete]);
@@ -28,7 +28,7 @@ const SplashScreen = ({ onComplete, isDarkMode = true }: SplashScreenProps) => {
         <div style={{
             position: 'fixed',
             inset: 0,
-            zIndex: 999999,
+            zIndex: 9999999,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -39,16 +39,16 @@ const SplashScreen = ({ onComplete, isDarkMode = true }: SplashScreenProps) => {
         }}>
             <style>{`
                 @keyframes simplePop {
-                    0% { transform: scale(0.8); opacity: 0; }
-                    50% { transform: scale(1.1); opacity: 1; }
+                    0% { transform: scale(0.6); opacity: 0; }
+                    50% { transform: scale(1.05); opacity: 1; }
                     100% { transform: scale(1); opacity: 1; }
                 }
             `}</style>
 
             <div style={{
-                width: '120px',
-                height: '120px',
-                animation: 'simplePop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+                width: '160px',
+                height: '160px',
+                animation: 'simplePop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
             }}>
                 <img
                     src={getAssetPath("/tfcpay-logo.png")}

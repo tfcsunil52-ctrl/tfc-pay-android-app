@@ -179,6 +179,10 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
         { id: "profile" as TabType, label: "Support", icon: Headphones },
     ];
 
+    if (showSplash) {
+        return <SplashScreen onComplete={() => setShowSplash(false)} isDarkMode={isDarkMode} />;
+    }
+
     // Render content based on active tab
     const renderContent = () => {
         switch (activeTab) {
@@ -290,7 +294,6 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
 
     return (
         <div className={`h-screen w-full max-w-md mx-auto flex flex-col ${isDarkMode ? "dark" : ""}`}>
-            {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} isDarkMode={isDarkMode} />}
             <div className="flex-1 flex flex-col bg-background text-foreground relative overflow-hidden">
                 {/* Low Balance Warning */}
                 {lowBalanceWarning && (
