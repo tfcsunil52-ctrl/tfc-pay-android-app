@@ -44,6 +44,11 @@ export interface Offer {
     color?: string;
     category?: string;
     icon?: React.ComponentType<{ className?: string }>;
+    companyName?: string; // For logo fetching
+    logoUrl?: string; // Cached logo URL
+    image?: string; // Local asset path
+    bgColor?: string; // Background color for the logo circle
+    serviceType?: 'prepaid' | 'dth' | 'bill_payment'; // Category type
 }
 
 // FAQ type

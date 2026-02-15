@@ -1,4 +1,5 @@
-import { Gift, Percent, Clock, ChevronRight, Star, Sparkles } from "lucide-react";
+import { useState } from "react";
+import { ChevronRight } from "lucide-react";
 import { Card, CardContent } from "../ui/Card";
 import { Badge } from "../ui/Badge";
 
@@ -8,104 +9,163 @@ interface MobileOffersProps {
     onNavigate?: (tab: import("../../types").TabType) => void;
 }
 
+type OfferCategory = 'prepaid' | 'dth' | 'bill_payment';
+
 const MobileOffers = ({ onNavigate }: MobileOffersProps) => {
     const { offers, totalCashback, pendingCashback } = useRewards();
+    const [activeCategory, setActiveCategory] = useState<OfferCategory>('bill_payment');
 
-    const featuredOffers = offers.filter(o => o.color);
-    const allOffers = offers.filter(o => !o.color);
-    return (
-        <div className="flex flex-col h-full overflow-hidden relative">
-            {/* Background Blurs for Light Mode */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 dark:hidden">
-                <div className="absolute top-[20%] left-[10%] w-[60%] h-[40%] rounded-full bg-orange-100/40 blur-[80px]" />
-                <div className="absolute bottom-[10%] right-[10%] w-[60%] h-[40%] rounded-full bg-green-100/40 blur-[80px]" />
+    // Filter offers by category
+    const filteredOffers = offers.filter(offer => offer.serviceType === activeCategory);
+
+    // Offer Icon Component
+    const OfferIcon = ({ offer }: { offer: any }) => {
+        const [logoErrorCount, setLogoErrorCount] = useState(0);
+
+        // Circular background style
+        const circleStyle = {
+            backgroundColor: offer.bgColor || (offer.serviceType === 'bill_payment' ? '#1a1a1a' : '#ffffff'),
+        };
+
+        // Fallback chain for logos: Clearbit -> Google Favicon -> Styled SVG Icon
+        const getLogoUrl = () => {
+            if (!offer.logoUrl) return null;
+            if (logoErrorCount === 0) return `https://logo.clearbit.com/${offer.logoUrl}`;
+            if (logoErrorCount === 1) return `https://www.google.com/s2/favicons?domain=${offer.logoUrl}&sz=256`;
+            return null;
+        };
+
+        const currentLogoUrl = getLogoUrl();
+
+        if (currentLogoUrl && logoErrorCount < 2) {
+            return (
+                <div
+                    className="w-9 h-9 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0 shadow-sm border border-black/5 bg-white"
+                >
+                    <img
+                        src={currentLogoUrl}
+                        alt={offer.companyName || offer.title}
+                        className="w-full h-full object-contain p-0.5"
+                        onError={() => setLogoErrorCount(prev => prev + 1)}
+                        loading="lazy"
+                    />
+                </div>
+            );
+        }
+
+        // Final fallback to localized category icons if logo attempt fails
+        const Icon = offer.icon || ChevronRight;
+        return (
+            <div
+                className="w-9 h-9 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0 shadow-sm border border-white/10"
+                style={circleStyle}
+            >
+                {offer.image ? (
+                    <img
+                        src={offer.image}
+                        alt={offer.title}
+                        className="w-5 h-5 object-contain"
+                    />
+                ) : (
+                    <Icon className="w-5 h-5 text-white" />
+                )}
             </div>
+        );
+    };
 
-            <div className="flex-1 overflow-y-auto p-4 space-y-5 relative z-10">
-                {/* Header */}
-                <header>
-                    <h1 className="text-xl font-bold text-foreground mb-1">Offers & Rewards</h1>
-                    <p className="text-sm text-muted-foreground">Exclusive deals just for you</p>
-                </header>
+    return (
+        <div className="flex flex-col h-full overflow-hidden bg-[#0a0a0a]">
+            <div className="flex-1 overflow-y-auto relative pb-20">
+                {/* Premium Header */}
+                <div className="relative">
+                    {/* Top Green Curved Header */}
+                    <div className="h-32 bg-gradient-to-b from-[#22c55e] to-[#16a34a] rounded-b-[40px] p-6 flex items-start">
+                        <h1 className="text-3xl font-bold text-white mt-2">Offers</h1>
+                    </div>
 
-                {/* Featured Offers */}
-                <section className="space-y-3">
-                    <h3 className="font-semibold text-foreground flex items-center gap-2">
-                        <Sparkles className="w-4 h-4 text-green-700 dark:text-green-500" />
-                        Featured Offers
-                    </h3>
-                    {featuredOffers.map((offer, index) => (
-                        <Card key={index} className={`bg-gradient-to-r ${offer.color} border-green-700/30 dark:border-green-500/30 overflow-hidden`}>
-                            <CardContent className="p-4">
-                                <div className="flex items-start justify-between mb-3">
-                                    <Badge className="bg-green-600/20 dark:bg-green-500/20 text-green-700 dark:text-green-500 border-0">{offer.code}</Badge>
-                                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                                        <Clock className="w-3 h-3" />
-                                        {offer.validTill}
-                                    </div>
+                    {/* Banner Section */}
+                    <div className="px-4 -mt-10 mb-6">
+                        <Card className="bg-[#050505] border-none shadow-xl overflow-hidden rounded-3xl">
+                            <CardContent className="p-0 flex items-center">
+                                <div className="flex-1 p-5 pr-0">
+                                    <h2 className="text-xl font-bold text-white leading-tight">
+                                        Get Discounts<br />
+                                        On Recharge & Bill<br />
+                                        Payments
+                                    </h2>
                                 </div>
-                                <h4 className="font-bold text-foreground text-lg mb-1">{offer.title}</h4>
-                                <p className="text-sm text-muted-foreground">{offer.description}</p>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </section>
-
-                {/* All Offers */}
-                <section className="space-y-3">
-                    <h3 className="font-semibold text-foreground">All Offers</h3>
-                    {allOffers.map((offer, index) => (
-                        <Card key={index} className="bg-card border-border">
-                            <CardContent className="p-4">
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 bg-green-600/10 dark:bg-green-500/10 rounded-full flex items-center justify-center">
-                                            {(() => {
-                                                const Icon = offer.icon;
-                                                return Icon ? <Icon className="w-5 h-5 text-green-700 dark:text-green-500" /> : null;
-                                            })()}
-                                        </div>
-                                        <div>
-                                            <div className="flex items-center gap-2">
-                                                <h4 className="font-semibold text-foreground">{offer.title}</h4>
-                                                <Badge variant="outline" className="text-[10px] border-green-700/20 text-green-800 dark:border-border dark:text-muted-foreground bg-green-600/5 dark:bg-transparent">
-                                                    {offer.category}
-                                                </Badge>
-                                            </div>
-                                            <p className="text-sm text-muted-foreground">{offer.description}</p>
-                                        </div>
-                                    </div>
-                                    <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                                <div className="w-[55%] p-0">
+                                    <img
+                                        src="/tfc-pay-android-app/offer.webp"
+                                        alt="Offers"
+                                        className="w-full h-auto object-contain transform scale-140 -mb-2"
+                                    />
                                 </div>
                             </CardContent>
                         </Card>
-                    ))}
-                </section>
+                    </div>
+                </div>
 
-                {/* Cashback Summary */}
-                <Card className="bg-card border-border">
-                    <CardContent className="p-4">
-                        <div className="flex items-center justify-between mb-4">
-                            <h4 className="font-semibold text-foreground">Your Cashback</h4>
-                            <button
-                                onClick={() => onNavigate?.('history')}
-                                className="text-green-700 dark:text-green-500 text-sm font-medium hover:underline"
-                            >
-                                History
-                            </button>
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="bg-green-600/10 dark:bg-secondary rounded-2xl p-4 text-center border border-green-700/10 dark:border-transparent">
-                                <p className="text-3xl font-black text-green-700 dark:text-green-500">₹{totalCashback}</p>
-                                <p className="text-[10px] font-bold text-green-800/60 dark:text-muted-foreground uppercase tracking-wider">Total Earned</p>
+                {/* Category Tabs */}
+                <div className="px-4 mb-4">
+                    <div className="flex justify-around items-center border-b border-white/10">
+                        <button
+                            onClick={() => setActiveCategory('prepaid')}
+                            className={`pb-3 text-sm font-medium transition-colors relative px-2 ${activeCategory === 'prepaid'
+                                ? 'text-[#22c55e]'
+                                : 'text-white/40'
+                                }`}
+                        >
+                            Prepaid Recharge
+                            {activeCategory === 'prepaid' && (
+                                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#22c55e] rounded-t-full shadow-[0_-2px_8px_rgba(34,197,94,0.5)]" />
+                            )}
+                        </button>
+                        <button
+                            onClick={() => setActiveCategory('dth')}
+                            className={`pb-3 text-sm font-medium transition-colors relative px-2 ${activeCategory === 'dth'
+                                ? 'text-[#22c55e]'
+                                : 'text-white/40'
+                                }`}
+                        >
+                            DTH
+                            {activeCategory === 'dth' && (
+                                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#22c55e] rounded-t-full shadow-[0_-2px_8px_rgba(34,197,94,0.5)]" />
+                            )}
+                        </button>
+                        <button
+                            onClick={() => setActiveCategory('bill_payment')}
+                            className={`pb-3 text-sm font-medium transition-colors relative px-2 ${activeCategory === 'bill_payment'
+                                ? 'text-[#22c55e]'
+                                : 'text-white/40'
+                                }`}
+                        >
+                            Bill Payments
+                            {activeCategory === 'bill_payment' && (
+                                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#22c55e] rounded-t-full shadow-[0_-2px_8px_rgba(34,197,94,0.5)]" />
+                            )}
+                        </button>
+                    </div>
+                </div>
+
+                {/* Offers List */}
+                <div className="px-4 space-y-4">
+                    {filteredOffers.map((offer, index) => (
+                        <div
+                            key={index}
+                            className="flex items-center gap-4 py-2 group cursor-pointer"
+                        >
+                            <OfferIcon offer={offer} />
+                            <div className="flex-1 min-w-0">
+                                <h4 className="font-medium text-white/90 text-[15px] truncate">
+                                    {offer.title}
+                                </h4>
                             </div>
-                            <div className="bg-secondary/80 dark:bg-secondary rounded-2xl p-4 text-center border border-border/50 dark:border-transparent">
-                                <p className="text-3xl font-black text-foreground">₹{pendingCashback}</p>
-                                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Pending</p>
-                            </div>
                         </div>
-                    </CardContent>
-                </Card>
+                    ))}
+                </div>
+
+                <div className="pb-16" />
             </div>
         </div>
     );

@@ -162,6 +162,35 @@ body {
   animation: shine 2s ease-in-out infinite;
 }
 
+@keyframes shine-occasional {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  40% {
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateX(200%) skewX(-15deg);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(200%) skewX(-15deg);
+    opacity: 0;
+  }
+}
+
+.animate-shine-occasional {
+  animation: shine-occasional 4s ease-in-out infinite;
+}
+
 /* Slide animations */
 @keyframes slide-in-from-right {
   from {

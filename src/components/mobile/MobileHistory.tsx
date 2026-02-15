@@ -172,10 +172,13 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp }: MobileHisto
                 </section>
 
                 {/* Spending Report Card */}
+                {/* Spending Report Card */}
                 <Card
-                    className="bg-gradient-to-r from-green-600/20 to-green-600/10 dark:from-green-500/20 dark:to-green-500/10 border-green-700/30 dark:border-green-500/30 cursor-pointer hover:scale-[1.01] transition-all"
+                    className="bg-gradient-to-r from-green-600/20 to-green-600/10 dark:from-green-500/20 dark:to-green-500/10 border-green-700/30 dark:border-green-500/30 cursor-pointer hover:scale-[1.01] transition-all relative overflow-hidden group"
                     onClick={() => setActiveView('spending')}
                 >
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-shine z-0 pointer-events-none" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-shine-occasional z-0 pointer-events-none" />
                     <CardContent className="p-4">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
@@ -443,41 +446,100 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp }: MobileHisto
                         </CardContent>
                     </Card>
 
-                    {/* Simple Pie Chart Visualization */}
+                    {/* Circular Pie Chart Visualization */}
                     {spendingData.length > 0 ? (
                         <>
                             <Card className="bg-card border-border">
                                 <CardContent className="p-6">
-                                    <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
+                                    <h3 className="font-semibold text-foreground mb-6 flex items-center gap-2">
                                         <PieChartIcon className="w-4 h-4 text-green-700 dark:text-green-500" />
                                         Category Breakdown
                                     </h3>
 
-                                    {/* Simple Progress Bars instead of actual pie chart */}
+                                    {/* Modern SVG Donut Pie Chart - Compact & Bold */}
+                                    <div className="flex justify-center mb-8 relative">
+                                        <div className="relative w-40 h-40">
+                                            {/* Background Track */}
+                                            <svg viewBox="0 0 100 100" className="w-full h-full rotate-[-90deg]">
+                                                <circle
+                                                    cx="50"
+                                                    cy="50"
+                                                    r="35"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    strokeWidth="16"
+                                                    className="text-muted/20"
+                                                />
+                                                {(() => {
+                                                    const sortedData = [...spendingData].sort((a, b) => b.value - a.value);
+                                                    const total = sortedData.reduce((acc, item) => acc + item.value, 0);
+                                                    let cumulativePercent = 0;
+
+                                                    return sortedData.map((item, index) => {
+                                                        const percent = item.value / total;
+                                                        const circumference = 2 * Math.PI * 35; // r=35
+                                                        const strokeDasharray = `${percent * circumference} ${circumference}`;
+                                                        const strokeDashoffset = -cumulativePercent * circumference;
+                                                        cumulativePercent += percent;
+
+                                                        return (
+                                                            <circle
+                                                                key={item.name}
+                                                                cx="50"
+                                                                cy="50"
+                                                                r="35"
+                                                                fill="none"
+                                                                stroke={colors[index % colors.length]}
+                                                                strokeWidth="16"
+                                                                strokeDasharray={strokeDasharray}
+                                                                strokeDashoffset={strokeDashoffset}
+                                                                className="transition-all duration-500 will-change-[stroke-dasharray]"
+                                                            />
+                                                        );
+                                                    });
+                                                })()}
+                                            </svg>
+
+                                            {/* Center Stats */}
+                                            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                                                <span className="text-xl font-bold tracking-tighter text-foreground">
+                                                    ₹{totalSpending.toLocaleString()}
+                                                </span>
+                                                <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+                                                    Total
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Category Breakdown with Progress Bars */}
                                     <div className="space-y-4">
-                                        {spendingData.map((item, index) => {
+                                        {[...spendingData].sort((a, b) => b.value - a.value).map((item, index) => {
                                             const percentage = ((item.value / totalSpending) * 100).toFixed(1);
+                                            const color = colors[index % colors.length];
+
                                             return (
-                                                <div key={item.name}>
-                                                    <div className="flex items-center justify-between mb-2">
+                                                <div key={item.name} className="group">
+                                                    <div className="flex items-center justify-between mb-1.5">
                                                         <div className="flex items-center gap-2">
                                                             <div
-                                                                className="w-3 h-3 rounded-full"
-                                                                style={{ backgroundColor: colors[index % colors.length] }}
+                                                                className="w-2.5 h-2.5 rounded-full"
+                                                                style={{ backgroundColor: color }}
                                                             />
                                                             <span className="text-sm font-medium text-foreground">{item.name}</span>
                                                         </div>
                                                         <div className="text-right">
-                                                            <p className="text-sm font-bold text-foreground">₹{item.value.toLocaleString()}</p>
-                                                            <p className="text-xs text-muted-foreground">{percentage}%</p>
+                                                            <span className="text-sm font-bold text-foreground">₹{item.value.toLocaleString()}</span>
+                                                            <span className="text-xs text-muted-foreground ml-2">({percentage}%)</span>
                                                         </div>
                                                     </div>
-                                                    <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
+                                                    {/* Progress Bar */}
+                                                    <div className="w-full h-1.5 bg-muted/50 rounded-full overflow-hidden">
                                                         <div
-                                                            className="h-full rounded-full transition-all duration-500"
+                                                            className="h-full rounded-full transition-all duration-700 ease-out"
                                                             style={{
                                                                 width: `${percentage}%`,
-                                                                backgroundColor: colors[index % colors.length]
+                                                                backgroundColor: color
                                                             }}
                                                         />
                                                     </div>
@@ -493,15 +555,21 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp }: MobileHisto
                                 <CardContent className="p-4">
                                     <h3 className="font-semibold text-foreground mb-3">Top Spending Categories</h3>
                                     <div className="space-y-3">
-                                        {spendingData.slice(0, 3).map((item, index) => (
+                                        {[...spendingData].sort((a, b) => b.value - a.value).slice(0, 3).map((item, index) => (
                                             <div key={item.name} className="flex items-center justify-between">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-8 h-8 bg-green-600/10 dark:bg-green-500/10 rounded-full flex items-center justify-center">
-                                                        <span className="text-xs font-bold text-green-700 dark:text-green-500">
+                                                    <div
+                                                        className="w-8 h-8 rounded-full flex items-center justify-center"
+                                                        style={{ backgroundColor: `${colors[index % colors.length]}20` }}
+                                                    >
+                                                        <span className="text-xs font-bold" style={{ color: colors[index % colors.length] }}>
                                                             #{index + 1}
                                                         </span>
                                                     </div>
-                                                    <span className="text-sm font-medium text-foreground">{item.name}</span>
+                                                    <div>
+                                                        <span className="text-sm font-medium text-foreground">{item.name}</span>
+                                                        <p className="text-[10px] text-muted-foreground">{((item.value / totalSpending) * 100).toFixed(1)}% of total</p>
+                                                    </div>
                                                 </div>
                                                 <span className="text-sm font-bold text-green-700 dark:text-green-500">
                                                     ₹{item.value.toLocaleString()}
@@ -514,7 +582,9 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp }: MobileHisto
                         </>
                     ) : (
                         <div className="text-center py-8 text-muted-foreground">
-                            <p className="text-sm">No spending data available for this period</p>
+                            <PieChartIcon className="w-12 h-12 mx-auto mb-3 opacity-30" />
+                            <p className="text-sm font-medium">No spending data available</p>
+                            <p className="text-xs mt-1">Make some transactions to see your spending report</p>
                         </div>
                     )}
                 </div>
