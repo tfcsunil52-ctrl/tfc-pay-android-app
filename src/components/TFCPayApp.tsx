@@ -50,7 +50,7 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
     const [showAllServices, setShowAllServices] = useState(false);
     const [lowBalanceWarning, setLowBalanceWarning] = useState(false);
     const [loginIdentifier, setLoginIdentifier] = useState<string>('');
-    const [loginType, setLoginType] = useState<'email' | 'mobile' | 'userid'>('mobile');
+    const [loginType, setLoginType] = useState<'email' | 'mobile'>('mobile');
     const [showOTP, setShowOTP] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showSignup, setShowSignup] = useState(false);
@@ -101,7 +101,7 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
     };
 
     // Handle login flow
-    const handleLoginContinue = (identifier: string, type: 'email' | 'mobile' | 'userid', rememberMe: boolean) => {
+    const handleLoginContinue = (identifier: string, type: 'email' | 'mobile', rememberMe: boolean) => {
         setLoginIdentifier(identifier);
         setLoginType(type);
         setRememberMe(rememberMe);
@@ -199,7 +199,7 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
                     />
                 );
             case "offers":
-                return <MobileOffers onNavigate={handleNavigate} />;
+                return <MobileOffers onNavigate={handleNavigate} onServiceSelect={handleServiceSelect} />;
             case "history":
                 return <MobileHistory isDarkMode={isDarkMode} transactions={transactions} onGetHelp={handleGetHelp} />;
             case "profile":
@@ -266,7 +266,7 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
             return (
                 <MobilePasswordVerification
                     identifier={loginIdentifier}
-                    type={loginType as 'email' | 'userid'}
+                    type={loginType as 'email'}
                     onVerify={handlePasswordVerify}
                     onBack={handlePasswordBack}
                     onForgotPassword={() => {/* TODO: Handle forgot password */ }}

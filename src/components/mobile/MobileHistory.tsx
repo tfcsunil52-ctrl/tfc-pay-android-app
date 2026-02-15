@@ -13,12 +13,19 @@ interface MobileHistoryProps {
     isDarkMode?: boolean;
     transactions?: Transaction[];
     onGetHelp?: (message: string) => void;
+    activeView?: 'home' | 'mobile_recharge' | 'bill_payment' | 'cc_to_bank' | 'wallet' | 'spending' | 'all_history';
+    onBack?: () => void;
 }
 
-const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp }: MobileHistoryProps) => {
-    const [activeView, setActiveView] = useState<'home' | 'mobile_recharge' | 'bill_payment' | 'cc_to_bank' | 'wallet' | 'spending'>('home');
-    const [selectedTransactions, setSelectedTransactions] = useState<string[]>([]);
+const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: initialView = 'home', onBack }: MobileHistoryProps) => {
+    const [activeView, setActiveView] = useState<'home' | 'mobile_recharge' | 'bill_payment' | 'cc_to_bank' | 'wallet' | 'spending' | 'all_history'>(initialView);
+    const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+    const [filterStartDate, setFilterStartDate] = useState('');
+    const [filterEndDate, setFilterEndDate] = useState('');
+    const [filterStatus, setFilterStatus] = useState<'all' | 'success' | 'failed' | 'pending'>('all');
+    const [filterTransactionId, setFilterTransactionId] = useState('');
     const [periodFilter, setPeriodFilter] = useState<'this_month' | '15_days' | 'last_month'>('this_month');
+    const [selectedTransactions, setSelectedTransactions] = useState<string[]>([]);
 
     const handleTransactionSelect = (id: string) => {
         setSelectedTransactions(prev =>
@@ -46,8 +53,31 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp }: MobileHisto
     const getFilteredTransactions = (type?: Transaction['type']) => {
         let filtered = type ? transactions.filter((tx: Transaction) => tx.type === type) : transactions;
 
+        // Apply advanced filters if set (overrides period filters if dates are manually selected)
+        if (filterStartDate || filterEndDate || filterStatus !== 'all' || filterTransactionId) {
+            if (filterStartDate) {
+                const start = new Date(filterStartDate);
+                filtered = filtered.filter(tx => new Date(tx.date || '') >= start);
+            }
+            if (filterEndDate) {
+                const end = new Date(filterEndDate);
+                end.setHours(23, 59, 59, 999); // End of day
+                filtered = filtered.filter(tx => new Date(tx.date || '') <= end);
+            }
+            if (filterStatus !== 'all') {
+                filtered = filtered.filter(tx => tx.status === filterStatus);
+            }
+            if (filterTransactionId) {
+                filtered = filtered.filter(tx =>
+                    tx.id?.toLowerCase().includes(filterTransactionId.toLowerCase()) ||
+                    tx.referenceId?.toLowerCase().includes(filterTransactionId.toLowerCase())
+                );
+            }
+            return filtered;
+        }
+
         // Apply date filter
-        const now = new Date('2026-02-12'); // Using current date from context
+        const now = new Date(); // Using current system date
         const startDate = new Date(now);
 
         if (periodFilter === 'this_month') {
@@ -95,9 +125,20 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp }: MobileHisto
 
             <div className="flex-1 overflow-y-auto p-4 space-y-5 relative z-10">
                 {/* Header */}
-                <header>
-                    <h1 className="text-xl font-bold text-foreground mb-1">Transaction History</h1>
-                    <p className="text-sm text-muted-foreground">View your transaction history and reports</p>
+                <header className="flex items-center justify-between">
+                    <div>
+                        <h1 className="text-xl font-bold text-foreground mb-1">Transaction History</h1>
+                        <p className="text-sm text-muted-foreground">View your transaction history and reports</p>
+                    </div>
+                    <button
+                        onClick={() => {
+                            setActiveView('all_history');
+                            setIsFilterModalOpen(true);
+                        }}
+                        className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center hover:bg-muted/50 transition-colors shadow-sm"
+                    >
+                        <Filter className="w-5 h-5 text-muted-foreground" />
+                    </button>
                 </header>
 
                 {/* Quick Access Cards */}
@@ -199,7 +240,7 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp }: MobileHisto
                 <section>
                     <h3 className="font-semibold text-foreground mb-3">Recent Transactions</h3>
                     <div className="space-y-2">
-                        {getFilteredTransactions().slice(0, 5).map((tx) => (
+                        {transactions.slice(0, 5).map((tx) => (
                             <Card key={tx.id} className="bg-card border-border">
                                 <CardContent className="p-3 flex items-center justify-between">
                                     <div className="flex items-center gap-3">
@@ -237,14 +278,18 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp }: MobileHisto
         const transactions = getFilteredTransactions(type);
 
         return (
-            <div className="flex flex-col h-full bg-background animate-in slide-in-from-right duration-300">
+            <div className="flex flex-col h-full bg-background animate-in slide-in-from-right duration-300 relative">
                 {/* Header */}
                 <header className="flex items-center justify-between p-4 border-b border-border bg-white dark:bg-card sticky top-0 z-10">
                     <div className="flex items-center gap-3">
                         <button
                             onClick={() => {
-                                setActiveView('home');
-                                setSelectedTransactions([]);
+                                if (onBack && initialView !== 'home') {
+                                    onBack();
+                                } else {
+                                    setActiveView('home');
+                                    setSelectedTransactions([]);
+                                }
                             }}
                             className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center hover:bg-card/80 transition-colors"
                         >
@@ -255,12 +300,107 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp }: MobileHisto
                             <p className="text-xs text-muted-foreground">{subtitle}</p>
                         </div>
                     </div>
-                    {selectedTransactions.length > 0 && (
-                        <Badge className="bg-green-600/20 dark:bg-green-500/20 text-green-700 dark:text-green-500 border-0">
-                            {selectedTransactions.length} Selected
-                        </Badge>
-                    )}
+                    <div className="flex items-center gap-2">
+                        {selectedTransactions.length > 0 && (
+                            <Badge className="bg-green-600/20 dark:bg-green-500/20 text-green-700 dark:text-green-500 border-0">
+                                {selectedTransactions.length}
+                            </Badge>
+                        )}
+                        <button
+                            onClick={() => setIsFilterModalOpen(true)}
+                            className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center hover:bg-muted/50 transition-colors"
+                        >
+                            <Filter className="w-5 h-5 text-muted-foreground" />
+                        </button>
+                    </div>
                 </header>
+
+                {/* Filter Modal */}
+                {isFilterModalOpen && (
+                    <div className="absolute inset-0 z-50 flex items-center justify-center px-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+                        <Card className="w-full max-w-sm bg-card border-border shadow-2xl animate-in zoom-in-95 duration-200">
+                            <CardContent className="p-5 space-y-5">
+                                <h3 className="text-lg font-bold text-foreground">Filter Transactions</h3>
+
+                                {/* Date Range */}
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div className="space-y-1.5">
+                                        <label className="text-xs text-muted-foreground font-medium">From</label>
+                                        <input
+                                            type="date"
+                                            value={filterStartDate}
+                                            onChange={(e) => setFilterStartDate(e.target.value)}
+                                            className="w-full bg-background border border-border rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-green-600/20"
+                                        />
+                                    </div>
+                                    <div className="space-y-1.5">
+                                        <label className="text-xs text-muted-foreground font-medium">To</label>
+                                        <input
+                                            type="date"
+                                            value={filterEndDate}
+                                            onChange={(e) => setFilterEndDate(e.target.value)}
+                                            className="w-full bg-background border border-border rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-green-600/20"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Status Selection */}
+                                <div className="space-y-2">
+                                    <label className="text-xs text-muted-foreground font-medium">Choose Status</label>
+                                    <div className="flex flex-wrap gap-2">
+                                        {(['all', 'success', 'failed', 'pending'] as const).map(status => (
+                                            <button
+                                                key={status}
+                                                onClick={() => setFilterStatus(status)}
+                                                className={`px-3 py-1.5 rounded-md text-xs font-medium capitalize transition-all border ${filterStatus === status
+                                                    ? 'bg-green-600/10 border-green-600 dark:border-green-500 text-green-700 dark:text-green-500'
+                                                    : 'bg-background border-border text-muted-foreground hover:bg-muted'
+                                                    }`}
+                                            >
+                                                {status}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Transaction ID */}
+                                <div className="space-y-2">
+                                    <label className="text-xs text-muted-foreground font-medium">Transaction ID</label>
+                                    <div className="relative">
+                                        <Tag className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                                        <input
+                                            type="text"
+                                            placeholder="Search Transaction ID"
+                                            value={filterTransactionId}
+                                            onChange={(e) => setFilterTransactionId(e.target.value)}
+                                            className="w-full bg-background border border-border rounded-lg pl-9 pr-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-green-600/20 placeholder:text-muted-foreground/50"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Actions */}
+                                <div className="flex gap-3 pt-2">
+                                    <Button
+                                        variant="outline"
+                                        className="flex-1 border-border text-foreground hover:bg-muted"
+                                        onClick={() => setIsFilterModalOpen(false)}
+                                    >
+                                        Cancel
+                                    </Button>
+                                    <Button
+                                        className="flex-1 bg-green-700 hover:bg-green-800 text-white"
+                                        onClick={() => {
+                                            // Filters are already applied via state, just close modal
+                                            setIsFilterModalOpen(false);
+                                        }}
+                                    >
+                                        Apply Filters
+                                    </Button>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
+                )}
 
                 <div className="flex-1 overflow-y-auto p-4 space-y-4">
                     {/* Period Filter */}
@@ -391,7 +531,13 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp }: MobileHisto
                 {/* Header */}
                 <header className="flex items-center p-4 border-b border-border bg-white dark:bg-card sticky top-0 z-10">
                     <button
-                        onClick={() => setActiveView('home')}
+                        onClick={() => {
+                            if (onBack && initialView === 'spending') {
+                                onBack();
+                            } else {
+                                setActiveView('home');
+                            }
+                        }}
                         className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center hover:bg-card/80 transition-colors"
                     >
                         <ArrowLeft className="w-5 h-5 text-foreground" />
@@ -434,17 +580,7 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp }: MobileHisto
                         </button>
                     </div>
 
-                    {/* Total Spending Card */}
-                    <Card className="bg-gradient-to-r from-green-600/20 to-green-600/10 dark:from-green-500/20 dark:to-green-500/10 border-green-700/30 dark:border-green-500/30">
-                        <CardContent className="p-6 text-center">
-                            <p className="text-sm text-muted-foreground mb-2">Total Spending</p>
-                            <h2 className="text-4xl font-black text-green-700 dark:text-green-500">₹{totalSpending.toLocaleString()}</h2>
-                            <p className="text-xs text-muted-foreground mt-2">
-                                {periodFilter === 'this_month' ? 'This Month' :
-                                    periodFilter === '15_days' ? 'Last 15 Days' : 'Last Month'}
-                            </p>
-                        </CardContent>
-                    </Card>
+
 
                     {/* Circular Pie Chart Visualization */}
                     {spendingData.length > 0 ? (
@@ -476,7 +612,7 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp }: MobileHisto
                                                     let cumulativePercent = 0;
 
                                                     return sortedData.map((item, index) => {
-                                                        const percent = item.value / total;
+                                                        const percent = total > 0 ? item.value / total : 0;
                                                         const circumference = 2 * Math.PI * 35; // r=35
                                                         const strokeDasharray = `${percent * circumference} ${circumference}`;
                                                         const strokeDashoffset = -cumulativePercent * circumference;
@@ -515,7 +651,7 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp }: MobileHisto
                                     {/* Category Breakdown with Progress Bars */}
                                     <div className="space-y-4">
                                         {[...spendingData].sort((a, b) => b.value - a.value).map((item, index) => {
-                                            const percentage = ((item.value / totalSpending) * 100).toFixed(1);
+                                            const percentage = totalSpending > 0 ? ((item.value / totalSpending) * 100).toFixed(1) : '0';
                                             const color = colors[index % colors.length];
 
                                             return (
@@ -607,6 +743,10 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp }: MobileHisto
 
     if (activeView === 'wallet') {
         return renderTransactionListView('wallet', 'Wallet History', 'All wallet top-up transactions');
+    }
+
+    if (activeView === 'all_history') {
+        return renderTransactionListView(undefined, 'All Transactions', 'View your complete history');
     }
 
     if (activeView === 'spending') {

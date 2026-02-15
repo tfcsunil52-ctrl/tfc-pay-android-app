@@ -5,7 +5,7 @@ import { getAssetPath } from "../../utils/assets";
 
 interface MobileOTPVerificationProps {
     identifier: string;
-    type: 'email' | 'mobile' | 'userid';
+    type: 'email' | 'mobile';
     onVerify: () => void;
     onBack: () => void;
     isDarkMode?: boolean;
@@ -20,9 +20,30 @@ const MobileOTPVerification = ({
 }: MobileOTPVerificationProps) => {
     const [otp, setOtp] = useState(['', '', '', '', '', '']);
     const [isVerifying, setIsVerifying] = useState(false);
+    const [autoVerifying, setAutoVerifying] = useState(false);
     const [timer, setTimer] = useState(30);
     const [canResend, setCanResend] = useState(false);
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+    // Focus first input on mount
+    useEffect(() => {
+        setTimeout(() => {
+            inputRefs.current[0]?.focus();
+        }, 100);
+    }, []);
+
+    // WebOTP API Simulation / Auto-verify Permission
+    useEffect(() => {
+        if (type === 'mobile') {
+            setAutoVerifying(true);
+            const timer = setTimeout(() => {
+                const mockOtp = "123456";
+                setOtp(mockOtp.split(''));
+                setAutoVerifying(false);
+            }, 3000); // Simulate receiving SMS after 3s
+            return () => clearTimeout(timer);
+        }
+    }, [type]);
 
     // Timer countdown
     useEffect(() => {
@@ -92,7 +113,6 @@ const MobileOTPVerification = ({
         switch (type) {
             case 'email': return 'email';
             case 'mobile': return 'mobile number';
-            case 'userid': return 'User ID';
         }
     };
 
@@ -135,6 +155,7 @@ const MobileOTPVerification = ({
                         ref={el => inputRefs.current[index] = el}
                         type="text"
                         inputMode="numeric"
+                        autoComplete={index === 0 ? "one-time-code" : "off"}
                         maxLength={1}
                         value={digit}
                         onChange={(e) => handleChange(index, e.target.value)}
@@ -144,10 +165,18 @@ const MobileOTPVerification = ({
                             ? 'border-green-700 text-green-700 dark:border-green-500 dark:text-green-500 scale-105'
                             : 'border-border text-foreground'
                             } focus:border-green-700 dark:focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-700/20 dark:focus:ring-green-500/20`}
-                        disabled={isVerifying}
+                        disabled={isVerifying || autoVerifying}
                     />
                 ))}
             </div>
+
+            {autoVerifying && (
+                <div className="text-center animate-pulse py-2">
+                    <p className="text-xs font-bold text-green-700 dark:text-green-500 flex items-center justify-center gap-2">
+                        <Smartphone className="w-3 h-3" /> Waiting for OTP...
+                    </p>
+                </div>
+            )}
 
 
             {/* Resend Section */}

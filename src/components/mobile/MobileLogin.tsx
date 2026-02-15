@@ -6,7 +6,7 @@ import { Input } from "../ui/Input";
 import { getAssetPath } from "../../utils/assets";
 
 interface MobileLoginProps {
-    onContinue: (identifier: string, type: 'email' | 'mobile' | 'userid', rememberMe: boolean) => void;
+    onContinue: (identifier: string, type: 'email' | 'mobile', rememberMe: boolean) => void;
     onSignupClick?: () => void;
     onPinLoginClick?: () => void;
     hasPinSet?: boolean;
@@ -18,35 +18,37 @@ const MobileLogin = ({ onContinue, onSignupClick, onPinLoginClick, hasPinSet = f
     const [rememberMe, setRememberMe] = useState(true);
 
     // Auto-detect input type based on format
-    const detectType = (value: string): 'email' | 'mobile' | 'userid' => {
+    const detectType = (value: string): 'email' | 'mobile' => {
         if (value.includes('@') && value.includes('.')) {
             return 'email';
         }
-        if (/^\d{10}$/.test(value.replace(/\s/g, ''))) {
-            return 'mobile';
-        }
-        return 'userid';
+        return 'mobile';
     };
 
-    const handleContinue = () => {
+    const handleLoginWithOTP = () => {
         if (identifier.trim()) {
-            const type = detectType(identifier.trim());
-            onContinue(identifier, type, rememberMe);
+            onContinue(identifier, 'mobile', rememberMe);
+        }
+    };
+
+    const handleLoginWithPassword = () => {
+        if (identifier.trim()) {
+            onContinue(identifier, 'email', rememberMe);
         }
     };
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' && identifier.trim()) {
-            handleContinue();
+            const type = detectType(identifier);
+            onContinue(identifier, type, rememberMe);
         }
     };
 
     const getPlaceholder = () => {
-        if (!identifier) return 'Email, Mobile Number, or User ID';
+        if (!identifier) return 'Email or Mobile Number';
         const type = detectType(identifier);
         if (type === 'email') return 'Continue entering email...';
-        if (type === 'mobile') return 'Continue entering mobile number...';
-        return 'Continue entering user ID...';
+        return 'Continue entering mobile number...';
     };
 
     const getIcon = () => {
@@ -86,7 +88,7 @@ const MobileLogin = ({ onContinue, onSignupClick, onPinLoginClick, hasPinSet = f
                     <div className="bg-card/50 backdrop-blur-xl border border-border/50 rounded-3xl p-6 shadow-2xl">
                         <div className="mb-6">
                             <label className="text-sm font-medium text-muted-foreground mb-2 block">
-                                Email / Mobile / User ID
+                                Email / Mobile Number
                             </label>
                             <div className="relative">
                                 <div className={`absolute left-4 top-1/2 -translate-y-1/2 transition-all duration-300 ${identifier ? 'text-green-700 dark:text-green-500' : 'text-muted-foreground'}`}>
@@ -98,7 +100,7 @@ const MobileLogin = ({ onContinue, onSignupClick, onPinLoginClick, hasPinSet = f
                                     onChange={(e) => setIdentifier(e.target.value)}
                                     onKeyPress={handleKeyPress}
                                     placeholder={getPlaceholder()}
-                                    className="h-14 pl-12 pr-4 bg-background/50 border-border/50 focus:border-green-700 dark:focus:border-green-500 focus:bg-background rounded-xl text-base transition-all"
+                                    className="h-12 pl-12 pr-4 bg-background/50 border-border/50 focus:border-green-700 dark:focus:border-green-500 focus:bg-background rounded-xl text-sm transition-all"
                                     autoFocus
                                 />
                             </div>
@@ -125,14 +127,25 @@ const MobileLogin = ({ onContinue, onSignupClick, onPinLoginClick, hasPinSet = f
                             </button>
                         </div>
 
-                        <Button
-                            onClick={handleContinue}
-                            disabled={!identifier.trim()}
-                            className="w-full h-14 bg-green-700 hover:bg-green-800 dark:bg-green-500 dark:hover:bg-green-400 text-white dark:text-black font-bold text-base rounded-xl shadow-lg shadow-green-700/20 dark:shadow-green-500/20 group disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                        >
-                            <span>Continue</span>
-                            <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                        </Button>
+                        <div className="flex flex-col gap-2.5">
+                            <Button
+                                onClick={handleLoginWithOTP}
+                                disabled={!identifier.trim()}
+                                className="w-full h-11 bg-green-700 hover:bg-green-800 dark:bg-green-500 dark:hover:bg-green-400 text-white dark:text-black font-bold text-sm rounded-xl shadow-lg shadow-green-700/10 dark:shadow-green-500/10 group disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                            >
+                                <span>Login with OTP</span>
+                                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                            </Button>
+
+                            <Button
+                                onClick={handleLoginWithPassword}
+                                disabled={!identifier.trim()}
+                                variant="outline"
+                                className="w-full h-11 border-2 border-green-700/20 dark:border-green-500/20 text-green-700 dark:text-green-500 font-bold text-sm rounded-xl hover:bg-green-600/5 dark:hover:bg-green-500/5 transition-all"
+                            >
+                                Login with Password
+                            </Button>
+                        </div>
 
                         <div className="text-center mt-4 space-y-4">
                             <p className="text-sm text-muted-foreground">

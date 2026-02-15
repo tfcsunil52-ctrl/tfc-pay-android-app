@@ -1,6 +1,6 @@
-
 import { useState } from "react";
-import { Plus, Building2, Trash2, CheckCircle2, ArrowLeft } from "lucide-react";
+import { Plus, Building2, Trash2, CheckCircle2, ArrowLeft, ShieldCheck, KeyRound, SearchCheck } from "lucide-react";
+import { Input } from "../../ui/Input";
 import { Button } from "../../ui/Button";
 import { Card, CardContent } from "../../ui/Card";
 import { TransferView } from "./TransferView";
@@ -24,6 +24,34 @@ export const BankAccounts = ({ onBack }: BankAccountsProps) => {
         { id: "2", bankName: "SBI", accountNumber: "XXXX 5678", ifsc: "SBIN0005678", isPrimary: false },
     ]);
     const [isAdding, setIsAdding] = useState(false);
+
+    // Link Bank Form States
+    const [accNo, setAccNo] = useState("");
+    const [reAccNo, setReAccNo] = useState("");
+    const [ifsc, setIfsc] = useState("");
+    const [holderName, setHolderName] = useState("");
+    const [bankName, setBankName] = useState("");
+    const [aadhaar, setAadhaar] = useState("");
+    const [pan, setPan] = useState("");
+    const [otp, setOtp] = useState("");
+    const [aadhaarStatus, setAadhaarStatus] = useState<'idle' | 'otp_sent' | 'verified' | 'verifying'>('idle');
+
+    const handleSendOTP = () => {
+        if (aadhaar.length !== 12) return;
+        setAadhaarStatus('verifying');
+        setTimeout(() => {
+            setAadhaarStatus('otp_sent');
+            alert("OTP sent to your registered mobile number ending with XXXX");
+        }, 1000);
+    };
+
+    const handleVerifyOTP = () => {
+        if (otp.length !== 6) return;
+        setAadhaarStatus('verifying');
+        setTimeout(() => {
+            setAadhaarStatus('verified');
+        }, 1200);
+    };
 
     const handleAddBank = () => {
         // Mock addition
@@ -57,15 +85,114 @@ export const BankAccounts = ({ onBack }: BankAccountsProps) => {
             <TransferView
                 title="Link Bank Account"
                 fields={[
-                    { label: "Account Number", placeholder: "Enter Account Number", type: "number" },
-                    { label: "Re-enter Account Number", placeholder: "Re-enter Account Number", type: "number" },
-                    { label: "IFSC Code", placeholder: "Enter IFSC Code" },
-                    { label: "Account Holder Name", placeholder: "Enter Name" },
-                    { label: "Bank Name", placeholder: "e.g. HDFC Bank" }
+                    {
+                        label: "Account Number",
+                        placeholder: "Enter Account Number",
+                        type: "number",
+                        value: accNo,
+                        onChange: setAccNo
+                    },
+                    {
+                        label: "Re-enter Account Number",
+                        placeholder: "Re-enter Account Number",
+                        type: "number",
+                        value: reAccNo,
+                        onChange: setReAccNo
+                    },
+                    {
+                        label: "IFSC Code",
+                        placeholder: "Enter IFSC Code",
+                        value: ifsc,
+                        onChange: (val: string) => setIfsc(val.toUpperCase())
+                    },
+                    {
+                        label: "Pan Card Number",
+                        placeholder: "Enter 10-digit PAN",
+                        value: pan,
+                        onChange: (val: string) => setPan(val.toUpperCase()),
+                        maxLength: 10
+                    },
+                    {
+                        label: "Aadhaar Number",
+                        placeholder: "Enter 12-digit Aadhaar",
+                        type: "number",
+                        value: aadhaar,
+                        onChange: (val: string) => {
+                            if (aadhaarStatus === 'verified') return;
+                            setAadhaar(val);
+                            if (aadhaarStatus !== 'idle') setAadhaarStatus('idle');
+                        },
+                        maxLength: 12,
+                        className: aadhaarStatus === 'verified' ? "border-green-500 ring-green-500/20" : "",
+                        extra: (
+                            <div className="space-y-3">
+                                {aadhaarStatus === 'idle' && (
+                                    <Button
+                                        size="sm"
+                                        variant="outline"
+                                        onClick={handleSendOTP}
+                                        disabled={aadhaar.length !== 12}
+                                        className="h-10 w-full font-bold border-2 border-green-700/30 text-green-700 dark:border-green-500/30 dark:text-green-500 flex gap-2"
+                                    >
+                                        <ShieldCheck className="w-4 h-4" /> Verify with Aadhaar OTP
+                                    </Button>
+                                )}
+
+                                {aadhaarStatus === 'otp_sent' && (
+                                    <div className="p-4 bg-muted/50 rounded-xl border border-border space-y-3 animate-in fade-in slide-in-from-top-2">
+                                        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1">
+                                            <KeyRound className="w-3 h-3" /> Enter 6-digit OTP
+                                        </p>
+                                        <div className="flex gap-2">
+                                            <Input
+                                                placeholder="XXXXXX"
+                                                className="h-10 text-center text-lg tracking-[0.5rem] font-bold"
+                                                maxLength={6}
+                                                value={otp}
+                                                onChange={(e) => setOtp(e.target.value)}
+                                            />
+                                            <Button
+                                                size="sm"
+                                                onClick={handleVerifyOTP}
+                                                className="h-10 bg-green-700 dark:bg-green-500 px-4"
+                                            >
+                                                Verify
+                                            </Button>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {aadhaarStatus === 'verified' && (
+                                    <div className="flex items-center gap-2 p-3 bg-green-600/10 dark:bg-green-500/10 border border-green-700/20 dark:border-green-500/20 rounded-xl animate-in zoom-in-95 duration-300">
+                                        <SearchCheck className="w-5 h-5 text-green-700 dark:text-green-500" />
+                                        <span className="text-xs font-bold text-green-700 dark:text-green-500">Aadhaar Verified Successfully</span>
+                                    </div>
+                                )}
+                            </div>
+                        )
+                    },
+                    {
+                        label: "Account Holder Name",
+                        placeholder: "Enter Name",
+                        value: holderName,
+                        onChange: setHolderName
+                    },
+                    {
+                        label: "Bank Name",
+                        placeholder: "e.g. HDFC Bank",
+                        value: bankName,
+                        onChange: setBankName
+                    }
                 ]}
                 onBack={() => setIsAdding(false)}
                 buttonText="Link Bank Account"
-                // Mock confirm action
+                onButtonClick={() => {
+                    if (aadhaarStatus !== 'verified') {
+                        alert("Please verify your Aadhaar with OTP first.");
+                        return;
+                    }
+                    handleAddBank();
+                }}
                 isClosing={false}
             />
         );

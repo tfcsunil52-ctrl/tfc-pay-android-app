@@ -104,13 +104,14 @@ const BeneficiaryList = ({ onBack }: BeneficiaryListProps) => {
                     >
                         <ArrowLeft className="w-5 h-5 text-foreground" />
                     </button>
-                    <h2 className="font-bold text-foreground text-lg">Send to Bank</h2>
+                    <h2 className="font-bold text-foreground text-lg">Send to beneficiary</h2>
                 </div>
                 <button
                     onClick={() => setView('add')}
-                    className="w-10 h-10 rounded-full bg-green-600/10 dark:bg-green-500/10 flex items-center justify-center text-green-700 dark:text-green-500 hover:bg-green-600/20 dark:hover:bg-green-500/20 transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 rounded-full bg-green-600/10 dark:bg-green-500/10 text-green-700 dark:text-green-500 hover:bg-green-600/20 dark:hover:bg-green-500/20 transition-all active:scale-95 border border-green-700/10 dark:border-green-500/10"
                 >
-                    <Plus className="w-6 h-6" />
+                    <Plus className="w-4 h-4" />
+                    <span className="text-sm font-bold">Add beneficiary</span>
                 </button>
             </div>
 

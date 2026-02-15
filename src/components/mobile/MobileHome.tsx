@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 import {
     Bell, Smartphone, Tv, Zap, Car, ChevronRight, Wallet,
     Building2, Gift, Users, QrCode, Repeat, Landmark, User,
-    MonitorPlay, Flame, Fuel, Phone, Wifi, Droplets, CreditCard, Home, Plus, ArrowDownLeft, ArrowUpRight
+    MonitorPlay, Flame, Fuel, Phone, Wifi, Droplets, CreditCard, Home, Plus, ArrowDownLeft, ArrowUpRight, Check, TrendingUp, PieChart
 } from "lucide-react";
 import { Card, CardContent } from "../ui/Card";
 import { Button } from "../ui/Button";
 import { Avatar, AvatarFallback } from "../ui/Avatar";
 import ScanQR from "./ScanQR";
-import ContactList from "./transfer/ContactList";
-import BeneficiaryList from "./transfer/BeneficiaryList";
+import UnifiedTransfer from "./transfer/UnifiedTransfer";
+import MobileHistory from "./MobileHistory";
 import { getAssetPath } from "../../utils/assets";
 import { BankAccounts } from "./profile/BankAccounts";
 import type { Transaction, TabType } from "../../types";
@@ -154,7 +154,7 @@ const MobileHome = ({
     unreadNotifications = 0
 }: MobileHomeProps) => {
     const [isScanning, setIsScanning] = useState(false);
-    const [transferMode, setTransferMode] = useState<'contact' | 'bank' | 'self' | null>(null);
+    const [transferMode, setTransferMode] = useState<'contact' | 'bank' | 'self' | 'spending' | null>(null);
 
     return (
         <div className="flex flex-col h-full overflow-hidden relative">
@@ -236,32 +236,32 @@ const MobileHome = ({
                     <Card className="bg-white dark:bg-card border-green-700/10 dark:border-border overflow-hidden relative shadow-lg">
                         <CardContent className="p-3 relative z-10">
                             <div className="grid grid-cols-4 gap-2">
-                                {/* Send to Mobile */}
+                                {/* CC to Bank */}
                                 <button
                                     className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
-                                    onClick={() => setTransferMode('contact')}
+                                    onClick={() => onProfileClick?.("transfer-cc")}
                                 >
                                     <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 flex items-center justify-center transition-transform group-hover:scale-105 group-active:scale-95 relative">
-                                        <User className="w-6 h-6 text-green-700 dark:text-green-500" strokeWidth={2} />
+                                        <CreditCard className="w-6 h-6 text-green-700 dark:text-green-500" strokeWidth={2} />
                                         <div className="absolute top-2 right-2 bg-green-700 dark:bg-green-500 rounded-full p-[1px] border border-white dark:border-black">
-                                            <ArrowDownLeft className="w-2.5 h-2.5 text-white dark:text-black" strokeWidth={3} />
+                                            <ArrowUpRight className="w-2.5 h-2.5 text-white dark:text-black" strokeWidth={3} />
                                         </div>
                                     </div>
-                                    <span className="text-[10px] font-medium text-center leading-tight text-foreground">Send to Mobile</span>
+                                    <span className="text-[10px] font-medium text-center leading-tight text-foreground">CC to Bank</span>
                                 </button>
 
-                                {/* Send to Bank */}
+                                {/* To Mobile/Bank */}
                                 <button
                                     className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
                                     onClick={() => setTransferMode('bank')}
                                 >
                                     <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 flex items-center justify-center transition-transform group-hover:scale-105 group-active:scale-95 relative">
-                                        <Building2 className="w-6 h-6 text-green-700 dark:text-green-500" strokeWidth={2} />
+                                        <Users className="w-6 h-6 text-green-700 dark:text-green-500" strokeWidth={2} />
                                         <div className="absolute top-2 right-2 bg-green-700 dark:bg-green-500 rounded-full p-[1px] border border-white dark:border-black">
                                             <ArrowDownLeft className="w-2.5 h-2.5 text-white dark:text-black" strokeWidth={3} />
                                         </div>
                                     </div>
-                                    <span className="text-[10px] font-medium text-center leading-tight text-foreground">Send to Bank</span>
+                                    <span className="text-[10px] font-medium text-center leading-tight text-foreground">Send to person</span>
                                 </button>
 
                                 {/* Link Bank */}
@@ -278,18 +278,18 @@ const MobileHome = ({
                                     <span className="text-[10px] font-medium text-center leading-tight text-foreground">Link Bank</span>
                                 </button>
 
-                                {/* CC to Bank */}
+                                {/* Spend Analytics */}
                                 <button
                                     className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
-                                    onClick={() => onProfileClick?.("transfer-cc")}
+                                    onClick={() => setTransferMode('spending')}
                                 >
                                     <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 flex items-center justify-center transition-transform group-hover:scale-105 group-active:scale-95 relative">
-                                        <CreditCard className="w-6 h-6 text-green-700 dark:text-green-500" strokeWidth={2} />
+                                        <TrendingUp className="w-6 h-6 text-green-700 dark:text-green-500" strokeWidth={2} />
                                         <div className="absolute top-2 right-2 bg-green-700 dark:bg-green-500 rounded-full p-[1px] border border-white dark:border-black">
-                                            <ArrowUpRight className="w-2.5 h-2.5 text-white dark:text-black" strokeWidth={3} />
+                                            <PieChart className="w-2.5 h-2.5 text-white dark:text-black" strokeWidth={3} />
                                         </div>
                                     </div>
-                                    <span className="text-[10px] font-medium text-center leading-tight text-foreground">CC to Bank</span>
+                                    <span className="text-[10px] font-medium text-center leading-tight text-foreground">Spend Analytics</span>
                                 </button>
                             </div>
                         </CardContent>
@@ -427,8 +427,17 @@ const MobileHome = ({
             )}
 
             {/* Transfer Overlays */}
-            {transferMode === 'contact' && <ContactList onBack={() => setTransferMode(null)} />}
-            {transferMode === 'bank' && <BeneficiaryList onBack={() => setTransferMode(null)} />}
+            {transferMode === 'bank' && <UnifiedTransfer onBack={() => setTransferMode(null)} />}
+            {transferMode === 'spending' && (
+                <div className="fixed inset-0 z-50 bg-background animate-in slide-in-from-right duration-300">
+                    <MobileHistory
+                        isDarkMode={isDarkMode}
+                        transactions={transactions}
+                        activeView="spending"
+                        onBack={() => setTransferMode(null)}
+                    />
+                </div>
+            )}
             {
                 transferMode === 'self' && (
                     <div className="fixed inset-0 z-50 bg-background animate-in slide-in-from-right duration-300">

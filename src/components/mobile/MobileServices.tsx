@@ -177,6 +177,7 @@ const MobileServices = ({
                     if (isDeepLinked) {
                         setIsDeepLinked(false);
                         setSelectedService(null);
+                        onServiceConsumed?.();
                         onNavigate?.("home");
                     } else {
                         setSelectedService(null);

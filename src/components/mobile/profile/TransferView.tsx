@@ -51,9 +51,12 @@ export const TransferView = ({ title, fields, onBack, buttonText, note, isClosin
                                     placeholder={field.placeholder}
                                     type={field.type || "text"}
                                     maxLength={field.maxLength}
-                                    className="bg-card border-border h-12 text-lg"
+                                    value={field.value}
+                                    onChange={(e) => field.onChange?.(e.target.value)}
+                                    className={`bg-card border-border h-12 text-lg ${field.className || ""}`}
                                 />
                             )}
+                            {field.extra && <div className="mt-2">{field.extra}</div>}
                         </div>
                     ))}
                 </div>
