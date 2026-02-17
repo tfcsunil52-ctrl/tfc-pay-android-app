@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">TFC Pay</string>
+    <string name="title_activity_main">TFC Pay</string>
+    <string name="package_name">com.tfcpay.app</string>
+    <string name="custom_url_scheme">com.tfcpay.app</string>
+</resources>
