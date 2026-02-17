@@ -76,18 +76,18 @@ const RollingNumber = ({ value, startAt, onComplete }: { value: number; startAt:
 
 // Quick services configuration
 const quickServices = [
-    { icon: Smartphone, label: "Mobile", targetTitle: "Mobile Prepaid", image: "/Icons/Mobile Recharge.webp" },
-    { icon: Tv, label: "DTH", targetTitle: "DTH Recharge", image: "/Icons/DTH Recharge.webp" },
-    { icon: Zap, label: "Electricity", targetTitle: "Electricity", image: "/Icons/Electricity Bill.webp" },
-    { icon: CreditCard, label: "CC Bill", targetTitle: "CC Bill Payment", image: "/Icons/Credit card.webp" },
-    { icon: Home, label: "Rent", targetTitle: "Rent Payment", image: "/Icons/Rent.webp" },
-    { icon: Flame, label: "Gas", targetTitle: "Gas Cylinder", image: "/Icons/LPG Cylinder.webp" },
-    { icon: MonitorPlay, label: "Cable TV", targetTitle: "Cable TV", image: "/Icons/Cable TV.webp" },
-    { icon: Wifi, label: "Broadband", targetTitle: "Broadband", image: "/Icons/Wifi.webp" },
-    { icon: Car, label: "Fastag", targetTitle: "Fastag", image: "/Icons/Fastag.webp" },
-    { icon: Fuel, label: "Piped Gas", targetTitle: "Piped Gas", image: "/Icons/Piped Gas.webp" },
-    { icon: Phone, label: "Landline", targetTitle: "Landline", image: "/Icons/Landline .webp" },
-    { icon: Droplets, label: "Water", targetTitle: "Water Bill", image: "/Icons/Water Bill.webp" },
+    { icon: Smartphone, label: "Mobile", targetTitle: "Mobile Prepaid", image: "/New icons/mobile prepaid.webp" },
+    { icon: Tv, label: "DTH", targetTitle: "DTH Recharge", image: "/New icons/Layer 4.webp" },
+    { icon: Zap, label: "Electricity", targetTitle: "Electricity", image: "/New icons/Layer 6.webp" },
+    { icon: CreditCard, label: "CC Bill", targetTitle: "CC Bill Payment", image: "/New icons/Credit Card Icon v3.webp" },
+    { icon: Home, label: "Rent", targetTitle: "Rent Payment", image: "/New icons/Layer 20.webp" },
+    { icon: Flame, label: "Gas", targetTitle: "Gas Cylinder", image: "/New icons/Layer 7.webp" },
+    { icon: MonitorPlay, label: "Cable TV", targetTitle: "Cable TV", image: "/New icons/Layer 5.webp" },
+    { icon: Wifi, label: "Broadband", targetTitle: "Broadband", image: "/New icons/Layer 12.webp" },
+    { icon: Car, label: "Fastag", targetTitle: "Fastag", image: "/New icons/Layer 10.webp" },
+    { icon: Fuel, label: "Piped Gas", targetTitle: "Piped Gas", image: "/New icons/Layer 8.webp" },
+    { icon: Phone, label: "Landline", targetTitle: "Landline", image: "/New icons/Layer 9.webp" },
+    { icon: Droplets, label: "Water", targetTitle: "Water Bill", image: "/New icons/Layer 16.webp" },
 ].map(s => ({ ...s, image: s.image ? getAssetPath(s.image) : undefined }));
 
 // Banner carousel component
