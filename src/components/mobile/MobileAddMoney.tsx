@@ -38,7 +38,7 @@ const MobileAddMoney = ({ onClose, onAdd, isDarkMode }: MobileAddMoneyProps) => 
 
     return (
         <div
-            className={`flex flex-col h-full bg-white dark:bg-[#063140] absolute inset-0 z-[60] overflow-hidden ${isClosing ? "animate-out slide-out-to-right duration-300" : "animate-in slide-in-from-right duration-300"
+            className={`flex flex-col h-full bg-[#063140] absolute inset-0 z-[60] overflow-hidden ${isClosing ? "animate-out slide-out-to-right duration-300" : "animate-in slide-in-from-right duration-300"
                 }`}
         >
             {success && (
@@ -108,7 +108,7 @@ const MobileAddMoney = ({ onClose, onAdd, isDarkMode }: MobileAddMoneyProps) => 
                 {/* Proceed Button */}
                 <div className="w-full max-w-xs pt-8">
                     <Button
-                        className="w-full h-14 text-lg font-bold bg-[#063140] hover:bg-[#063140]/90 text-white rounded-2xl shadow-lg"
+                        className="w-full h-14 text-lg font-bold bg-green-700 dark:bg-green-500 text-white dark:text-black hover:bg-green-800 dark:hover:bg-green-400 rounded-2xl shadow-lg shadow-green-700/20 dark:shadow-green-500/20"
                         onClick={handleProceed}
                     >
                         Proceed to Add

@@ -186,7 +186,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                             </div>
                             <h2 className="text-4xl font-bold mb-6 text-foreground">₹{balance.toLocaleString()}</h2>
                             <Button
-                                className="w-full bg-[#063140] hover:bg-[#063140]/90 text-white font-bold shadow-lg"
+                                className="w-full bg-green-700 hover:bg-green-800 dark:bg-green-500 dark:hover:bg-green-400 text-white dark:text-black font-bold shadow-lg shadow-green-700/20 dark:shadow-green-500/20"
                                 onClick={() => {
                                     handleClose();
                                     setTimeout(() => onAddMoney?.(), 300);

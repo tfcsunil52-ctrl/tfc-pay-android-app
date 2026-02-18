@@ -318,42 +318,42 @@ const MobileHome = ({
 
                 {/* Action Buttons */}
                 {/* Action Buttons */}
-                <section className="bg-white dark:bg-card rounded-full border border-blue-50/50 dark:border-border p-2 shadow-sm relative z-10">
+                <section className="bg-[#063140] rounded-full border border-white/10 p-2 shadow-sm relative z-10">
                     <div className="flex items-center justify-between px-2">
                         {/* Wallet */}
                         <button
                             className="flex-1 flex flex-col items-center gap-1 active:scale-95 transition-transform"
                             onClick={() => onProfileClick?.("wallet")}
                         >
-                            <Wallet className="w-4 h-4 text-blue-600 dark:text-blue-500" strokeWidth={2} />
-                            <span className="text-[11px] font-bold text-foreground">Wallet</span>
-                            <span className="text-[10px] text-muted-foreground">
+                            <Wallet className="w-4 h-4 text-white" strokeWidth={2} />
+                            <span className="text-[11px] font-bold text-white">Wallet</span>
+                            <span className="text-[10px] text-white/70">
                                 ₹<RollingNumber value={balance} startAt={previousBalance} />
                             </span>
                         </button>
 
-                        <div className="w-px h-8 bg-border mx-2" />
+                        <div className="w-px h-8 bg-white/10 mx-2" />
 
                         {/* Rewards */}
                         <button
                             className="flex-1 flex flex-col items-center gap-1 active:scale-95 transition-transform"
                             onClick={() => onRewardsClick?.()}
                         >
-                            <Gift className="w-4 h-4 text-orange-600 dark:text-orange-500" strokeWidth={2} />
-                            <span className="text-[11px] font-bold text-foreground">Rewards</span>
-                            <span className="text-[10px] text-muted-foreground">5 New</span>
+                            <Gift className="w-4 h-4 text-white" strokeWidth={2} />
+                            <span className="text-[11px] font-bold text-white">Rewards</span>
+                            <span className="text-[10px] text-white/70">5 New</span>
                         </button>
 
-                        <div className="w-px h-8 bg-border mx-2" />
+                        <div className="w-px h-8 bg-white/10 mx-2" />
 
                         {/* Refer */}
                         <button
                             className="flex-1 flex flex-col items-center gap-1 active:scale-95 transition-transform"
                             onClick={() => onProfileClick?.("refer")}
                         >
-                            <Users className="w-4 h-4 text-purple-600 dark:text-purple-500" strokeWidth={2} />
-                            <span className="text-[11px] font-bold text-foreground">Refer</span>
-                            <span className="text-[10px] text-muted-foreground">Get ₹100</span>
+                            <Users className="w-4 h-4 text-white" strokeWidth={2} />
+                            <span className="text-[11px] font-bold text-white">Refer</span>
+                            <span className="text-[10px] text-white/70">Win ₹100</span>
                         </button>
                     </div>
                 </section>
