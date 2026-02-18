@@ -91,6 +91,12 @@ body {
   background-color: transparent !important;
 }
 
+.overlay-gradient-bg {
+  background: linear-gradient(-45deg, #000000, #022c22, #000000, #063140);
+  background-size: 400% 400%;
+  animation: gradient-x 15s ease infinite;
+}
+
 /* Card shadow for light mode */
 .bg-card {
   box-shadow: 0 12px 40px -12px rgba(21, 128, 61, 0.15);
