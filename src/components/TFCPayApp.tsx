@@ -24,6 +24,7 @@ import { useAuth } from "../hooks/useAuth";
 import { useNotifications } from "../hooks/useNotifications";
 import { useTickets } from "../hooks/useTickets";
 import type { TabType } from "../types";
+import { getAssetPath } from "../utils/assets";
 
 interface TFCPayAppProps {
     initialTab?: TabType;
@@ -295,8 +296,17 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
     }
 
     return (
-        <div className={`h-screen w-full max-w-md mx-auto flex flex-col ${isDarkMode ? "dark" : ""}`}>
-            <div className="flex-1 flex flex-col bg-background text-foreground relative overflow-hidden">
+        <div
+            className={`h-screen w-full max-w-md mx-auto flex flex-col ${isDarkMode ? "dark" : ""}`}
+            style={{
+                backgroundImage: `url(${getAssetPath("/Bg black.png")})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                backgroundAttachment: 'fixed'
+            }}
+        >
+            <div className="flex-1 flex flex-col bg-transparent text-foreground relative overflow-hidden">
                 {/* Low Balance Warning */}
                 {lowBalanceWarning && (
                     <div className="absolute top-4 left-4 right-4 z-[100] animate-in slide-in-from-top fade-in duration-300">

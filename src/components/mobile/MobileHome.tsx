@@ -171,7 +171,7 @@ const MobileHome = ({
             </div>
 
             {/* Sticky Header */}
-            <header className="sticky top-0 z-30 px-4 py-3 bg-white dark:bg-card border-b border-border shadow-sm">
+            <header className="sticky top-0 z-30 px-4 py-3 bg-white/80 dark:bg-card/80 backdrop-blur-md border-b border-border shadow-sm">
                 <div className="flex items-center justify-between relative">
                     <button
                         onClick={() => onProfileClick?.()}
