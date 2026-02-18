@@ -245,7 +245,7 @@ const MobileRewards = ({ onClose, isDarkMode }: MobileRewardsProps) => {
     );
 
     return (
-        <div className={`flex flex-col h-full bg-white dark:bg-[#060606] absolute inset-0 z-[60] overflow-hidden 
+        <div className={`flex flex-col h-full bg-white dark:bg-[#063140] absolute inset-0 z-[60] overflow-hidden 
             ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}
         `}>
             {/* Header */}
