@@ -30,6 +30,7 @@ interface MobileHomeProps {
     onRewardsClick?: () => void;
     onNotificationsClick?: () => void;
     unreadNotifications?: number;
+    onGetHelp?: (message: string) => void;
 }
 
 // Rolling number animation component
@@ -153,7 +154,8 @@ const MobileHome = ({
     onSeeAllServices,
     onRewardsClick,
     onNotificationsClick,
-    unreadNotifications = 0
+    unreadNotifications = 0,
+    onGetHelp
 }: MobileHomeProps) => {
     const [isScanning, setIsScanning] = useState(false);
     const [transferMode, setTransferMode] = useState<'contact' | 'mobile' | 'bank' | 'beneficiary' | 'self' | 'spending' | null>(null);
@@ -238,161 +240,121 @@ const MobileHome = ({
                     <div className="flex items-center justify-between mb-3 px-1">
                         <h3 className="font-bold text-foreground text-sm flex items-center gap-2">
                             <div className="w-1.5 h-4 bg-green-700 dark:bg-green-500 rounded-full" />
-                            Transfer Money
+                            Transfer & Tools
                         </h3>
                     </div>
-                    <Card className="bg-white dark:bg-card border-green-700/10 dark:border-border overflow-hidden relative shadow-lg">
-                        <CardContent className="p-3 relative z-10">
-                            <div className="grid grid-cols-4 gap-2">
-                                {/* CC to Bank */}
-                                <button
-                                    className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
-                                    onClick={() => onProfileClick?.("transfer-cc")}
-                                >
-                                    <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
-                                        <CreditCard className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
-                                        <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
-                                            <ArrowUpRight className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
-                                        </div>
-                                    </div>
-                                    <span className="text-[10px] font-medium text-center leading-tight text-foreground">CC to Bank</span>
-                                </button>
-
-                                {/* Send to Contact */}
-                                <button
-                                    className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
-                                    onClick={() => setTransferMode('mobile')}
-                                >
-                                    <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
-                                        <Users className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
-                                        <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
-                                            <ArrowUpRight className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
-                                        </div>
-                                    </div>
-                                    <span className="text-[10px] font-medium text-center leading-tight text-foreground">To Contact</span>
-                                </button>
-
-                                {/* Send to Bank */}
-                                <button
-                                    className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
-                                    onClick={() => setTransferMode('bank')}
-                                >
-                                    <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
-                                        <Landmark className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
-                                        <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
-                                            <ArrowDownLeft className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
-                                        </div>
-                                    </div>
-                                    <span className="text-[10px] font-medium text-center leading-tight text-foreground">To Bank</span>
-                                </button>
-
-                                {/* Send to Self */}
-                                <button
-                                    className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
-                                    onClick={() => setTransferMode('self')}
-                                >
-                                    <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
-                                        <Repeat className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
-                                        <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
-                                            <Link className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
-                                        </div>
-                                    </div>
-                                    <span className="text-[10px] font-medium text-center leading-tight text-foreground">To Self</span>
-                                </button>
+                    <div className="grid grid-cols-5 gap-2">
+                        {/* CC to Bank */}
+                        <button
+                            className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
+                            onClick={() => onProfileClick?.("transfer-cc")}
+                        >
+                            <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
+                                <CreditCard className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
+                                <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
+                                    <ArrowUpRight className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
+                                </div>
                             </div>
-                        </CardContent>
-                    </Card>
-                </section>
+                            <span className="text-[10px] font-medium text-center leading-tight text-foreground">CC to Bank</span>
+                        </button>
 
-                {/* Quick Tools */}
-                <section className="relative z-10">
-                    <Card className="bg-white/50 dark:bg-card/50 border-border/50 overflow-hidden relative shadow-sm">
-                        <CardContent className="p-3 relative z-10">
-                            <div className="grid grid-cols-4 gap-2">
-                                {/* Link Bank */}
-                                <button
-                                    className="flex flex-col items-center gap-1.5 group justify-center"
-                                    onClick={() => onProfileClick?.("add-bank")}
-                                >
-                                    <div className="w-10 h-10 rounded-xl bg-muted/50 flex items-center justify-center transition-transform group-hover:scale-105 group-active:scale-95">
-                                        <Landmark className="w-5 h-5 text-muted-foreground" strokeWidth={2} />
-                                    </div>
-                                    <span className="text-[9px] font-medium text-center leading-tight text-muted-foreground">Link Bank</span>
-                                </button>
-
-                                {/* Beneficiary */}
-                                <button
-                                    className="flex flex-col items-center gap-1.5 group justify-center"
-                                    onClick={() => setTransferMode('beneficiary')}
-                                >
-                                    <div className="w-10 h-10 rounded-xl bg-muted/50 flex items-center justify-center transition-transform group-hover:scale-105 group-active:scale-95">
-                                        <User className="w-5 h-5 text-muted-foreground" strokeWidth={2} />
-                                    </div>
-                                    <span className="text-[9px] font-medium text-center leading-tight text-muted-foreground">Beneficiary</span>
-                                </button>
-
-                                {/* See Report */}
-                                <button
-                                    className="flex flex-col items-center gap-1.5 group justify-center"
-                                    onClick={() => setTransferMode('spending')}
-                                >
-                                    <div className="w-10 h-10 rounded-xl bg-muted/50 flex items-center justify-center transition-transform group-hover:scale-105 group-active:scale-95">
-                                        <BarChart2 className="w-5 h-5 text-muted-foreground" strokeWidth={2} />
-                                    </div>
-                                    <span className="text-[9px] font-medium text-center leading-tight text-muted-foreground">Report</span>
-                                </button>
-
-                                {/* Support */}
-                                <button
-                                    className="flex flex-col items-center gap-1.5 group justify-center"
-                                    onClick={() => onNavigate("profile")}
-                                >
-                                    <div className="w-10 h-10 rounded-xl bg-muted/50 flex items-center justify-center transition-transform group-hover:scale-105 group-active:scale-95">
-                                        <AlertTriangle className="w-5 h-5 text-muted-foreground" strokeWidth={2} />
-                                    </div>
-                                    <span className="text-[9px] font-medium text-center leading-tight text-muted-foreground">Complain</span>
-                                </button>
+                        {/* Link Bank */}
+                        <button
+                            className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
+                            onClick={() => onProfileClick?.("add-bank")}
+                        >
+                            <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
+                                <Landmark className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
+                                <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
+                                    <Link className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
+                                </div>
                             </div>
-                        </CardContent>
-                    </Card>
+                            <span className="text-[10px] font-medium text-center leading-tight text-foreground">Link Bank</span>
+                        </button>
+
+                        {/* Beneficiary */}
+                        <button
+                            className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
+                            onClick={() => setTransferMode('beneficiary')}
+                        >
+                            <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
+                                <User className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
+                                <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
+                                    <Plus className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
+                                </div>
+                            </div>
+                            <span className="text-[10px] font-medium text-center leading-tight text-foreground">Beneficiary</span>
+                        </button>
+
+                        {/* Report */}
+                        <button
+                            className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
+                            onClick={() => setTransferMode('spending')}
+                        >
+                            <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
+                                <BarChart2 className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
+                                <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
+                                    <Eye className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
+                                </div>
+                            </div>
+                            <span className="text-[10px] font-medium text-center leading-tight text-foreground">Report</span>
+                        </button>
+
+                        {/* Complain */}
+                        <button
+                            className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
+                            onClick={() => onGetHelp?.("I want to raise a complaint")}
+                        >
+                            <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
+                                <AlertTriangle className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
+                                <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
+                                    <Headphones className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
+                                </div>
+                            </div>
+                            <span className="text-[10px] font-medium text-center leading-tight text-foreground">Complain</span>
+                        </button>
+                    </div>
                 </section>
 
                 {/* Action Buttons */}
-                <section className="rounded-2xl border border-blue-50/50 p-2 bg-white shadow-lg relative z-10 dark:bg-card dark:border-border dark:shadow-none">
-                    <div className="grid grid-cols-3 gap-2">
-                        <Card
-                            className="bg-blue-500/15 border border-blue-200/50 cursor-pointer hover:scale-[1.02] active:scale-95 transition-all shadow-none dark:bg-blue-500/10 dark:border-0"
+                {/* Action Buttons */}
+                <section className="bg-white dark:bg-card rounded-2xl border border-blue-50/50 dark:border-border p-2 shadow-sm relative z-10">
+                    <div className="flex items-center justify-between">
+                        {/* Wallet */}
+                        <button
+                            className="flex-1 flex flex-col items-center gap-1 active:scale-95 transition-transform"
                             onClick={() => onProfileClick?.("wallet")}
                         >
-                            <CardContent className="py-2 px-1 flex flex-col items-center gap-1">
-                                <Wallet className="w-5 h-5 text-blue-600" strokeWidth={2} />
-                                <span className="text-[11px] font-bold text-foreground">Wallet</span>
-                                <span className="text-[10px] text-muted-foreground">
-                                    ₹<RollingNumber value={balance} startAt={previousBalance} />
-                                </span>
-                            </CardContent>
-                        </Card>
-
-                        <button onClick={() => onRewardsClick?.()} className="h-full">
-                            <Card className="bg-orange-500/15 border border-orange-200/50 cursor-pointer hover:scale-[1.02] active:scale-95 transition-all h-full shadow-none dark:bg-orange-500/10 dark:border-0">
-                                <CardContent className="py-2 px-1 flex flex-col items-center gap-1">
-                                    <Gift className="w-5 h-5 text-orange-600" strokeWidth={2} />
-                                    <span className="text-[11px] font-bold text-foreground">Rewards</span>
-                                    <span className="text-[10px] text-muted-foreground">5 New</span>
-                                </CardContent>
-                            </Card>
+                            <Wallet className="w-4 h-4 text-blue-600 dark:text-blue-500" strokeWidth={2} />
+                            <span className="text-[11px] font-bold text-foreground">Wallet</span>
+                            <span className="text-[10px] text-muted-foreground">
+                                ₹<RollingNumber value={balance} startAt={previousBalance} />
+                            </span>
                         </button>
 
-                        <Card
-                            className="bg-purple-500/15 border border-purple-200/50 cursor-pointer hover:scale-[1.02] active:scale-95 transition-all shadow-none dark:bg-purple-500/10 dark:border-0"
+                        <div className="w-px h-8 bg-border mx-2" />
+
+                        {/* Rewards */}
+                        <button
+                            className="flex-1 flex flex-col items-center gap-1 active:scale-95 transition-transform"
+                            onClick={() => onRewardsClick?.()}
+                        >
+                            <Gift className="w-4 h-4 text-orange-600 dark:text-orange-500" strokeWidth={2} />
+                            <span className="text-[11px] font-bold text-foreground">Rewards</span>
+                            <span className="text-[10px] text-muted-foreground">5 New</span>
+                        </button>
+
+                        <div className="w-px h-8 bg-border mx-2" />
+
+                        {/* Refer */}
+                        <button
+                            className="flex-1 flex flex-col items-center gap-1 active:scale-95 transition-transform"
                             onClick={() => onProfileClick?.("refer")}
                         >
-                            <CardContent className="py-2 px-1 flex flex-col items-center gap-1">
-                                <Users className="w-5 h-5 text-purple-600" strokeWidth={2} />
-                                <span className="text-[11px] font-bold text-foreground">Refer</span>
-                                <span className="text-[10px] text-muted-foreground">Get ₹100</span>
-                            </CardContent>
-                        </Card>
+                            <Users className="w-4 h-4 text-purple-600 dark:text-purple-500" strokeWidth={2} />
+                            <span className="text-[11px] font-bold text-foreground">Refer</span>
+                            <span className="text-[10px] text-muted-foreground">Get ₹100</span>
+                        </button>
                     </div>
                 </section>
 
@@ -401,44 +363,40 @@ const MobileHome = ({
                     <div className="flex items-center justify-between mb-3">
                         <h3 className="font-semibold text-foreground text-sm">Recharge & Pay Bills</h3>
                     </div>
-                    <Card className="bg-white dark:bg-card border-green-700/10 dark:border-border overflow-hidden relative shadow-lg">
-                        <CardContent className="p-3 relative z-10">
-                            <div className="grid grid-cols-4 gap-3">
-                                {quickServices.map((service, index) => (
-                                    <button
-                                        key={index}
-                                        className="flex flex-col items-center gap-1.5 active:scale-95 transition-transform"
-                                        onClick={() => onServiceSelect?.(service.targetTitle || service.label)}
-                                    >
-                                        {service.image ? (
-                                            <div className="w-10 h-10 flex items-center justify-center">
-                                                <img src={service.image} alt={service.label} className="w-full h-full object-contain" />
-                                            </div>
-                                        ) : (
-                                            <div className="w-10 h-10 rounded-xl bg-green-600/10 dark:bg-green-500/10 flex items-center justify-center">
-                                                <service.icon className="w-5 h-5 text-green-700 dark:text-green-500" />
-                                            </div>
-                                        )}
-                                        <span className="text-[10px] text-muted-foreground text-center font-medium leading-tight">{service.label}</span>
-                                    </button>
-                                ))}
-                            </div>
-
-                            <div className="mt-4 px-1">
-                                <button
-                                    onClick={() => onSeeAllServices?.()}
-                                    className="w-full flex items-center justify-center gap-2 text-xs font-bold text-green-700 dark:text-green-500 bg-green-50 dark:bg-green-900/20 py-3 rounded-xl hover:bg-green-100 dark:hover:bg-green-900/30 transition-all active:scale-[0.98] border border-green-700/5 dark:border-green-500/5 shadow-sm"
-                                >
-                                    <span>View More</span>
-                                    <div className="arrow-animated">
-                                        <ChevronRight className="w-3.5 h-3.5" />
-                                        <ChevronRight className="w-3.5 h-3.5" />
-                                        <ChevronRight className="w-3.5 h-3.5" />
+                    <div className="grid grid-cols-4 gap-3">
+                        {quickServices.map((service, index) => (
+                            <button
+                                key={index}
+                                className="flex flex-col items-center gap-1.5 active:scale-95 transition-transform"
+                                onClick={() => onServiceSelect?.(service.targetTitle || service.label)}
+                            >
+                                {service.image ? (
+                                    <div className="w-10 h-10 flex items-center justify-center">
+                                        <img src={service.image} alt={service.label} className="w-full h-full object-contain" />
                                     </div>
-                                </button>
+                                ) : (
+                                    <div className="w-10 h-10 rounded-xl bg-green-600/10 dark:bg-green-500/10 flex items-center justify-center">
+                                        <service.icon className="w-5 h-5 text-green-700 dark:text-green-500" />
+                                    </div>
+                                )}
+                                <span className="text-[10px] text-muted-foreground text-center font-medium leading-tight">{service.label}</span>
+                            </button>
+                        ))}
+                    </div>
+
+                    <div className="mt-4 px-1">
+                        <button
+                            onClick={() => onSeeAllServices?.()}
+                            className="w-full flex items-center justify-center gap-2 text-xs font-bold text-green-700 dark:text-green-500 bg-green-50 dark:bg-green-900/20 py-3 rounded-xl hover:bg-green-100 dark:hover:bg-green-900/30 transition-all active:scale-[0.98] border border-green-700/5 dark:border-green-500/5 shadow-sm"
+                        >
+                            <span>View More</span>
+                            <div className="arrow-animated">
+                                <ChevronRight className="w-3.5 h-3.5" />
+                                <ChevronRight className="w-3.5 h-3.5" />
+                                <ChevronRight className="w-3.5 h-3.5" />
                             </div>
-                        </CardContent>
-                    </Card>
+                        </button>
+                    </div>
                 </section>
 
                 {/* Transfer Money */}

@@ -47,11 +47,7 @@ const quickServices = [
     { icon: "/New icons/House tax.webp", title: "House Tax" },
 ];
 
-const categories = [
-    { id: "recharge", label: "Recharge" },
-    { id: "bills", label: "Bill Payment" },
-    { id: "premium", label: "Premium" },
-];
+
 
 const services = {
     recharge: [
@@ -112,7 +108,6 @@ const MobileServices = ({
     onServiceConsumed,
     onNavigate
 }: MobileServicesProps) => {
-    const [activeCategory, setActiveCategory] = useState("recharge");
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedService, setSelectedService] = useState<any>(null);
     const [isDeepLinked, setIsDeepLinked] = useState(false);
@@ -153,8 +148,8 @@ const MobileServices = ({
         );
     }
 
-    const currentServices = services[activeCategory as keyof typeof services];
-    const filteredServices = currentServices.filter((service) =>
+    const allAvailableServices = [...services.recharge, ...services.bills, ...services.premium];
+    const filteredServices = allAvailableServices.filter((service) =>
         service.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
@@ -167,6 +162,17 @@ const MobileServices = ({
             </div>
 
             <div className="flex-1 overflow-y-auto p-4 space-y-5 relative z-10">
+                {/* Search - Moved to top, added padding to avoid back button */}
+                <div className="relative mb-2 pl-12">
+                    <Search className="absolute left-[3.75rem] top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <Input
+                        placeholder="Search services..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="pl-10 h-12 bg-card border-border text-foreground placeholder:text-muted-foreground shadow-sm focus:ring-green-500"
+                    />
+                </div>
+
                 {/* Header */}
                 <header className="pl-12">
                     <h1 className="text-xl font-bold text-foreground mb-1">All Services</h1>
@@ -191,35 +197,9 @@ const MobileServices = ({
                     ))}
                 </section>
 
-                {/* Search */}
-                <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                    <Input
-                        placeholder="Search services..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-10 bg-card border-border text-foreground placeholder:text-muted-foreground"
-                    />
-                </div>
-
-                {/* Category Tabs */}
-                <div className="flex gap-2">
-                    {categories.map((cat) => (
-                        <button
-                            key={cat.id}
-                            onClick={() => setActiveCategory(cat.id)}
-                            className={`px-5 py-2.5 rounded-2xl text-sm font-bold transition-all duration-300 ${activeCategory === cat.id
-                                ? "bg-green-700 text-white dark:bg-green-500 dark:text-black shadow-lg shadow-green-700/20 dark:shadow-green-500/20 scale-105"
-                                : "bg-white dark:bg-card text-muted-foreground border border-border hover:bg-card/80"
-                                }`}
-                        >
-                            {cat.label}
-                        </button>
-                    ))}
-                </div>
-
-                {/* Services List */}
+                {/* Services List - Merged categories */}
                 <div className="space-y-3">
+                    <h2 className="text-sm font-bold text-foreground px-1 mb-2">Service Categories</h2>
                     {filteredServices.map((service, index) => (
                         <Card
                             key={index}

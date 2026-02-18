@@ -203,6 +203,7 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
                         onRewardsClick={() => setShowRewards(true)}
                         onNotificationsClick={() => setShowNotifications(true)}
                         unreadNotifications={unreadCount}
+                        onGetHelp={handleGetHelp}
                     />
                 );
             case "offers":
