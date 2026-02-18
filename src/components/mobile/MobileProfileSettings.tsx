@@ -661,57 +661,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                     </Card>
                 </div>
 
-                {/* Linked Bank Accounts */}
-                <div>
-                    <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 px-2">
-                        Linked Accounts
-                    </h3>
-                    <Card className="bg-card border-border overflow-hidden">
-                        <CardContent className="p-0">
-                            {bankAccounts.map((account, index) => (
-                                <div key={account.id}>
-                                    {index > 0 && <div className="h-px bg-border mx-4" />}
-                                    <div className="p-4 flex items-center justify-between">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 rounded-full bg-blue-600/10 dark:bg-blue-500/10 flex items-center justify-center border border-blue-700/10 dark:border-blue-500/10">
-                                                <Building2 className="w-5 h-5 text-blue-700 dark:text-blue-500" strokeWidth={1.5} />
-                                            </div>
-                                            <div>
-                                                <h4 className="font-medium text-foreground text-sm">{account.bankName}</h4>
-                                                <p className="text-xs text-muted-foreground">{account.accountNumber} {account.isPrimary && <span className="bg-green-100 text-green-800 text-[9px] px-1.5 py-0.5 rounded-full ml-1 dark:bg-green-900/30 dark:text-green-400">Primary</span>}</p>
-                                            </div>
-                                        </div>
 
-                                        <div className="text-right min-w-[100px] flex justify-end">
-                                            {visibleBalances[account.id] ? (
-                                                <p className="text-sm font-bold text-green-700 dark:text-green-500 animate-in fade-in zoom-in duration-300">
-                                                    {visibleBalances[account.id]}
-                                                </p>
-                                            ) : (
-                                                <button
-                                                    onClick={() => handleCheckBalance(account.id)}
-                                                    disabled={checkingBalanceId === account.id || !!visibleBalances[account.id]}
-                                                    className="text-[10px] font-bold uppercase tracking-wider text-green-700 dark:text-green-500 bg-green-600/10 dark:bg-green-500/10 px-3 py-1.5 rounded-full border border-green-700/20 dark:border-green-500/20 transition-all active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed hover:bg-green-600/20 dark:hover:bg-green-500/20"
-                                                >
-                                                    {checkingBalanceId === account.id ? "Checking..." : "Check Balance"}
-                                                </button>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                            <button
-                                onClick={() => handleAction("add-bank")}
-                                className="w-full py-3 text-xs font-medium text-muted-foreground hover:bg-muted/50 transition-colors border-t border-border flex items-center justify-center gap-2 group"
-                            >
-                                <div className="p-0.5 rounded-full border border-muted-foreground/30 group-hover:border-green-500 group-hover:bg-green-500 group-hover:text-white transition-all">
-                                    <Plus className="w-3 h-3" />
-                                </div>
-                                <span className="group-hover:text-foreground transition-colors">Manage Linked Banks</span>
-                            </button>
-                        </CardContent>
-                    </Card>
-                </div>
 
                 {/* Complete KYC Banner */}
                 <Card className="bg-yellow-500/10 border-yellow-500/30 overflow-hidden">

@@ -132,7 +132,7 @@ const BannerCarousel = ({ onNavigate }: { onNavigate: (tab: TabType) => void }) 
             </div>
             <Button
                 size="sm"
-                className="w-full h-10 text-sm bg-[#063140] hover:bg-[#063140]/90 shadow-sm text-white font-bold rounded-full"
+                className="w-full h-10 text-sm bg-green-700 hover:bg-green-800 dark:bg-green-500 dark:hover:bg-green-400 shadow-sm text-white dark:text-black font-bold rounded-full"
                 onClick={() => onNavigate("offers")}
             >
                 All Offers
