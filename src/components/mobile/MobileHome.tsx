@@ -249,7 +249,7 @@ const MobileHome = ({
                             className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
                             onClick={() => onProfileClick?.("transfer-cc")}
                         >
-                            <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
+                            <div className="w-12 h-12 rounded-full bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
                                 <CreditCard className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
                                 <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
                                     <ArrowUpRight className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
@@ -263,7 +263,7 @@ const MobileHome = ({
                             className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
                             onClick={() => onProfileClick?.("add-bank")}
                         >
-                            <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
+                            <div className="w-12 h-12 rounded-full bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
                                 <Landmark className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
                                 <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
                                     <Link className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
@@ -277,7 +277,7 @@ const MobileHome = ({
                             className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
                             onClick={() => setTransferMode('beneficiary')}
                         >
-                            <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
+                            <div className="w-12 h-12 rounded-full bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
                                 <User className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
                                 <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
                                     <Plus className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
@@ -291,7 +291,7 @@ const MobileHome = ({
                             className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
                             onClick={() => setTransferMode('spending')}
                         >
-                            <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
+                            <div className="w-12 h-12 rounded-full bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
                                 <BarChart2 className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
                                 <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
                                     <Eye className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
@@ -305,7 +305,7 @@ const MobileHome = ({
                             className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
                             onClick={() => onGetHelp?.("I want to raise a complaint")}
                         >
-                            <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
+                            <div className="w-12 h-12 rounded-full bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
                                 <AlertTriangle className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
                                 <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
                                     <Headphones className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
@@ -318,8 +318,8 @@ const MobileHome = ({
 
                 {/* Action Buttons */}
                 {/* Action Buttons */}
-                <section className="bg-white dark:bg-card rounded-2xl border border-blue-50/50 dark:border-border p-2 shadow-sm relative z-10">
-                    <div className="flex items-center justify-between">
+                <section className="bg-white dark:bg-card rounded-full border border-blue-50/50 dark:border-border p-2 shadow-sm relative z-10">
+                    <div className="flex items-center justify-between px-2">
                         {/* Wallet */}
                         <button
                             className="flex-1 flex flex-col items-center gap-1 active:scale-95 transition-transform"
@@ -375,8 +375,8 @@ const MobileHome = ({
                                         <img src={service.image} alt={service.label} className="w-full h-full object-contain" />
                                     </div>
                                 ) : (
-                                    <div className="w-10 h-10 rounded-xl bg-green-600/10 dark:bg-green-500/10 flex items-center justify-center">
-                                        <service.icon className="w-5 h-5 text-green-700 dark:text-green-500" />
+                                    <div className="w-10 h-10 rounded-full bg-green-600/10 dark:bg-green-500/10 flex items-center justify-center">
+                                        <service.icon className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
                                     </div>
                                 )}
                                 <span className="text-[10px] text-muted-foreground text-center font-medium leading-tight">{service.label}</span>
@@ -387,7 +387,7 @@ const MobileHome = ({
                     <div className="mt-4 px-1">
                         <button
                             onClick={() => onSeeAllServices?.()}
-                            className="w-full flex items-center justify-center gap-2 text-xs font-bold text-green-700 dark:text-green-500 bg-green-50 dark:bg-green-900/20 py-3 rounded-xl hover:bg-green-100 dark:hover:bg-green-900/30 transition-all active:scale-[0.98] border border-green-700/5 dark:border-green-500/5 shadow-sm"
+                            className="w-full flex items-center justify-center gap-2 text-xs font-bold text-green-700 dark:text-green-500 bg-green-50 dark:bg-green-900/20 py-3 rounded-full hover:bg-green-100 dark:hover:bg-green-900/30 transition-all active:scale-[0.98] border border-green-700/5 dark:border-green-500/5 shadow-sm"
                         >
                             <span>View More</span>
                             <div className="arrow-animated">

@@ -300,7 +300,7 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
             className={`h-screen w-full max-w-md mx-auto flex flex-col ${isDarkMode ? "dark" : ""}`}
             style={{
                 backgroundImage: `url(${getAssetPath("/Bg black.png")})`,
-                backgroundSize: 'cover',
+                backgroundSize: '100% 100%',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
                 backgroundAttachment: 'fixed'
