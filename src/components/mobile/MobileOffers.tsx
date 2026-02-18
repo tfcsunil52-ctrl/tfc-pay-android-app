@@ -262,7 +262,7 @@ const MobileOffers = ({ onNavigate, onServiceSelect }: MobileOffersProps) => {
                 {/* Your Cashback Section */}
                 <section className="bg-white/5 border border-white/5 rounded-[2.5rem] p-6 relative overflow-hidden">
                     <div className="flex items-center justify-between mb-6">
-                        <h2 className="text-base font-bold text-white tracking-tight">Your Cashback</h2>
+                        <h2 className="text-base font-bold text-white tracking-tight">Total Cashback</h2>
                     </div>
 
                     <div className="flex flex-col gap-4">
