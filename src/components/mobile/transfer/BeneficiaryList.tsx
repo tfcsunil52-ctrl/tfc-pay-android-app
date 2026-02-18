@@ -94,7 +94,7 @@ const BeneficiaryList = ({ onBack }: BeneficiaryListProps) => {
     }
 
     return (
-        <div className="flex flex-col h-full bg-background animate-in slide-in-from-right duration-300 fixed inset-0 z-50">
+        <div className="flex flex-col h-full bg-background overlay-gradient-bg animate-in slide-in-from-right duration-300 fixed inset-0 z-50">
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-border bg-card/50 backdrop-blur-md z-10 sticky top-0">
                 <div className="flex items-center">

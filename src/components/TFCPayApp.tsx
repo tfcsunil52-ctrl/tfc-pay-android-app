@@ -300,6 +300,33 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
             className={`h-screen w-full max-w-md mx-auto flex flex-col ${isDarkMode ? "dark" : ""}`}
         >
             <div className="flex-1 flex flex-col bg-transparent text-foreground relative overflow-hidden">
+                {/* Premium Dark Mode Background Decorations */}
+                {isDarkMode && (
+                    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 opacity-50">
+                        {/* Central Focused Glow */}
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] rounded-full bg-green-500/[0.03] blur-[150px]" />
+
+                        {/* Top Left Glow */}
+                        <div className="absolute -top-[15%] -left-[15%] w-[80%] h-[60%] rounded-full bg-green-500/10 blur-[120px] animate-pulse" />
+
+                        {/* Top Right Accent */}
+                        <div className="absolute top-0 -right-[20%] w-[60%] h-[50%] rounded-full bg-emerald-600/5 blur-[100px]" />
+
+                        {/* Center Edge Glow (Right) */}
+                        <div className="absolute top-[30%] -right-[10%] w-[40%] h-[40%] rounded-full bg-green-400/5 blur-[80px]" />
+
+                        {/* Bottom Left Deep Glow */}
+                        <div className="absolute -bottom-[10%] -left-[20%] w-[100%] h-[60%] rounded-full bg-green-900/20 blur-[140px]" />
+
+                        {/* Bottom Right Shape */}
+                        <div className="absolute bottom-[10%] -right-[10%] w-[50%] h-[40%] rounded-full bg-emerald-900/10 blur-[100px]" />
+
+                        {/* Subtle Floating Shapes */}
+                        <div className="absolute top-[20%] left-[10%] w-32 h-32 rounded-full bg-green-400/5 blur-[40px] animate-bounce duration-[15s]" />
+                        <div className="absolute bottom-[30%] right-[15%] w-48 h-48 rounded-[40%] bg-emerald-500/5 blur-[60px] animate-pulse duration-[8s]" />
+                    </div>
+                )}
+
                 {/* Low Balance Warning */}
                 {lowBalanceWarning && (
                     <div className="absolute top-4 left-4 right-4 z-[100] animate-in slide-in-from-top fade-in duration-300">
@@ -394,7 +421,7 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
                 )}
 
                 {showAllServices && (
-                    <div className="absolute inset-0 z-50 bg-white dark:bg-[#063140]">
+                    <div className="absolute inset-0 z-50 bg-white dark:bg-transparent">
                         <MobileServices
                             isDarkMode={isDarkMode}
                             onPayment={handlePayment}

@@ -18,32 +18,32 @@ const ServiceIcon = ({ src, alt, className }: { src: string; alt: string; classN
 const quickServices = [
     { icon: "/New icons/mobile prepaid.webp", title: "Mobile Prepaid" },
     { icon: "/New icons/mobile postpaid.webp", title: "Mobile Postpaid" },
-    { icon: "/New icons/Layer 4.webp", title: "DTH Recharge" },
-    { icon: "/New icons/Layer 5.webp", title: "Cable TV" },
-    { icon: "/New icons/Layer 6.webp", title: "Electricity Bill" },
-    { icon: "/New icons/Layer 7.webp", title: "Gas Cylinder" },
-    { icon: "/New icons/Layer 8.webp", title: "Piped Gas" },
-    { icon: "/New icons/Layer 9.webp", title: "Landline" },
-    { icon: "/New icons/Layer 10.webp", title: "Fastag" },
-    { icon: "/New icons/Layer 12.webp", title: "Broadband" },
-    { icon: "/New icons/Layer 13.webp", title: "Broadband Postpaid" },
+    { icon: "/New icons/DTH Recharge.webp", title: "DTH Recharge" },
+    { icon: "/New icons/Cable TV.webp", title: "Cable TV" },
+    { icon: "/New icons/Electricity Bill.webp", title: "Electricity Bill" },
+    { icon: "/New icons/Gas Cylinder.webp", title: "Gas Cylinder" },
+    { icon: "/New icons/Piped Gas.webp", title: "Piped Gas" },
+    { icon: "/New icons/Landline.webp", title: "Landline" },
+    { icon: "/New icons/Fastag.webp", title: "Fastag" },
+    { icon: "/New icons/Broadband.webp", title: "Broadband" },
+    { icon: "/New icons/Broadband Postpaid.webp", title: "Broadband Postpaid" },
     { icon: "/New icons/data card.webp", title: "Datacard Prepaid" },
-    { icon: "/New icons/Layer 16.webp", title: "Water Bill" },
+    { icon: "/New icons/Water Bill.webp", title: "Water Bill" },
     { icon: "/New icons/water supplier.webp", title: "Water Supplier" },
     { icon: "/New icons/Credit Card Icon v3.webp", title: "CC Bill Payment" },
-    { icon: "/New icons/Layer 20.webp", title: "Rent Payment" },
+    { icon: "/New icons/Rent Payment.webp", title: "Rent Payment" },
     { icon: "/New icons/insurance.webp", title: "Insurance" },
-    { icon: "/New icons/Layer 24.webp", title: "Loan Payment" },
-    { icon: "/New icons/Layer 25.webp", title: "Fee Payment" },
+    { icon: "/New icons/Loan Payment.webp", title: "Loan Payment" },
+    { icon: "/New icons/Fee Payment.webp", title: "Fee Payment" },
     { icon: "/New icons/Metro Card Icon.webp", title: "Metro Card" },
-    { icon: "/New icons/Layer 27.webp", title: "Subscription" },
-    { icon: "/New icons/Layer 28.webp", title: "Traffic Challan" },
-    { icon: "/New icons/Layer 29.webp", title: "Hospital Bills" },
-    { icon: "/New icons/Layer 7.webp", title: "LPG Booking" },
-    { icon: "/New icons/Layer 32.webp", title: "Municipality" },
-    { icon: "/New icons/Layer 33.webp", title: "Prepaid Meter" },
-    { icon: "/New icons/Layer 34.webp", title: "Donation" },
-    { icon: "/New icons/Layer 3.webp", title: "Postpaid" },
+    { icon: "/New icons/Subscription.webp", title: "Subscription" },
+    { icon: "/New icons/Traffic Challan.webp", title: "Traffic Challan" },
+    { icon: "/New icons/Hospital Bills.webp", title: "Hospital Bills" },
+    { icon: "/New icons/Gas Cylinder.webp", title: "LPG Booking" },
+    { icon: "/New icons/Municipality.webp", title: "Municipality" },
+    { icon: "/New icons/Prepaid Meter.webp", title: "Prepaid Meter" },
+    { icon: "/New icons/Donation.webp", title: "Donation" },
+    { icon: "/New icons/Postpaid.webp", title: "Postpaid" },
     { icon: "/New icons/House tax.webp", title: "House Tax" },
 ];
 
@@ -53,43 +53,43 @@ const services = {
     recharge: [
         { icon: "/New icons/mobile prepaid.webp", title: "Mobile Prepaid", description: "All operators" },
         { icon: "/New icons/mobile postpaid.webp", title: "Mobile Postpaid", description: "Bill payments" },
-        { icon: "/New icons/Layer 4.webp", title: "DTH Recharge", description: "Tata, Airtel, Dish" },
-        { icon: "/New icons/Layer 5.webp", title: "Cable TV", description: "All cable providers" },
-        { icon: "/New icons/Layer 12.webp", title: "Broadband", description: "Internet bills" },
-        { icon: "/New icons/Layer 13.webp", title: "Broadband Postpaid", description: "Postpaid broadband" },
+        { icon: "/New icons/DTH Recharge.webp", title: "DTH Recharge", description: "Tata, Airtel, Dish" },
+        { icon: "/New icons/Cable TV.webp", title: "Cable TV", description: "All cable providers" },
+        { icon: "/New icons/Broadband.webp", title: "Broadband", description: "Internet bills" },
+        { icon: "/New icons/Broadband Postpaid.webp", title: "Broadband Postpaid", description: "Postpaid broadband" },
         { icon: "/New icons/data card.webp", title: "Datacard Prepaid", description: "Data card recharge" },
-        { icon: "/New icons/Layer 10.webp", title: "Fastag", description: "Toll payments" },
+        { icon: "/New icons/Fastag.webp", title: "Fastag", description: "Toll payments" },
         { icon: "/New icons/Metro Card Icon.webp", title: "Metro Card", description: "Recharge metro card" },
-        { icon: "/New icons/Layer 26.webp", title: "Digital Voucher", description: "Gift cards & vouchers" },
-        { icon: "/New icons/Layer 33.webp", title: "Prepaid Meter", description: "Electricity prepaid" },
+        { icon: "/New icons/Digital Voucher.webp", title: "Digital Voucher", description: "Gift cards & vouchers" },
+        { icon: "/New icons/Prepaid Meter.webp", title: "Prepaid Meter", description: "Electricity prepaid" },
     ],
     bills: [
-        { icon: "/New icons/Layer 6.webp", title: "Electricity", description: "Pay electricity bills" },
-        { icon: "/New icons/Layer 16.webp", title: "Water Bill", description: "All providers" },
+        { icon: "/New icons/Electricity Bill.webp", title: "Electricity", description: "Pay electricity bills" },
+        { icon: "/New icons/Water Bill.webp", title: "Water Bill", description: "All providers" },
         { icon: "/New icons/water supplier.webp", title: "Water Supplier", description: "Water supplier bills" },
-        { icon: "/New icons/Layer 7.webp", title: "Gas Cylinder", description: "Book LPG cylinder" },
-        { icon: "/New icons/Layer 7.webp", title: "LPG Booking", description: "Book new LPG" },
-        { icon: "/New icons/Layer 8.webp", title: "Piped Gas", description: "Monthly piped gas" },
-        { icon: "/New icons/Layer 9.webp", title: "Landline", description: "BSNL, MTNL, Airtel" },
-        { icon: "/New icons/Layer 3.webp", title: "Postpaid", description: "Postpaid bills" },
-        { icon: "/New icons/Layer 32.webp", title: "Municipal Tax", description: "Property tax" },
+        { icon: "/New icons/Gas Cylinder.webp", title: "Gas Cylinder", description: "Book LPG cylinder" },
+        { icon: "/New icons/Gas Cylinder.webp", title: "LPG Booking", description: "Book new LPG" },
+        { icon: "/New icons/Piped Gas.webp", title: "Piped Gas", description: "Monthly piped gas" },
+        { icon: "/New icons/Landline.webp", title: "Landline", description: "BSNL, MTNL, Airtel" },
+        { icon: "/New icons/Postpaid.webp", title: "Postpaid", description: "Postpaid bills" },
+        { icon: "/New icons/Municipality.webp", title: "Municipal Tax", description: "Property tax" },
         { icon: "/New icons/House tax.webp", title: "House Tax", description: "House tax payment" },
-        { icon: "/New icons/Layer 32.webp", title: "Municipality", description: "Civic services" },
-        { icon: "/New icons/Layer 31.webp", title: "Housing Society", description: "Maintenance bills" },
-        { icon: "/New icons/Layer 28.webp", title: "Traffic Challan", description: "Pay traffic fines" },
-        { icon: "/New icons/Layer 29.webp", title: "Hospital Bills", description: "Medical bills" },
+        { icon: "/New icons/Municipality.webp", title: "Municipality", description: "Civic services" },
+        { icon: "/New icons/Housing Society.webp", title: "Housing Society", description: "Maintenance bills" },
+        { icon: "/New icons/Traffic Challan.webp", title: "Traffic Challan", description: "Pay traffic fines" },
+        { icon: "/New icons/Hospital Bills.webp", title: "Hospital Bills", description: "Medical bills" },
     ],
     premium: [
-        { icon: "/New icons/Layer 20.webp", title: "Rent Payment", description: "Pay rent via card" },
+        { icon: "/New icons/Rent Payment.webp", title: "Rent Payment", description: "Pay rent via card" },
         { icon: "/New icons/Credit Card Icon v3.webp", title: "CC Bill Payment", description: "Credit card bill" },
-        { icon: "/New icons/Layer 26.webp", title: "Credit Card EMI", description: "EMI payments" },
+        { icon: "/New icons/Digital Voucher.webp", title: "Credit Card EMI", description: "EMI payments" },
         { icon: "/New icons/insurance.webp", title: "Insurance", description: "Health, Vehicle" },
-        { icon: "/New icons/Layer 24.webp", title: "Loan Payment", description: "EMI & Loans" },
-        { icon: "/New icons/Layer 25.webp", title: "Fee Payment", description: "Education fees" },
-        { icon: "/New icons/Layer 25.webp", title: "Education Loan", description: "Student loan EMI" },
-        { icon: "/New icons/Layer 27.webp", title: "Subscription", description: "OTT & streaming" },
-        { icon: "/New icons/Layer 31.webp", title: "Apartment Bills", description: "Society dues" },
-        { icon: "/New icons/Layer 34.webp", title: "Donation", description: "Charitable donations" },
+        { icon: "/New icons/Loan Payment.webp", title: "Loan Payment", description: "EMI & Loans" },
+        { icon: "/New icons/Fee Payment.webp", title: "Fee Payment", description: "Education fees" },
+        { icon: "/New icons/Fee Payment.webp", title: "Education Loan", description: "Student loan EMI" },
+        { icon: "/New icons/Subscription.webp", title: "Subscription", description: "OTT & streaming" },
+        { icon: "/New icons/Housing Society.webp", title: "Apartment Bills", description: "Society dues" },
+        { icon: "/New icons/Donation.webp", title: "Donation", description: "Charitable donations" },
     ],
 };
 
@@ -228,8 +228,8 @@ const MobileServices = ({
                 <Card className="bg-gradient-to-r from-green-600/20 to-green-600/10 dark:from-green-500/20 dark:to-green-500/10 border-green-700/30 dark:border-green-500/30">
                     <CardContent className="p-4">
                         <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 bg-[#063140] rounded-full flex items-center justify-center">
-                                <img src={getAssetPath("/New icons/Layer 6.webp")} alt="Electricity" className="w-8 h-8 object-contain brightness-0 invert" />
+                            <div className="w-12 h-12 bg-[#021a10] rounded-full flex items-center justify-center">
+                                <img src={getAssetPath("/New icons/Electricity Bill.webp")} alt="Electricity" className="w-8 h-8 object-contain brightness-0 invert" />
                             </div>
                             <div className="flex-1">
                                 <h4 className="font-semibold text-foreground">Pay Electricity Bill</h4>
@@ -391,7 +391,7 @@ const PaymentView = ({ service, onBack, onPayment }: PaymentViewProps) => {
     }
 
     return (
-        <div className="flex flex-col h-full bg-background animate-in slide-in-from-right duration-300 relative z-[70]">
+        <div className="flex flex-col h-full bg-background overlay-gradient-bg animate-in slide-in-from-right duration-300 relative z-[70]">
             {/* Header */}
             <header className="flex items-center p-4 border-b border-border bg-white dark:bg-card sticky top-0 z-10">
                 <button
@@ -420,7 +420,7 @@ const PaymentView = ({ service, onBack, onPayment }: PaymentViewProps) => {
                 {/* Offer Carousel for Payment View */}
                 <div className="bg-green-500/5 dark:bg-green-500/10 rounded-2xl p-4 border border-green-700/10 dark:border-green-500/10 overflow-hidden relative">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-[#063140] flex items-center justify-center flex-shrink-0 animate-pulse">
+                        <div className="w-10 h-10 rounded-full bg-[#021a10] flex items-center justify-center flex-shrink-0 animate-pulse">
                             <Gift className="w-5 h-5 text-white dark:text-black" />
                         </div>
                         <div className="flex-1">
@@ -1191,7 +1191,7 @@ const PaymentView = ({ service, onBack, onPayment }: PaymentViewProps) => {
                 <Button
                     onClick={handlePay}
                     disabled={loading}
-                    className="w-full h-12 bg-[#063140] text-white font-bold text-lg hover:bg-[#063140]/90 shadow-lg"
+                    className="w-full h-12 bg-[#021a10] text-white font-bold text-lg hover:bg-[#021a10]/90 shadow-lg"
                 >
                     {loading ? (
                         <div className="flex items-center gap-2">

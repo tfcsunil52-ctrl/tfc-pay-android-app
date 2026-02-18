@@ -90,7 +90,7 @@ const BeneficiaryManagement = ({ onBack }: BeneficiaryManagementProps) => {
 
     if (view === 'add') {
         return (
-            <div className="flex flex-col h-full bg-background fixed inset-0 z-50 animate-in slide-in-from-right duration-300">
+            <div className="flex flex-col h-full bg-background overlay-gradient-bg fixed inset-0 z-50 animate-in slide-in-from-right duration-300">
                 <div className="flex items-center p-4 border-b border-border bg-card/50 backdrop-blur-md sticky top-0 z-10">
                     <button
                         onClick={() => setView('list')}
@@ -136,7 +136,7 @@ const BeneficiaryManagement = ({ onBack }: BeneficiaryManagementProps) => {
                                 />
                                 <Button
                                     disabled={ifsc.length < 4 || ifscStatus === 'verifying'}
-                                    className="h-12 w-24 font-bold bg-[#063140] hover:bg-[#063140]/90 text-white"
+                                    className="h-12 w-24 font-bold bg-[#021a10] hover:bg-[#021a10]/90 text-white"
                                     onClick={handleVerifyIFSC}
                                 >
                                     Verify
@@ -162,7 +162,7 @@ const BeneficiaryManagement = ({ onBack }: BeneficiaryManagementProps) => {
 
                     <Button
                         onClick={handleAddBeneficiary}
-                        className="w-full bg-[#063140] hover:bg-[#063140]/90 text-white font-bold h-12 rounded-xl mt-6 shadow-lg"
+                        className="w-full bg-[#021a10] hover:bg-[#021a10]/90 text-white font-bold h-12 rounded-xl mt-6 shadow-lg"
                     >
                         Save Beneficiary
                     </Button>
@@ -172,7 +172,7 @@ const BeneficiaryManagement = ({ onBack }: BeneficiaryManagementProps) => {
     }
 
     return (
-        <div className="flex flex-col h-full bg-background fixed inset-0 z-50 animate-in slide-in-from-right duration-300">
+        <div className="flex flex-col h-full bg-background overlay-gradient-bg fixed inset-0 z-50 animate-in slide-in-from-right duration-300">
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-border bg-card/50 backdrop-blur-md sticky top-0 z-10">
                 <div className="flex items-center">
@@ -186,7 +186,7 @@ const BeneficiaryManagement = ({ onBack }: BeneficiaryManagementProps) => {
                 </div>
                 <button
                     onClick={() => setView('add')}
-                    className="w-10 h-10 rounded-full bg-[#063140] text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all"
+                    className="w-10 h-10 rounded-full bg-[#021a10] text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all"
                 >
                     <Plus className="w-6 h-6" />
                 </button>

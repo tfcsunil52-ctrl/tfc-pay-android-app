@@ -155,7 +155,7 @@ const MobileOffers = ({ onNavigate, onServiceSelect }: MobileOffersProps) => {
                     <div className="p-6 pt-2">
                         <button
                             onClick={() => handleUseOffer(selectedOffer)}
-                            className="w-full bg-[#063140] hover:bg-[#063140]/90 text-white font-bold py-4 rounded-2xl transition-all shadow-lg active:scale-[0.98] flex items-center justify-center gap-2"
+                            className="w-full bg-[#021a10] hover:bg-[#021a10]/90 text-white font-bold py-4 rounded-2xl transition-all shadow-lg active:scale-[0.98] flex items-center justify-center gap-2"
                         >
                             <span>Use Offer Now</span>
                             <ChevronRight className="w-4 h-4" />

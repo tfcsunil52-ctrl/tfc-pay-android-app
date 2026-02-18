@@ -39,7 +39,7 @@ const ScanQR = ({ onClose, onScan }: ScanQRProps) => {
     }, [activeTab]);
 
     return (
-        <div className="fixed inset-0 z-50 bg-background flex flex-col animate-in slide-in-from-bottom duration-300">
+        <div className="fixed inset-0 z-50 bg-background overlay-gradient-bg flex flex-col animate-in slide-in-from-bottom duration-300">
             {/* Header */}
             <div className="flex items-center justify-between p-4 z-10">
                 <button

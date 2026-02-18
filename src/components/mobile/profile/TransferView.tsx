@@ -65,7 +65,7 @@ export const TransferView = ({
     }
 
     return (
-        <div className={`flex flex-col h-full bg-background absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}>
+        <div className={`flex flex-col h-full bg-background overlay-gradient-bg absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}>
             <div className="flex items-center p-4 border-b border-border bg-card/50 backdrop-blur-md z-10">
                 <button onClick={onBack} className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center hover:bg-card/80 transition-colors">
                     <ArrowLeft className="w-5 h-5 text-foreground" />

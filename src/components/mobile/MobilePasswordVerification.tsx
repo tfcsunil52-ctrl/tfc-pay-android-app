@@ -142,7 +142,7 @@ const MobilePasswordVerification = ({
                         <Button
                             onClick={handleVerify}
                             disabled={!password.trim() || isVerifying}
-                            className="w-full h-11 bg-[#063140] hover:bg-[#063140]/90 text-white font-bold shadow-lg group disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                            className="w-full h-11 bg-[#021a10] hover:bg-[#021a10]/90 text-white font-bold shadow-lg group disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                         >
                             {isVerifying ? 'Logging in...' : 'Login'}
                         </Button>

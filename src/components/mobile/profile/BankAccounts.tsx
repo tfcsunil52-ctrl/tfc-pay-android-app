@@ -243,7 +243,7 @@ export const BankAccounts = ({ onBack }: BankAccountsProps) => {
     }
 
     return (
-        <div className="flex flex-col h-full bg-background absolute inset-0 z-[60] overflow-hidden animate-in slide-in-from-right duration-300">
+        <div className="flex flex-col h-full bg-background overlay-gradient-bg absolute inset-0 z-[60] overflow-hidden animate-in slide-in-from-right duration-300">
             {/* Header */}
             <div className="flex items-center p-4 border-b border-border bg-card/50 backdrop-blur-md sticky top-0 z-10">
                 <button

@@ -133,7 +133,7 @@ const MobileChatScreen = ({ onBack, initialMessage = "", initialTicketId }: Mobi
     };
 
     return (
-        <div className="flex flex-col h-full bg-background">
+        <div className="flex flex-col h-full bg-background overlay-gradient-bg">
             {/* Header */}
             <header className="flex items-center p-4 border-b border-border bg-card/50 backdrop-blur-md">
                 <button
@@ -238,7 +238,7 @@ const MobileChatScreen = ({ onBack, initialMessage = "", initialTicketId }: Mobi
                     <Button
                         type="submit"
                         size="icon"
-                        className="bg-[#063140] hover:bg-[#063140]/90 text-white w-10 h-10 rounded-full shadow-lg"
+                        className="bg-[#021a10] hover:bg-[#021a10]/90 text-white w-10 h-10 rounded-full shadow-lg"
                     >
                         <Send className="w-4 h-4" />
                     </Button>

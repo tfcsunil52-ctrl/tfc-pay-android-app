@@ -151,7 +151,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
     // PIN Setup / Change sub-panel
     if (activeSubPanel === "pin-setup") {
         return (
-            <div className="fixed inset-0 z-[100] bg-white dark:bg-[#063140]">
+            <div className="fixed inset-0 z-[100] bg-white dark:bg-transparent">
                 <AppLock
                     mode="setup"
                     onUnlock={() => setActiveSubPanel(null)}
@@ -297,7 +297,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                             <Avatar className="w-24 h-24 border-2 border-green-700 dark:border-green-500">
                                 <AvatarFallback className="bg-green-600/20 dark:bg-green-500/20 text-green-700 dark:text-green-500 text-3xl font-bold">JD</AvatarFallback>
                             </Avatar>
-                            <button className="absolute bottom-0 right-0 w-8 h-8 bg-[#063140] rounded-full flex items-center justify-center border-2 border-background">
+                            <button className="absolute bottom-0 right-0 w-8 h-8 bg-[#021a10] rounded-full flex items-center justify-center border-2 border-background">
                                 <Camera className="w-4 h-4 text-white dark:text-black" />
                             </button>
                         </div>
@@ -338,7 +338,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                         </Card>
                     </div>
 
-                    <Button className="w-full bg-[#063140] hover:bg-[#063140]/90 text-white font-bold h-12 rounded-xl mt-4 shadow-lg" onClick={handleBack}>
+                    <Button className="w-full bg-[#021a10] hover:bg-[#021a10]/90 text-white font-bold h-12 rounded-xl mt-4 shadow-lg" onClick={handleBack}>
                         Save Changes
                     </Button>
                 </div>
@@ -364,7 +364,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                         <label className="text-xs font-semibold text-muted-foreground uppercase ml-1">Enter PAN Number</label>
                         <Input placeholder="ABCDE1234F" value={panNumber} onChange={(e) => setPanNumber(e.target.value.toUpperCase())} maxLength={10} className="bg-card border-border h-12 text-lg" />
                     </div>
-                    <Button className="w-full bg-[#063140] hover:bg-[#063140]/90 text-white font-bold h-12 rounded-xl" onClick={handleBack}>Update PAN</Button>
+                    <Button className="w-full bg-[#021a10] hover:bg-[#021a10]/90 text-white font-bold h-12 rounded-xl" onClick={handleBack}>Update PAN</Button>
                 </div>
             </div>
         );
@@ -388,7 +388,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                         <label className="text-xs font-semibold text-muted-foreground uppercase ml-1">Enter Aadhaar Number</label>
                         <Input placeholder="XXXX XXXX XXXX" value={aadhaarNumber} onChange={(e) => setAadhaarNumber(e.target.value)} maxLength={12} className="bg-card border-border h-12 text-lg" />
                     </div>
-                    <Button className="w-full bg-[#063140] hover:bg-[#063140]/90 text-white font-bold h-12 rounded-xl" onClick={handleBack}>Update Aadhaar</Button>
+                    <Button className="w-full bg-[#021a10] hover:bg-[#021a10]/90 text-white font-bold h-12 rounded-xl" onClick={handleBack}>Update Aadhaar</Button>
                 </div>
             </div>
         );
@@ -415,7 +415,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                             <p className="text-[10px] text-muted-foreground italic ml-1">Please ensure to enter your 15-digit GSTIN accurately.</p>
                         </div>
                     </div>
-                    <Button className="w-full bg-[#063140] hover:bg-[#063140]/90 text-white font-bold h-12 rounded-xl shadow-lg" onClick={() => {
+                    <Button className="w-full bg-[#021a10] hover:bg-[#021a10]/90 text-white font-bold h-12 rounded-xl shadow-lg" onClick={() => {
                         if (gstNumber.length < 15) { alert("Please enter a valid 15-digit GST number"); return; }
                         alert("GST Number Updated Successfully!");
                         handleBack();
@@ -490,7 +490,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                                     alert("Sharing not supported on this device");
                                 }
                             }}>
-                                <div className="w-10 h-10 rounded-full bg-[#063140] flex items-center justify-center text-white shadow-sm">
+                                <div className="w-10 h-10 rounded-full bg-[#021a10] flex items-center justify-center text-white shadow-sm">
                                     <Share2 className="w-5 h-5" />
                                 </div>
                                 <span className="text-xs font-medium text-foreground">More</span>
@@ -550,7 +550,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                         <label className="text-xs font-semibold text-muted-foreground uppercase ml-1">Enter New Email</label>
                         <Input type="email" placeholder="email@example.com" value={email} onChange={(e) => setEmail(e.target.value)} className="bg-card border-border h-12 text-lg" />
                     </div>
-                    <Button className="w-full bg-[#063140] hover:bg-[#063140]/90 text-white font-bold h-12 rounded-xl" onClick={handleBack}>Update Email ID</Button>
+                    <Button className="w-full bg-[#021a10] hover:bg-[#021a10]/90 text-white font-bold h-12 rounded-xl" onClick={handleBack}>Update Email ID</Button>
                 </div>
             </div>
         );
@@ -583,7 +583,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                                 </Avatar>
                                 <button
                                     onClick={() => setActiveSubPanel("profile")}
-                                    className="absolute -bottom-1 -right-1 w-6 h-6 bg-[#063140] rounded-full flex items-center justify-center transition-all active:scale-90"
+                                    className="absolute -bottom-1 -right-1 w-6 h-6 bg-[#021a10] rounded-full flex items-center justify-center transition-all active:scale-90"
                                 >
                                     <Edit2 className="w-3 h-3 text-white dark:text-black" />
                                 </button>
@@ -756,7 +756,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                                             onToggleAppLock?.(!appLockEnabled);
                                         }
                                     }}
-                                    className={`relative w-12 h-7 rounded-full transition-all duration-300 ${appLockEnabled ? 'bg-[#063140]' : 'bg-muted-foreground/30'}`}
+                                    className={`relative w-12 h-7 rounded-full transition-all duration-300 ${appLockEnabled ? 'bg-[#021a10]' : 'bg-muted-foreground/30'}`}
                                     role="switch"
                                     aria-checked={appLockEnabled}
                                     aria-label="Toggle app lock"
@@ -783,7 +783,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                                         </div>
                                         <button
                                             onClick={() => onToggleBiometric?.(!biometricEnabled)}
-                                            className={`relative w-12 h-7 rounded-full transition-all duration-300 ${biometricEnabled ? 'bg-[#063140]' : 'bg-muted-foreground/30'}`}
+                                            className={`relative w-12 h-7 rounded-full transition-all duration-300 ${biometricEnabled ? 'bg-[#021a10]' : 'bg-muted-foreground/30'}`}
                                             role="switch"
                                             aria-checked={biometricEnabled}
                                             aria-label="Toggle biometric unlock"

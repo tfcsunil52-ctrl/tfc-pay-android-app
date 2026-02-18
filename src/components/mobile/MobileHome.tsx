@@ -78,17 +78,17 @@ const RollingNumber = ({ value, startAt, onComplete }: { value: number; startAt:
 // Quick services configuration
 const quickServices = [
     { icon: Smartphone, label: "Mobile", targetTitle: "Mobile Prepaid", image: "/New icons/mobile prepaid.webp" },
-    { icon: Tv, label: "DTH", targetTitle: "DTH Recharge", image: "/New icons/Layer 4.webp" },
-    { icon: Zap, label: "Electricity", targetTitle: "Electricity", image: "/New icons/Layer 6.webp" },
+    { icon: Tv, label: "DTH", targetTitle: "DTH Recharge", image: "/New icons/DTH Recharge.webp" },
+    { icon: Zap, label: "Electricity", targetTitle: "Electricity", image: "/New icons/Electricity Bill.webp" },
     { icon: CreditCard, label: "CC Bill", targetTitle: "CC Bill Payment", image: "/New icons/Credit Card Icon v3.webp" },
-    { icon: Home, label: "Rent", targetTitle: "Rent Payment", image: "/New icons/Layer 20.webp" },
-    { icon: Flame, label: "Gas", targetTitle: "Gas Cylinder", image: "/New icons/Layer 7.webp" },
-    { icon: MonitorPlay, label: "Cable TV", targetTitle: "Cable TV", image: "/New icons/Layer 5.webp" },
-    { icon: Wifi, label: "Broadband", targetTitle: "Broadband", image: "/New icons/Layer 12.webp" },
-    { icon: Car, label: "Fastag", targetTitle: "Fastag", image: "/New icons/Layer 10.webp" },
-    { icon: Fuel, label: "Piped Gas", targetTitle: "Piped Gas", image: "/New icons/Layer 8.webp" },
-    { icon: Phone, label: "Landline", targetTitle: "Landline", image: "/New icons/Layer 9.webp" },
-    { icon: Droplets, label: "Water", targetTitle: "Water Bill", image: "/New icons/Layer 16.webp" },
+    { icon: Home, label: "Rent", targetTitle: "Rent Payment", image: "/New icons/Rent Payment.webp" },
+    { icon: Flame, label: "Gas", targetTitle: "Gas Cylinder", image: "/New icons/Gas Cylinder.webp" },
+    { icon: MonitorPlay, label: "Cable TV", targetTitle: "Cable TV", image: "/New icons/Cable TV.webp" },
+    { icon: Wifi, label: "Broadband", targetTitle: "Broadband", image: "/New icons/Broadband.webp" },
+    { icon: Car, label: "Fastag", targetTitle: "Fastag", image: "/New icons/Fastag.webp" },
+    { icon: Fuel, label: "Piped Gas", targetTitle: "Piped Gas", image: "/New icons/Piped Gas.webp" },
+    { icon: Phone, label: "Landline", targetTitle: "Landline", image: "/New icons/Landline.webp" },
+    { icon: Droplets, label: "Water", targetTitle: "Water Bill", image: "/New icons/Water Bill.webp" },
 ].map(s => ({ ...s, image: s.image ? getAssetPath(s.image) : undefined }));
 
 // Banner carousel component
@@ -124,7 +124,7 @@ const BannerCarousel = ({ onNavigate }: { onNavigate: (tab: TabType) => void }) 
                             <button
                                 key={index}
                                 onClick={() => setCurrentSlide(index)}
-                                className={`h-1.5 rounded-full transition-all duration-300 ${index === currentSlide ? "w-4 bg-[#063140]" : "w-1.5 bg-white/50"}`}
+                                className={`h-1.5 rounded-full transition-all duration-300 ${index === currentSlide ? "w-4 bg-[#021a10]" : "w-1.5 bg-white/50"}`}
                             />
                         ))}
                     </div>
@@ -178,7 +178,7 @@ const MobileHome = ({
                         className="flex-shrink-0 hover:scale-105 transition-transform"
                     >
                         <Avatar className="w-10 h-10 border-2 border-green-700 dark:border-green-500 shadow-sm">
-                            <AvatarFallback className="bg-[#063140] text-white text-sm font-bold">JD</AvatarFallback>
+                            <AvatarFallback className="bg-[#021a10] text-white text-sm font-bold">JD</AvatarFallback>
                         </Avatar>
                     </button>
                     <div className="absolute left-1/2 -translate-x-1/2">
@@ -239,11 +239,11 @@ const MobileHome = ({
                 <section className="relative z-10">
                     <div className="flex items-center justify-between mb-3 px-1">
                         <h3 className="font-bold text-foreground text-sm flex items-center gap-2">
-                            <div className="w-1.5 h-4 bg-[#063140] rounded-full" />
+                            <div className="w-1.5 h-4 bg-green-600 dark:bg-green-500 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.4)]" />
                             Transfer & Tools
                         </h3>
                     </div>
-                    <div className="grid grid-cols-5 gap-2">
+                    <div className="grid grid-cols-4 gap-2">
                         {/* CC to Bank */}
                         <button
                             className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
@@ -258,19 +258,6 @@ const MobileHome = ({
                             <span className="text-[10px] font-medium text-center leading-tight text-foreground">CC to Bank</span>
                         </button>
 
-                        {/* Link Bank */}
-                        <button
-                            className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
-                            onClick={() => onProfileClick?.("add-bank")}
-                        >
-                            <div className="w-12 h-12 rounded-full bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
-                                <Landmark className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
-                                <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
-                                    <Link className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
-                                </div>
-                            </div>
-                            <span className="text-[10px] font-medium text-center leading-tight text-foreground">Link Bank</span>
-                        </button>
 
                         {/* Beneficiary */}
                         <button
@@ -318,50 +305,63 @@ const MobileHome = ({
 
                 {/* Action Buttons */}
                 {/* Action Buttons */}
-                <section className="bg-[#063140] rounded-full border border-white/10 p-2 shadow-sm relative z-10">
-                    <div className="flex items-center justify-between px-2">
+                <section className="bg-gradient-to-br from-[#011a0e] via-[#000805] to-[#011a0e] rounded-3xl border border-white/5 p-3 shadow-[inset_0_1px_10px_rgba(0,0,0,0.5),0_8px_20px_rgba(0,0,0,0.3)] relative z-10 overflow-hidden group">
+                    {/* Lighting effect on the edge */}
+                    <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-green-500/30 to-transparent opacity-50" />
+                    <div className="absolute bottom-0 left-1/4 right-1/4 h-[8px] bg-green-500/5 blur-md rounded-full" />
+
+                    <div className="flex items-center justify-between px-2 relative z-10">
                         {/* Wallet */}
                         <button
-                            className="flex-1 flex flex-col items-center gap-1 active:scale-95 transition-transform"
+                            className="flex-1 flex flex-col items-center gap-1 active:scale-95 transition-all group/icon"
                             onClick={() => onProfileClick?.("wallet")}
                         >
-                            <Wallet className="w-4 h-4 text-white" strokeWidth={2} />
-                            <span className="text-[11px] font-bold text-white">Wallet</span>
-                            <span className="text-[10px] text-white/70">
+                            <div className="w-11 h-11 rounded-2xl bg-orange-600/10 dark:bg-orange-500/10 flex items-center justify-center mb-0.5 group-hover/icon:bg-orange-500/20 transition-colors shadow-sm">
+                                <Wallet className="w-6 h-6 text-orange-600 dark:text-orange-500" strokeWidth={2.5} />
+                            </div>
+                            <span className="text-[11px] font-bold text-foreground">Wallet</span>
+                            <span className="text-[10px] text-muted-foreground">
                                 ₹<RollingNumber value={balance} startAt={previousBalance} />
                             </span>
                         </button>
 
-                        <div className="w-px h-8 bg-white/10 mx-2" />
+                        <div className="w-px h-10 bg-white/5 mx-2" />
 
                         {/* Rewards */}
                         <button
-                            className="flex-1 flex flex-col items-center gap-1 active:scale-95 transition-transform"
+                            className="flex-1 flex flex-col items-center gap-1 active:scale-95 transition-all group/icon"
                             onClick={() => onRewardsClick?.()}
                         >
-                            <Gift className="w-4 h-4 text-white" strokeWidth={2} />
-                            <span className="text-[11px] font-bold text-white">Rewards</span>
-                            <span className="text-[10px] text-white/70">5 New</span>
+                            <div className="w-11 h-11 rounded-2xl bg-rose-600/10 dark:bg-rose-500/10 flex items-center justify-center mb-0.5 group-hover/icon:bg-rose-500/20 transition-colors shadow-sm">
+                                <Gift className="w-6 h-6 text-rose-600 dark:text-rose-500" strokeWidth={2.5} />
+                            </div>
+                            <span className="text-[11px] font-bold text-foreground">Rewards</span>
+                            <span className="text-[10px] text-muted-foreground">5 New</span>
                         </button>
 
-                        <div className="w-px h-8 bg-white/10 mx-2" />
+                        <div className="w-px h-10 bg-white/5 mx-2" />
 
                         {/* Refer */}
                         <button
-                            className="flex-1 flex flex-col items-center gap-1 active:scale-95 transition-transform"
+                            className="flex-1 flex flex-col items-center gap-1 active:scale-95 transition-all group/icon"
                             onClick={() => onProfileClick?.("refer")}
                         >
-                            <Users className="w-4 h-4 text-white" strokeWidth={2} />
-                            <span className="text-[11px] font-bold text-white">Refer</span>
-                            <span className="text-[10px] text-white/70">Win ₹100</span>
+                            <div className="w-11 h-11 rounded-2xl bg-sky-600/10 dark:bg-sky-500/10 flex items-center justify-center mb-0.5 group-hover/icon:bg-sky-500/20 transition-colors shadow-sm">
+                                <Users className="w-6 h-6 text-sky-600 dark:text-sky-500" strokeWidth={2.5} />
+                            </div>
+                            <span className="text-[11px] font-bold text-foreground">Refer</span>
+                            <span className="text-[10px] text-muted-foreground">Win ₹100</span>
                         </button>
                     </div>
                 </section>
 
                 {/* Recharge & Pay Bills */}
                 <section>
-                    <div className="flex items-center justify-between mb-3">
-                        <h3 className="font-semibold text-foreground text-sm">Recharge & Pay Bills</h3>
+                    <div className="flex items-center justify-between mb-3 px-1">
+                        <h3 className="font-bold text-foreground text-sm flex items-center gap-2">
+                            <div className="w-1.5 h-4 bg-green-600 dark:bg-green-500 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.4)]" />
+                            Recharge & Pay Bills
+                        </h3>
                     </div>
                     <div className="grid grid-cols-4 gap-3">
                         {quickServices.map((service, index) => (
@@ -404,9 +404,12 @@ const MobileHome = ({
 
                 {/* Recent Activity */}
                 <section>
-                    <div className="flex items-center justify-between mb-3">
-                        <h3 className="font-semibold text-foreground">Recent Activity</h3>
-                        <button className="text-green-700 dark:text-green-500 text-xs" onClick={() => onNavigate("history")}>View All</button>
+                    <div className="flex items-center justify-between mb-3 px-1">
+                        <div className="flex items-center gap-2">
+                            <div className="w-1.5 h-4 bg-green-600 dark:bg-green-500 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.4)]" />
+                            <h3 className="font-bold text-foreground text-sm">Recent Activity</h3>
+                        </div>
+                        <button className="text-green-700 dark:text-green-500 text-xs font-semibold" onClick={() => onNavigate("history")}>View All</button>
                     </div>
                     <div className="space-y-2">
                         {transactions.map((tx, index) => (
@@ -457,7 +460,7 @@ const MobileHome = ({
             )}
             {transferMode === 'beneficiary' && <BeneficiaryManagement onBack={() => setTransferMode(null)} />}
             {transferMode === 'spending' && (
-                <div className="fixed inset-0 z-50 bg-background animate-in slide-in-from-right duration-300">
+                <div className="fixed inset-0 z-50 bg-background overlay-gradient-bg animate-in slide-in-from-right duration-300">
                     <MobileHistory
                         isDarkMode={isDarkMode}
                         transactions={transactions}
@@ -468,7 +471,7 @@ const MobileHome = ({
             )}
             {
                 transferMode === 'self' && (
-                    <div className="fixed inset-0 z-50 bg-background animate-in slide-in-from-right duration-300">
+                    <div className="fixed inset-0 z-50 bg-background overlay-gradient-bg animate-in slide-in-from-right duration-300">
                         <TransferView
                             onBack={() => setTransferMode(null)}
                             title="Wallet to Bank"

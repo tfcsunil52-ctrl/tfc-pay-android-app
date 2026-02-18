@@ -40,33 +40,33 @@
 }
 
 .dark {
-  --background: 195 83% 14%;
+  --background: 160 60% 4%;
   --foreground: 210 40% 98%;
 
-  --card: 195 83% 16%;
+  --card: 160 50% 6%;
   --card-foreground: 210 40% 98%;
 
-  --popover: 195 83% 14%;
+  --popover: 160 60% 4%;
   --popover-foreground: 210 40% 98%;
 
-  --primary: 195 83% 14%;
+  --primary: 160 60% 4%;
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 220 20% 15%;
+  --secondary: 160 30% 8%;
   --secondary-foreground: 210 40% 98%;
 
-  --muted: 220 20% 15%;
+  --muted: 160 30% 8%;
   --muted-foreground: 215 20.2% 65.1%;
 
-  --accent: 195 83% 14%;
+  --accent: 160 60% 4%;
   --accent-foreground: 0 0% 100%;
 
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 210 40% 98%;
 
-  --border: 220 20% 18%;
-  --input: 220 20% 18%;
-  --ring: 195 83% 14%;
+  --border: 160 25% 10%;
+  --input: 160 25% 10%;
+  --ring: 160 60% 4%;
 }
 
 /* Base Styles */
@@ -81,9 +81,7 @@ body {
 }
 
 .dark body {
-  background: linear-gradient(-45deg, #000000, #022c22, #000000, #063140);
-  background-size: 400% 400%;
-  animation: gradient-x 15s ease infinite;
+  background: radial-gradient(circle at center, #000000 0%, #011a0e 100%);
   background-attachment: fixed;
 }
 
@@ -92,9 +90,7 @@ body {
 }
 
 .overlay-gradient-bg {
-  background: linear-gradient(-45deg, #000000, #022c22, #000000, #063140);
-  background-size: 400% 400%;
-  animation: gradient-x 15s ease infinite;
+  background: radial-gradient(circle at center, #000000 0%, #011a0e 100%);
 }
 
 /* Card shadow for light mode */

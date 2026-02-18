@@ -118,10 +118,10 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
     };
 
     return (
-        <div className="fixed inset-0 z-[100] bg-white dark:bg-[#063140] flex flex-col animate-in slide-in-from-bottom duration-500 font-sans">
+        <div className="fixed inset-0 z-[100] bg-white dark:bg-transparent flex flex-col animate-in slide-in-from-bottom duration-500 font-sans">
             <div className="flex-1 overflow-y-auto" id="receipt-scroll-area">
                 {/* Wrap content for screenshot capture */}
-                <div ref={receiptRef} className="p-4 pt-8 pb-8 space-y-4 bg-white dark:bg-[#063140]">
+                <div ref={receiptRef} className="p-4 pt-8 pb-8 space-y-4 bg-white dark:bg-transparent">
                     {/* Header */}
                     <header className="flex flex-col items-center pb-4">
                         <div className="flex items-center gap-1 mb-1">
@@ -247,10 +247,10 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
             </div>
 
             {/* Always Visible Close Button */}
-            <div className="p-4 pt-2 border-t border-white/5 bg-white/80 dark:bg-[#063140]/80 backdrop-blur-xl">
+            <div className="p-4 pt-2 border-t border-white/5 bg-white/80 dark:bg-transparent/80 backdrop-blur-xl">
                 <Button
                     onClick={onClose}
-                    className="w-full bg-[#063140] hover:bg-[#063140]/90 text-white font-[900] rounded-xl h-12 text-sm shadow-lg active:scale-[0.98] transition-all uppercase tracking-wider"
+                    className="w-full bg-[#021a10] hover:bg-[#021a10]/90 text-white font-[900] rounded-xl h-12 text-sm shadow-lg active:scale-[0.98] transition-all uppercase tracking-wider"
                 >
                     Close
                 </Button>
