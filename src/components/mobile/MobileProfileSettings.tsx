@@ -12,6 +12,7 @@ import { Avatar, AvatarFallback } from "../ui/Avatar";
 import { Input } from "../ui/Input";
 import { SettingsItem, Divider } from "./shared/SettingsItem";
 import { ProfileInputField } from "./profile/ProfileInputField";
+import { getAssetPath } from "../../utils/assets";
 import { TransferView } from "./profile/TransferView";
 import { BankAccounts } from "./profile/BankAccounts";
 import TransactionReceipt from "./TransactionReceipt";
@@ -169,7 +170,13 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
 
     if (activeSubPanel === "wallet") {
         return (
-            <div className={`flex flex-col h-full bg-white dark:bg-[#063140] absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}>
+            <div className={`flex flex-col h-full absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}
+                style={{
+                    backgroundImage: `url(${getAssetPath("/Bg black.png")})`,
+                    backgroundSize: '100% 100%',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat'
+                }}>
                 <div className="flex items-center p-4 border-b border-border bg-card/50 backdrop-blur-md z-10">
                     <button onClick={handleBack} className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center hover:bg-card/80 transition-colors">
                         <ArrowLeft className="w-5 h-5 text-foreground" />
@@ -283,7 +290,13 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
 
     if (activeSubPanel === "profile") {
         return (
-            <div className={`flex flex-col h-full bg-white dark:bg-[#063140] absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}>
+            <div className={`flex flex-col h-full absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}
+                style={{
+                    backgroundImage: `url(${getAssetPath("/Bg black.png")})`,
+                    backgroundSize: '100% 100%',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat'
+                }}>
                 <div className="flex items-center p-4 border-b border-border bg-card/50 backdrop-blur-md z-10">
                     <button onClick={handleBack} className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center">
                         <ArrowLeft className="w-5 h-5 text-foreground" />
@@ -347,7 +360,13 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
 
     if (activeSubPanel === "pan") {
         return (
-            <div className={`flex flex-col h-full bg-white dark:bg-[#063140] absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}>
+            <div className={`flex flex-col h-full absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}
+                style={{
+                    backgroundImage: `url(${getAssetPath("/Bg black.png")})`,
+                    backgroundSize: '100% 100%',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat'
+                }}>
                 <div className="flex items-center p-4 border-b border-border bg-card/50 backdrop-blur-md z-10">
                     <button onClick={handleBack} className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center">
                         <ArrowLeft className="w-5 h-5 text-foreground" />
@@ -371,7 +390,13 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
 
     if (activeSubPanel === "aadhaar") {
         return (
-            <div className={`flex flex-col h-full bg-white dark:bg-[#063140] absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}>
+            <div className={`flex flex-col h-full absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}
+                style={{
+                    backgroundImage: `url(${getAssetPath("/Bg black.png")})`,
+                    backgroundSize: '100% 100%',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat'
+                }}>
                 <div className="flex items-center p-4 border-b border-border bg-card/50 backdrop-blur-md z-10">
                     <button onClick={handleBack} className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center">
                         <ArrowLeft className="w-5 h-5 text-foreground" />
@@ -395,7 +420,13 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
 
     if (activeSubPanel === "gst") {
         return (
-            <div className={`flex flex-col h-full bg-white dark:bg-[#063140] absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}>
+            <div className={`flex flex-col h-full absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}
+                style={{
+                    backgroundImage: `url(${getAssetPath("/Bg black.png")})`,
+                    backgroundSize: '100% 100%',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat'
+                }}>
                 <div className="flex items-center p-4 border-b border-border bg-card/50 backdrop-blur-md z-10">
                     <button onClick={handleBack} className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center hover:bg-card/80 transition-colors">
                         <ArrowLeft className="w-5 h-5 text-foreground" />
@@ -426,7 +457,13 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
 
     if (activeSubPanel === "refer") {
         return (
-            <div className={`flex flex-col h-full bg-white dark:bg-[#063140] absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}>
+            <div className={`flex flex-col h-full absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}
+                style={{
+                    backgroundImage: `url(${getAssetPath("/Bg black.png")})`,
+                    backgroundSize: '100% 100%',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat'
+                }}>
                 <div className="flex items-center p-4 border-b border-border bg-card/50 backdrop-blur-md z-10">
                     <button onClick={handleBack} className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center hover:bg-card/80 transition-colors">
                         <ArrowLeft className="w-5 h-5 text-foreground" />
@@ -556,7 +593,13 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
     }
 
     return (
-        <div className={`flex flex-col h-full bg-white dark:bg-[#063140] absolute inset-0 z-50 overflow-hidden ${isClosing ? 'animate-out slide-out-to-left duration-300' : 'animate-in slide-in-from-left duration-300'}`}>
+        <div className={`flex flex-col h-full absolute inset-0 z-50 overflow-hidden ${isClosing ? 'animate-out slide-out-to-left duration-300' : 'animate-in slide-in-from-left duration-300'}`}
+            style={{
+                backgroundImage: `url(${getAssetPath("/Bg black.png")})`,
+                backgroundSize: '100% 100%',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat'
+            }}>
             {/* Header - Fixed at top */}
             <div className="flex items-center p-4 border-b border-border bg-card/50 backdrop-blur-md z-10">
                 <button

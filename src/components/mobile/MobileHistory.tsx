@@ -119,12 +119,13 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
 
     // Render History Home View
     const renderHomeView = () => (
-        <div className="flex flex-col h-full overflow-hidden relative">
-            {/* Background Blurs for Light Mode */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 dark:hidden">
-                <div className="absolute top-[20%] left-[10%] w-[60%] h-[40%] rounded-full bg-blue-100/40 blur-[80px]" />
-                <div className="absolute bottom-[10%] right-[10%] w-[60%] h-[40%] rounded-full bg-purple-100/40 blur-[80px]" />
-            </div>
+        <div className="flex flex-col h-full overflow-hidden relative"
+            style={{
+                backgroundImage: `url(${getAssetPath("/Bg black.png")})`,
+                backgroundSize: '100% 100%',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat'
+            }}>
 
             <div className="flex-1 overflow-y-auto p-4 space-y-5 relative z-10">
                 {/* Header */}
