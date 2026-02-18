@@ -298,13 +298,6 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
     return (
         <div
             className={`h-screen w-full max-w-md mx-auto flex flex-col ${isDarkMode ? "dark" : ""}`}
-            style={{
-                backgroundImage: `url(${getAssetPath("/Bg black.webp")})`,
-                backgroundSize: '100% 100%',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                backgroundAttachment: 'fixed'
-            }}
         >
             <div className="flex-1 flex flex-col bg-transparent text-foreground relative overflow-hidden">
                 {/* Low Balance Warning */}

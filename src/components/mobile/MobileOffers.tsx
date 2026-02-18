@@ -167,13 +167,7 @@ const MobileOffers = ({ onNavigate, onServiceSelect }: MobileOffersProps) => {
     };
 
     return (
-        <div className="flex flex-col h-full text-white overflow-hidden"
-            style={{
-                backgroundImage: `url(${getAssetPath("/Bg black.webp")})`,
-                backgroundSize: '100% 100%',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat'
-            }}>
+        <div className="flex flex-col h-full bg-background text-white overflow-hidden">
             {/* Header */}
             <div className="p-6 pt-10 pb-4">
                 <h1 className="text-2xl font-bold mb-1 tracking-tight">Offers & Rewards</h1>

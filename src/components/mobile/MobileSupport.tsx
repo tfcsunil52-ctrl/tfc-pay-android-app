@@ -123,13 +123,12 @@ const MobileSupport = ({ initialMessage, onClearMessage, tickets = [], onResolve
     }
 
     return (
-        <div className="flex flex-col h-full overflow-hidden relative font-sans"
-            style={{
-                backgroundImage: `url(${getAssetPath("/Bg black.webp")})`,
-                backgroundSize: '100% 100%',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat'
-            }}>
+        <div className="flex flex-col h-full overflow-hidden relative font-sans">
+            {/* Background Blurs for Light Mode */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 dark:hidden">
+                <div className="absolute top-[10%] left-[20%] w-[60%] h-[40%] rounded-full bg-blue-100/40 blur-[80px]" />
+                <div className="absolute bottom-[20%] right-[10%] w-[50%] h-[30%] rounded-full bg-green-100/40 blur-[80px]" />
+            </div>
 
             <div className="flex-1 overflow-y-auto p-4 space-y-5 pb-20 relative z-10">
                 {/* Header */}
