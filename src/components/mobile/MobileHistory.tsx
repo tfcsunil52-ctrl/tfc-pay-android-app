@@ -226,7 +226,7 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
                     <CardContent className="p-4">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
-                                <div className="w-12 h-12 bg-green-700 dark:bg-green-500 rounded-full flex items-center justify-center">
+                                <div className="w-12 h-12 bg-[#063140] rounded-full flex items-center justify-center">
                                     <PieChartIcon className="w-6 h-6 text-white dark:text-black" />
                                 </div>
                                 <div>
@@ -399,7 +399,7 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
                                         Cancel
                                     </Button>
                                     <Button
-                                        className="flex-1 bg-green-700 hover:bg-green-800 text-white"
+                                        className="flex-1 bg-[#063140] hover:bg-[#063140]/90 text-white"
                                         onClick={() => {
                                             // Filters are already applied via state, just close modal
                                             setIsFilterModalOpen(false);
@@ -419,7 +419,7 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
                         <button
                             onClick={() => setPeriodFilter('this_month')}
                             className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${periodFilter === 'this_month'
-                                ? 'bg-green-700 text-white dark:bg-green-500 dark:text-black'
+                                ? 'bg-[#063140] text-white'
                                 : 'bg-card text-muted-foreground border border-border'
                                 }`}
                         >
@@ -428,7 +428,7 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
                         <button
                             onClick={() => setPeriodFilter('15_days')}
                             className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${periodFilter === '15_days'
-                                ? 'bg-green-700 text-white dark:bg-green-500 dark:text-black'
+                                ? 'bg-[#063140] text-white'
                                 : 'bg-card text-muted-foreground border border-border'
                                 }`}
                         >
@@ -437,7 +437,7 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
                         <button
                             onClick={() => setPeriodFilter('last_month')}
                             className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${periodFilter === 'last_month'
-                                ? 'bg-green-700 text-white dark:bg-green-500 dark:text-black'
+                                ? 'bg-[#063140] text-white'
                                 : 'bg-card text-muted-foreground border border-border'
                                 }`}
                         >
@@ -529,7 +529,7 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
                     <div className="sticky bottom-0 p-4 bg-white dark:bg-card border-t border-border">
                         <Button
                             onClick={handleGetHelp}
-                            className="w-full bg-green-700 hover:bg-green-800 dark:bg-green-500 dark:hover:bg-green-400 text-white dark:text-black font-bold"
+                            className="w-full bg-[#063140] hover:bg-[#063140]/90 text-white font-bold"
                         >
                             <HelpCircle className="w-5 h-5 mr-2" />
                             Get Help for Selected ({selectedTransactions.length})
@@ -576,7 +576,7 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
                         <button
                             onClick={() => setPeriodFilter('this_month')}
                             className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${periodFilter === 'this_month'
-                                ? 'bg-green-700 text-white dark:bg-green-500 dark:text-black'
+                                ? 'bg-[#063140] text-white'
                                 : 'bg-card text-muted-foreground border border-border'
                                 }`}
                         >
@@ -585,7 +585,7 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
                         <button
                             onClick={() => setPeriodFilter('15_days')}
                             className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${periodFilter === '15_days'
-                                ? 'bg-green-700 text-white dark:bg-green-500 dark:text-black'
+                                ? 'bg-[#063140] text-white'
                                 : 'bg-card text-muted-foreground border border-border'
                                 }`}
                         >
@@ -594,7 +594,7 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
                         <button
                             onClick={() => setPeriodFilter('last_month')}
                             className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${periodFilter === 'last_month'
-                                ? 'bg-green-700 text-white dark:bg-green-500 dark:text-black'
+                                ? 'bg-[#063140] text-white'
                                 : 'bg-card text-muted-foreground border border-border'
                                 }`}
                         >

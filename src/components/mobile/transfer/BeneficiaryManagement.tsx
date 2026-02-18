@@ -135,10 +135,9 @@ const BeneficiaryManagement = ({ onBack }: BeneficiaryManagementProps) => {
                                     maxLength={11}
                                 />
                                 <Button
+                                    disabled={ifsc.length < 4 || ifscStatus === 'verifying'}
+                                    className="h-12 w-24 font-bold bg-[#063140] hover:bg-[#063140]/90 text-white"
                                     onClick={handleVerifyIFSC}
-                                    isLoading={ifscStatus === 'verifying'}
-                                    disabled={ifsc.length < 4}
-                                    className="h-12 w-24 font-bold bg-green-700 hover:bg-green-800 dark:bg-green-500 dark:hover:bg-green-400 text-white dark:text-black"
                                 >
                                     Verify
                                 </Button>
@@ -163,7 +162,7 @@ const BeneficiaryManagement = ({ onBack }: BeneficiaryManagementProps) => {
 
                     <Button
                         onClick={handleAddBeneficiary}
-                        className="w-full bg-green-700 hover:bg-green-800 dark:bg-green-500 dark:hover:bg-green-400 text-white dark:text-black font-bold h-12 rounded-xl mt-6 shadow-lg shadow-green-900/20"
+                        className="w-full bg-[#063140] hover:bg-[#063140]/90 text-white font-bold h-12 rounded-xl mt-6 shadow-lg"
                     >
                         Save Beneficiary
                     </Button>
@@ -187,7 +186,7 @@ const BeneficiaryManagement = ({ onBack }: BeneficiaryManagementProps) => {
                 </div>
                 <button
                     onClick={() => setView('add')}
-                    className="w-10 h-10 rounded-full bg-green-700 text-white dark:bg-green-500 dark:text-black flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all"
+                    className="w-10 h-10 rounded-full bg-[#063140] text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all"
                 >
                     <Plus className="w-6 h-6" />
                 </button>

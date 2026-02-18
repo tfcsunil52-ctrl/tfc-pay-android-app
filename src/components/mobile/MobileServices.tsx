@@ -228,7 +228,7 @@ const MobileServices = ({
                 <Card className="bg-gradient-to-r from-green-600/20 to-green-600/10 dark:from-green-500/20 dark:to-green-500/10 border-green-700/30 dark:border-green-500/30">
                     <CardContent className="p-4">
                         <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 bg-green-700 dark:bg-green-500 rounded-full flex items-center justify-center">
+                            <div className="w-12 h-12 bg-[#063140] rounded-full flex items-center justify-center">
                                 <img src={getAssetPath("/New icons/Layer 6.webp")} alt="Electricity" className="w-8 h-8 object-contain brightness-0 invert" />
                             </div>
                             <div className="flex-1">
@@ -420,7 +420,7 @@ const PaymentView = ({ service, onBack, onPayment }: PaymentViewProps) => {
                 {/* Offer Carousel for Payment View */}
                 <div className="bg-green-500/5 dark:bg-green-500/10 rounded-2xl p-4 border border-green-700/10 dark:border-green-500/10 overflow-hidden relative">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-green-700 dark:bg-green-500 flex items-center justify-center flex-shrink-0 animate-pulse">
+                        <div className="w-10 h-10 rounded-full bg-[#063140] flex items-center justify-center flex-shrink-0 animate-pulse">
                             <Gift className="w-5 h-5 text-white dark:text-black" />
                         </div>
                         <div className="flex-1">
@@ -1191,7 +1191,7 @@ const PaymentView = ({ service, onBack, onPayment }: PaymentViewProps) => {
                 <Button
                     onClick={handlePay}
                     disabled={loading}
-                    className="w-full h-12 bg-green-700 text-white dark:text-black dark:bg-green-500 font-bold text-lg hover:bg-green-800 dark:hover:bg-green-400 shadow-lg shadow-green-700/20 dark:shadow-green-500/20"
+                    className="w-full h-12 bg-[#063140] text-white font-bold text-lg hover:bg-[#063140]/90 shadow-lg"
                 >
                     {loading ? (
                         <div className="flex items-center gap-2">

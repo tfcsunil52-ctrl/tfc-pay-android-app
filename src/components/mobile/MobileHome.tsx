@@ -124,7 +124,7 @@ const BannerCarousel = ({ onNavigate }: { onNavigate: (tab: TabType) => void }) 
                             <button
                                 key={index}
                                 onClick={() => setCurrentSlide(index)}
-                                className={`h-1.5 rounded-full transition-all duration-300 ${index === currentSlide ? "w-4 bg-green-700 dark:bg-green-500" : "w-1.5 bg-white/50"}`}
+                                className={`h-1.5 rounded-full transition-all duration-300 ${index === currentSlide ? "w-4 bg-[#063140]" : "w-1.5 bg-white/50"}`}
                             />
                         ))}
                     </div>
@@ -132,7 +132,7 @@ const BannerCarousel = ({ onNavigate }: { onNavigate: (tab: TabType) => void }) 
             </div>
             <Button
                 size="sm"
-                className="w-full h-10 text-sm bg-green-700 hover:bg-green-800 dark:bg-green-500 dark:hover:bg-green-400 shadow-sm text-white dark:text-black font-bold rounded-full"
+                className="w-full h-10 text-sm bg-[#063140] hover:bg-[#063140]/90 shadow-sm text-white font-bold rounded-full"
                 onClick={() => onNavigate("offers")}
             >
                 All Offers
@@ -178,7 +178,7 @@ const MobileHome = ({
                         className="flex-shrink-0 hover:scale-105 transition-transform"
                     >
                         <Avatar className="w-10 h-10 border-2 border-green-700 dark:border-green-500 shadow-sm">
-                            <AvatarFallback className="bg-green-700 dark:bg-green-500 text-white dark:text-black text-sm font-bold">JD</AvatarFallback>
+                            <AvatarFallback className="bg-[#063140] text-white text-sm font-bold">JD</AvatarFallback>
                         </Avatar>
                     </button>
                     <div className="absolute left-1/2 -translate-x-1/2">
@@ -239,7 +239,7 @@ const MobileHome = ({
                 <section className="relative z-10">
                     <div className="flex items-center justify-between mb-3 px-1">
                         <h3 className="font-bold text-foreground text-sm flex items-center gap-2">
-                            <div className="w-1.5 h-4 bg-green-700 dark:bg-green-500 rounded-full" />
+                            <div className="w-1.5 h-4 bg-[#063140] rounded-full" />
                             Transfer & Tools
                         </h3>
                     </div>

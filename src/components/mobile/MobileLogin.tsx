@@ -131,7 +131,7 @@ const MobileLogin = ({ onContinue, onSignupClick, onPinLoginClick, hasPinSet = f
                             <Button
                                 onClick={handleLoginWithOTP}
                                 disabled={!identifier.trim()}
-                                className="w-full h-11 bg-green-700 hover:bg-green-800 dark:bg-green-500 dark:hover:bg-green-400 text-white dark:text-black font-bold text-sm rounded-xl shadow-lg shadow-green-700/10 dark:shadow-green-500/10 group disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                                className="w-full h-11 bg-[#063140] hover:bg-[#063140]/90 text-white font-bold shadow-lg group disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                             >
                                 <span>Login with OTP</span>
                                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />

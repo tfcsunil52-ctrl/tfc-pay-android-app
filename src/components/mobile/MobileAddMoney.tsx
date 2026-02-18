@@ -108,7 +108,7 @@ const MobileAddMoney = ({ onClose, onAdd, isDarkMode }: MobileAddMoneyProps) => 
                 {/* Proceed Button */}
                 <div className="w-full max-w-xs pt-8">
                     <Button
-                        className="w-full h-14 text-lg font-bold bg-green-700 dark:bg-green-500 text-white dark:text-black hover:bg-green-800 dark:hover:bg-green-400 rounded-2xl shadow-lg shadow-green-700/20 dark:shadow-green-500/20"
+                        className="w-full h-14 text-lg font-bold bg-[#063140] hover:bg-[#063140]/90 text-white rounded-2xl shadow-lg"
                         onClick={handleProceed}
                     >
                         Proceed to Add

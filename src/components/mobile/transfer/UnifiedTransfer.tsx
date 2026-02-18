@@ -140,7 +140,6 @@ const UnifiedTransfer = ({ onBack, initialTab = 'mobile', hideTabs = false }: Un
                                     size="sm"
                                     variant="outline"
                                     onClick={handleVerifyIFSC}
-                                    isLoading={ifscStatus === 'verifying'}
                                     className={`h-9 text-xs font-bold rounded-lg border-2 ${ifscStatus === 'valid'
                                         ? "border-green-500 text-green-700 dark:text-green-500 bg-green-50 dark:bg-green-500/10"
                                         : ifscStatus === 'invalid'
@@ -264,13 +263,13 @@ const UnifiedTransfer = ({ onBack, initialTab = 'mobile', hideTabs = false }: Un
                 <div className="flex p-4 gap-2">
                     <button
                         onClick={() => setActiveTab('mobile')}
-                        className={`flex-1 py-3 rounded-2xl font-bold transition-all ${activeTab === 'mobile' ? 'bg-green-700 text-white dark:bg-green-500 dark:text-black' : 'bg-muted text-muted-foreground'}`}
+                        className={`flex-1 py-3 rounded-2xl font-bold transition-all ${activeTab === 'mobile' ? 'bg-[#063140] text-white' : 'bg-muted text-muted-foreground'}`}
                     >
                         To Mobile
                     </button>
                     <button
                         onClick={() => setActiveTab('bank')}
-                        className={`flex-1 py-3 rounded-2xl font-bold transition-all ${activeTab === 'bank' ? 'bg-green-700 text-white dark:bg-green-500 dark:text-black' : 'bg-muted text-muted-foreground'}`}
+                        className={`flex-1 py-3 rounded-2xl font-bold transition-all ${activeTab === 'bank' ? 'bg-[#063140] text-white' : 'bg-muted text-muted-foreground'}`}
                     >
                         To Beneficiary
                     </button>

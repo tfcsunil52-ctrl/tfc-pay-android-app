@@ -250,7 +250,7 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
             <div className="p-4 pt-2 border-t border-white/5 bg-white/80 dark:bg-[#063140]/80 backdrop-blur-xl">
                 <Button
                     onClick={onClose}
-                    className="w-full bg-[#4ade80] hover:bg-[#3bc771] text-black font-[900] rounded-xl h-12 text-sm shadow-lg shadow-[#4ade80]/20 active:scale-[0.98] transition-all uppercase tracking-wider"
+                    className="w-full bg-[#063140] hover:bg-[#063140]/90 text-white font-[900] rounded-xl h-12 text-sm shadow-lg active:scale-[0.98] transition-all uppercase tracking-wider"
                 >
                     Close
                 </Button>

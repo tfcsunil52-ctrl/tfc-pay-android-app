@@ -238,7 +238,7 @@ const MobileChatScreen = ({ onBack, initialMessage = "", initialTicketId }: Mobi
                     <Button
                         type="submit"
                         size="icon"
-                        className="bg-green-700 hover:bg-green-800 dark:bg-green-500 dark:hover:bg-green-400 text-white dark:text-black w-10 h-10 rounded-full shadow-lg shadow-green-700/20 dark:shadow-green-500/20"
+                        className="bg-[#063140] hover:bg-[#063140]/90 text-white w-10 h-10 rounded-full shadow-lg"
                     >
                         <Send className="w-4 h-4" />
                     </Button>
