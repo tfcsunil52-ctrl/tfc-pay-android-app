@@ -401,7 +401,7 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
                 )}
 
                 {showAllServices && (
-                    <div className="absolute inset-0 z-50 bg-background">
+                    <div className="absolute inset-0 z-50 bg-white dark:bg-[#060606]">
                         <MobileServices
                             isDarkMode={isDarkMode}
                             onPayment={handlePayment}

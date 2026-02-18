@@ -86,7 +86,7 @@ body {
 }
 
 .dark .bg-background {
-  background-color: transparent;
+  background-color: hsl(var(--background));
 }
 
 /* Card shadow for light mode */

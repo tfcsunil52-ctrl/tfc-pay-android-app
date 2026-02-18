@@ -98,7 +98,7 @@ const AppLock = ({
     };
 
     return (
-        <div className="fixed inset-0 z-[100] bg-background flex flex-col items-center justify-between p-6 pb-12 animate-in fade-in duration-300">
+        <div className="fixed inset-0 z-[100] bg-white dark:bg-[#060606] flex flex-col items-center justify-between p-6 pb-12 animate-in fade-in duration-300">
             <div className="flex-1 flex flex-col items-center justify-center w-full max-w-sm">
                 {/* Header Icon */}
                 <div className={`w-20 h-20 rounded-3xl flex items-center justify-center mb-6 shadow-inner transition-all duration-500 ${biometricActive
