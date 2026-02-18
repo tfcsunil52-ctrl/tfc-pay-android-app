@@ -81,12 +81,14 @@ body {
 }
 
 .dark body {
-  background-color: hsl(var(--background));
+  background: linear-gradient(-45deg, #000000, #022c22, #000000, #063140);
+  background-size: 400% 400%;
+  animation: gradient-x 15s ease infinite;
   background-attachment: fixed;
 }
 
 .dark .bg-background {
-  background-color: hsl(var(--background));
+  background-color: transparent !important;
 }
 
 /* Card shadow for light mode */
