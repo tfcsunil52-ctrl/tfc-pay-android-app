@@ -172,7 +172,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
         return (
             <div className={`flex flex-col h-full absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}
                 style={{
-                    backgroundImage: `url(${getAssetPath("/Bg black.png")})`,
+                    backgroundImage: `url(${getAssetPath("/Bg black.webp")})`,
                     backgroundSize: '100% 100%',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat'
@@ -292,7 +292,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
         return (
             <div className={`flex flex-col h-full absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}
                 style={{
-                    backgroundImage: `url(${getAssetPath("/Bg black.png")})`,
+                    backgroundImage: `url(${getAssetPath("/Bg black.webp")})`,
                     backgroundSize: '100% 100%',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat'
@@ -362,7 +362,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
         return (
             <div className={`flex flex-col h-full absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}
                 style={{
-                    backgroundImage: `url(${getAssetPath("/Bg black.png")})`,
+                    backgroundImage: `url(${getAssetPath("/Bg black.webp")})`,
                     backgroundSize: '100% 100%',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat'
@@ -392,7 +392,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
         return (
             <div className={`flex flex-col h-full absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}
                 style={{
-                    backgroundImage: `url(${getAssetPath("/Bg black.png")})`,
+                    backgroundImage: `url(${getAssetPath("/Bg black.webp")})`,
                     backgroundSize: '100% 100%',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat'
@@ -422,7 +422,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
         return (
             <div className={`flex flex-col h-full absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}
                 style={{
-                    backgroundImage: `url(${getAssetPath("/Bg black.png")})`,
+                    backgroundImage: `url(${getAssetPath("/Bg black.webp")})`,
                     backgroundSize: '100% 100%',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat'
@@ -459,7 +459,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
         return (
             <div className={`flex flex-col h-full absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}
                 style={{
-                    backgroundImage: `url(${getAssetPath("/Bg black.png")})`,
+                    backgroundImage: `url(${getAssetPath("/Bg black.webp")})`,
                     backgroundSize: '100% 100%',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat'
@@ -595,7 +595,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
     return (
         <div className={`flex flex-col h-full absolute inset-0 z-50 overflow-hidden ${isClosing ? 'animate-out slide-out-to-left duration-300' : 'animate-in slide-in-from-left duration-300'}`}
             style={{
-                backgroundImage: `url(${getAssetPath("/Bg black.png")})`,
+                backgroundImage: `url(${getAssetPath("/Bg black.webp")})`,
                 backgroundSize: '100% 100%',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat'

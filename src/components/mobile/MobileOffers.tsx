@@ -169,7 +169,7 @@ const MobileOffers = ({ onNavigate, onServiceSelect }: MobileOffersProps) => {
     return (
         <div className="flex flex-col h-full text-white overflow-hidden"
             style={{
-                backgroundImage: `url(${getAssetPath("/Bg black.png")})`,
+                backgroundImage: `url(${getAssetPath("/Bg black.webp")})`,
                 backgroundSize: '100% 100%',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat'
@@ -263,10 +263,9 @@ const MobileOffers = ({ onNavigate, onServiceSelect }: MobileOffersProps) => {
                 <section className="bg-white/5 border border-white/5 rounded-[2.5rem] p-6 relative overflow-hidden">
                     <div className="flex items-center justify-between mb-6">
                         <h2 className="text-base font-bold text-white tracking-tight">Your Cashback</h2>
-                        <button className="text-sm font-bold text-green-500 hover:text-green-400 transition-colors">History</button>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-4">
                         {/* Total Earned */}
                         <div className="bg-[#050505] border border-white/5 rounded-3xl p-5 flex flex-col justify-between h-32">
                             <div>
@@ -274,15 +273,6 @@ const MobileOffers = ({ onNavigate, onServiceSelect }: MobileOffersProps) => {
                                 <span className="text-3xl font-bold text-green-500">{totalCashback.toFixed(2)}</span>
                             </div>
                             <span className="text-[10px] font-black text-gray-600 uppercase tracking-[0.2em]">Total Earned</span>
-                        </div>
-
-                        {/* Pending */}
-                        <div className="bg-[#050505] border border-white/5 rounded-3xl p-5 flex flex-col justify-between h-32">
-                            <div>
-                                <span className="text-3xl font-bold text-white">₹</span>
-                                <span className="text-3xl font-bold text-white">{pendingCashback.toFixed(2)}</span>
-                            </div>
-                            <span className="text-[10px] font-black text-gray-600 uppercase tracking-[0.2em]">Pending</span>
                         </div>
                     </div>
                 </section>

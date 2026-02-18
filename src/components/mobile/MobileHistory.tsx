@@ -121,7 +121,7 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
     const renderHomeView = () => (
         <div className="flex flex-col h-full overflow-hidden relative"
             style={{
-                backgroundImage: `url(${getAssetPath("/Bg black.png")})`,
+                backgroundImage: `url(${getAssetPath("/Bg black.webp")})`,
                 backgroundSize: '100% 100%',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat'

@@ -125,7 +125,7 @@ const MobileSupport = ({ initialMessage, onClearMessage, tickets = [], onResolve
     return (
         <div className="flex flex-col h-full overflow-hidden relative font-sans"
             style={{
-                backgroundImage: `url(${getAssetPath("/Bg black.png")})`,
+                backgroundImage: `url(${getAssetPath("/Bg black.webp")})`,
                 backgroundSize: '100% 100%',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat'
