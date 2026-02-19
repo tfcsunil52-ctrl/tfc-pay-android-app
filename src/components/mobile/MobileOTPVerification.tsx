@@ -131,11 +131,8 @@ const MobileOTPVerification = ({
 
             {/* Logo */}
             <div className="flex justify-center mb-10 animate-in zoom-in-95 duration-500">
-                <img
-                    src={getAssetPath(isDarkMode ? "/tfcpay-logo.png" : "/tfcpay-logo-light.png")}
-                    alt="TFC Pay Logo"
-                    className="h-8 w-auto"
-                />
+                <img src={getAssetPath("/tfcpay-logo-light.png")} alt="TFC Pay Logo" className="h-8 w-auto dark:hidden" />
+                <img src={getAssetPath("/tfcpay-logo.png")} alt="TFC Pay Logo" className="h-8 w-auto hidden dark:block" />
             </div>
 
             {/* Info Text */}

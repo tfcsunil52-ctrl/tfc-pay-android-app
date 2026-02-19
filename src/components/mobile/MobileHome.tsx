@@ -110,7 +110,7 @@ const BannerCarousel = ({ onNavigate }: { onNavigate: (tab: TabType) => void }) 
     return (
         <div className="flex flex-col gap-3">
             <div className="relative group">
-                <div className="rounded-2xl overflow-hidden shadow-md relative aspect-[2.2/1]">
+                <div className="rounded-2xl overflow-hidden shadow-[0_4px_20px_-4px_rgba(21,128,61,0.2),0_2px_8px_-2px_rgba(0,0,0,0.08)] dark:shadow-md relative aspect-[2.2/1]">
                     {banners.map((banner, index) => (
                         <div
                             key={index}
@@ -132,7 +132,7 @@ const BannerCarousel = ({ onNavigate }: { onNavigate: (tab: TabType) => void }) 
             </div>
             <Button
                 size="sm"
-                className="w-full h-10 text-sm bg-green-700 hover:bg-green-800 dark:bg-green-500 dark:hover:bg-green-400 shadow-sm text-white dark:text-black font-bold rounded-full"
+                className="w-full h-10 text-sm bg-green-700 hover:bg-green-800 dark:bg-green-500 dark:hover:bg-green-400 shadow-[0_4px_12px_-2px_rgba(21,128,61,0.4)] dark:shadow-sm text-white dark:text-black font-bold rounded-full"
                 onClick={() => onNavigate("offers")}
             >
                 All Offers
@@ -181,10 +181,17 @@ const MobileHome = ({
                         </Avatar>
                     </button>
                     <div className="absolute left-1/2 -translate-x-1/2">
+                        {/* Light mode logo (dark text visible on light backgrounds) */}
                         <img
-                            src={getAssetPath(isDarkMode ? "/tfcpay-logo.png" : "/tfcpay-logo-light.png")}
+                            src={getAssetPath("/tfcpay-logo-light.png")}
                             alt="TFC Pay"
-                            className="h-5 w-auto object-contain"
+                            className="h-5 w-auto object-contain dark:hidden"
+                        />
+                        {/* Dark mode logo (white text visible on dark backgrounds) */}
+                        <img
+                            src={getAssetPath("/tfcpay-logo.png")}
+                            alt="TFC Pay"
+                            className="h-5 w-auto object-contain hidden dark:block"
                         />
                     </div>
                     <div className="flex items-center gap-3">
@@ -305,10 +312,10 @@ const MobileHome = ({
                 </section>
 
                 {/* Action Buttons */}
-                <section className="rounded-2xl border border-blue-50/50 p-2 bg-white shadow-lg relative z-10 dark:bg-card dark:border-border dark:shadow-none">
+                <section className="rounded-2xl border border-green-100 p-2 bg-white shadow-[0_4px_16px_-4px_rgba(21,128,61,0.15),0_2px_8px_-2px_rgba(0,0,0,0.06)] relative z-10 dark:bg-card dark:border-border dark:shadow-none">
                     <div className="grid grid-cols-3 gap-2">
                         <Card
-                            className="bg-blue-500/15 border border-blue-200/50 cursor-pointer hover:scale-[1.02] active:scale-95 transition-all shadow-none dark:bg-blue-500/10 dark:border-0"
+                            className="bg-blue-50 border border-blue-200 cursor-pointer hover:scale-[1.02] active:scale-95 transition-all shadow-sm dark:shadow-none dark:bg-blue-500/10 dark:border-0"
                             onClick={() => onProfileClick?.("wallet")}
                         >
                             <CardContent className="py-2 px-1 flex flex-col items-center gap-1">
@@ -321,7 +328,7 @@ const MobileHome = ({
                         </Card>
 
                         <button onClick={() => onRewardsClick?.()} className="h-full">
-                            <Card className="bg-orange-500/15 border border-orange-200/50 cursor-pointer hover:scale-[1.02] active:scale-95 transition-all h-full shadow-none dark:bg-orange-500/10 dark:border-0">
+                            <Card className="bg-orange-50 border border-orange-200 cursor-pointer hover:scale-[1.02] active:scale-95 transition-all h-full shadow-sm dark:shadow-none dark:bg-orange-500/10 dark:border-0">
                                 <CardContent className="py-2 px-1 flex flex-col items-center gap-1">
                                     <Gift className="w-5 h-5 text-orange-600" strokeWidth={2} />
                                     <span className="text-[11px] font-bold text-foreground">Rewards</span>
@@ -331,7 +338,7 @@ const MobileHome = ({
                         </button>
 
                         <Card
-                            className="bg-purple-500/15 border border-purple-200/50 cursor-pointer hover:scale-[1.02] active:scale-95 transition-all shadow-none dark:bg-purple-500/10 dark:border-0"
+                            className="bg-purple-50 border border-purple-200 cursor-pointer hover:scale-[1.02] active:scale-95 transition-all shadow-sm dark:shadow-none dark:bg-purple-500/10 dark:border-0"
                             onClick={() => onProfileClick?.("refer")}
                         >
                             <CardContent className="py-2 px-1 flex flex-col items-center gap-1">
@@ -358,7 +365,7 @@ const MobileHome = ({
                                     onClick={() => onServiceSelect?.(service.targetTitle || service.label)}
                                 >
                                     {service.image ? (
-                                        <div className="w-12 h-12 flex items-center justify-center rounded-2xl bg-green-50 border border-green-200 dark:bg-transparent dark:border-none transition-all group-hover:bg-green-100">
+                                        <div className="w-12 h-12 flex items-center justify-center rounded-2xl bg-green-50 border border-green-200 shadow-sm dark:shadow-none dark:bg-transparent dark:border-none transition-all group-hover:bg-green-100">
                                             <img src={service.image} alt={service.label} className="w-7 h-7 object-contain" />
                                         </div>
                                     ) : (
@@ -374,7 +381,7 @@ const MobileHome = ({
                         <div className="mt-4 px-1">
                             <button
                                 onClick={() => onSeeAllServices?.()}
-                                className="w-full flex items-center justify-center gap-2 text-xs font-bold text-green-700 dark:text-green-500 bg-green-50 dark:bg-green-900/20 py-3 rounded-full hover:bg-green-100 dark:hover:bg-green-900/30 transition-all active:scale-[0.98] border border-green-700/5 dark:border-green-500/5 shadow-sm"
+                                className="w-full flex items-center justify-center gap-2 text-xs font-bold text-green-700 dark:text-green-500 bg-green-50 dark:bg-green-900/20 py-3 rounded-full hover:bg-green-100 dark:hover:bg-green-900/30 transition-all active:scale-[0.98] border border-green-200 dark:border-green-500/10 shadow-[0_2px_8px_-2px_rgba(21,128,61,0.2)] dark:shadow-none"
 
                             >
                                 <span>View More</span>

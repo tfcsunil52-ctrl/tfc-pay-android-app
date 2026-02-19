@@ -109,11 +109,8 @@ const MobileSignup = ({ onSignup, onBackToLogin, isDarkMode = true }: MobileSign
 
                     {/* Logo */}
                     <div className="flex justify-center mb-6">
-                        <img
-                            src={getAssetPath(isDarkMode ? "/tfcpay-logo.png" : "/tfcpay-logo-light.png")}
-                            alt="TFC Pay"
-                            className="h-8 w-auto"
-                        />
+                        <img src={getAssetPath("/tfcpay-logo-light.png")} alt="TFC Pay" className="h-8 w-auto dark:hidden" />
+                        <img src={getAssetPath("/tfcpay-logo.png")} alt="TFC Pay" className="h-8 w-auto hidden dark:block" />
                     </div>
 
                     <div className="text-center mb-6">

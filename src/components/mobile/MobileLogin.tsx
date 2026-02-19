@@ -70,9 +70,14 @@ const MobileLogin = ({ onContinue, onSignupClick, onPinLoginClick, hasPinSet = f
                 <div className="flex-shrink-0 flex flex-col items-center pt-12 pb-8 animate-in fade-in duration-700 font-sans">
                     <div className="mb-6">
                         <img
-                            src={getAssetPath(isDarkMode ? "/tfcpay-logo.png" : "/tfcpay-logo-light.png")}
+                            src={getAssetPath("/tfcpay-logo-light.png")}
                             alt="TFC Pay"
-                            className="h-8 w-auto"
+                            className="h-8 w-auto dark:hidden"
+                        />
+                        <img
+                            src={getAssetPath("/tfcpay-logo.png")}
+                            alt="TFC Pay"
+                            className="h-8 w-auto hidden dark:block"
                         />
                     </div>
                     <h1 className="text-3xl font-bold text-foreground mb-2">
