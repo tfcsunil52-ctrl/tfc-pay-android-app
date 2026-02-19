@@ -3,7 +3,6 @@ import { ChevronRight, Sparkles, Tv, Smartphone, Zap, Flame, Ticket, History, X,
 import { Card, CardContent } from "../ui/Card";
 import { Badge } from "../ui/Badge";
 import { useRewards } from "../../hooks/useRewards";
-import { getAssetPath } from "../../utils/assets";
 
 interface MobileOffersProps {
     onNavigate?: (tab: import("../../types").TabType) => void;
@@ -21,6 +20,25 @@ const MobileOffers = ({ onNavigate, onServiceSelect }: MobileOffersProps) => {
 
     // Remove duplicates based on title
     const uniqueOffers = Array.from(new Map(offers.map(offer => [offer.title, offer])).values());
+
+    // Create a mixed list of offers from different categories
+    const getMixedOffers = () => {
+        const prepaid = uniqueOffers.filter(o => o.category === 'Prepaid Recharge' || o.serviceType === 'prepaid');
+        const bills = uniqueOffers.filter(o => o.category === 'Bill Payments' || o.serviceType === 'bill_payment');
+        const dth = uniqueOffers.filter(o => o.category === 'DTH' || o.serviceType === 'dth');
+
+        const mixed = [];
+        const maxLength = Math.max(prepaid.length, bills.length, dth.length);
+
+        for (let i = 0; i < maxLength; i++) {
+            if (prepaid[i]) mixed.push(prepaid[i]);
+            if (bills[i]) mixed.push(bills[i]);
+            if (dth[i]) mixed.push(dth[i]);
+        }
+        return mixed;
+    };
+
+    const mixedOffers = getMixedOffers();
 
     // Map offer to service title
     const getServiceTitle = (offer: any): string => {
@@ -155,7 +173,7 @@ const MobileOffers = ({ onNavigate, onServiceSelect }: MobileOffersProps) => {
                     <div className="p-6 pt-2">
                         <button
                             onClick={() => handleUseOffer(selectedOffer)}
-                            className="w-full bg-[#021a10] hover:bg-[#021a10]/90 text-white font-bold py-4 rounded-2xl transition-all shadow-lg active:scale-[0.98] flex items-center justify-center gap-2"
+                            className="w-full bg-green-700 hover:bg-green-600 text-white font-bold py-4 rounded-2xl transition-all shadow-lg active:scale-[0.98] flex items-center justify-center gap-2"
                         >
                             <span>Use Offer Now</span>
                             <ChevronRight className="w-4 h-4" />
@@ -184,44 +202,44 @@ const MobileOffers = ({ onNavigate, onServiceSelect }: MobileOffersProps) => {
                     </div>
 
                     <div className="space-y-4">
-                        {/* Premium Featured Card - Emerald */}
+                        {/* Premium Featured Card - Emerald (Mobile) */}
                         <div
-                            onClick={() => handleUseOffer({ title: "5% Cashback on Recharge", category: "Recharge", serviceType: "prepaid" })}
+                            onClick={() => handleUseOffer({ title: "upto 5% instant cashback on prepaid mobile recharge", category: "Prepaid", serviceType: "prepaid" })}
                             className="bg-[#0d1c14] border border-green-900/20 rounded-3xl p-6 relative overflow-hidden group active:scale-[0.98] transition-all cursor-pointer"
                         >
                             <div className="flex items-center justify-between mb-5">
                                 <Badge className="bg-green-900/40 text-green-500 border-0 rounded-lg px-3 py-1 text-[11px] font-bold uppercase tracking-wider">
-                                    RECHARGE5
+                                    PREPAID5
                                 </Badge>
                                 <span className="text-[10px] text-gray-500 font-medium flex items-center gap-1.5">
                                     <History className="w-3 h-3" /> Valid till Dec 31
                                 </span>
                             </div>
-                            <h3 className="text-xl font-bold text-white mb-1.5">5% Cashback on Recharge</h3>
-                            <p className="text-sm text-gray-500 font-medium">Get instant cashback on mobile & DTH recharge</p>
+                            <h3 className="text-xl font-bold text-white mb-1.5">upto 5% instant cashback on prepaid mobile recharge</h3>
+                            <p className="text-sm text-gray-500 font-medium">Get instant cashback on all prepaid recharges</p>
 
                             {/* Decorative elements */}
                             <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-green-500/10 rounded-full blur-2xl" />
                         </div>
 
-                        {/* Premium Featured Card - Purple */}
+                        {/* Premium Featured Card - Blue (DTH) */}
                         <div
-                            onClick={() => handleUseOffer({ title: "Flat ₹100 Cashback", category: "Bills", serviceType: "bill_payment" })}
-                            className="bg-[#12101b] border border-purple-900/20 rounded-3xl p-6 relative overflow-hidden group active:scale-[0.98] transition-all cursor-pointer"
+                            onClick={() => handleUseOffer({ title: "upto 4% cashback on dth recharge", category: "DTH", serviceType: "dth" })}
+                            className="bg-[#0a1219] border border-blue-900/20 rounded-3xl p-6 relative overflow-hidden group active:scale-[0.98] transition-all cursor-pointer"
                         >
                             <div className="flex items-center justify-between mb-5">
-                                <Badge className="bg-purple-900/40 text-purple-400 border-0 rounded-lg px-3 py-1 text-[11px] font-bold uppercase tracking-wider">
-                                    POWER100
+                                <Badge className="bg-blue-900/40 text-blue-400 border-0 rounded-lg px-3 py-1 text-[11px] font-bold uppercase tracking-wider">
+                                    DTH4
                                 </Badge>
                                 <span className="text-[10px] text-gray-500 font-medium flex items-center gap-1.5">
-                                    <History className="w-3 h-3" /> Valid till Dec 25
+                                    <History className="w-3 h-3" /> Valid till Dec 31
                                 </span>
                             </div>
-                            <h3 className="text-xl font-bold text-white mb-1.5">Flat ₹100 Cashback</h3>
-                            <p className="text-sm text-gray-500 font-medium">On electricity bill payment above ₹1000</p>
+                            <h3 className="text-xl font-bold text-white mb-1.5">upto 4% cashback on dth recharge</h3>
+                            <p className="text-sm text-gray-500 font-medium">On all DTH service providers</p>
 
                             {/* Decorative elements */}
-                            <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl" />
+                            <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl" />
                         </div>
                     </div>
                 </section>
@@ -231,7 +249,7 @@ const MobileOffers = ({ onNavigate, onServiceSelect }: MobileOffersProps) => {
                     <h2 className="text-sm font-bold text-gray-300 tracking-wide mb-5">All Offers</h2>
 
                     <div className="space-y-4">
-                        {uniqueOffers.slice(0, 6).map((offer, index) => (
+                        {mixedOffers.slice(0, 8).map((offer, index) => (
                             <div
                                 key={index}
                                 onClick={() => handleUseOffer(offer)}
@@ -256,10 +274,11 @@ const MobileOffers = ({ onNavigate, onServiceSelect }: MobileOffersProps) => {
                 {/* Your Cashback Section */}
                 <section className="bg-white/5 border border-white/5 rounded-[2.5rem] p-6 relative overflow-hidden">
                     <div className="flex items-center justify-between mb-6">
-                        <h2 className="text-base font-bold text-white tracking-tight">Total Cashback</h2>
+                        <h2 className="text-base font-bold text-white tracking-tight">Your Cashback</h2>
+                        <button className="text-sm font-bold text-green-500 hover:text-green-400 transition-colors">History</button>
                     </div>
 
-                    <div className="flex flex-col gap-4">
+                    <div className="grid grid-cols-2 gap-4">
                         {/* Total Earned */}
                         <div className="bg-[#050505] border border-white/5 rounded-3xl p-5 flex flex-col justify-between h-32">
                             <div>
@@ -267,6 +286,15 @@ const MobileOffers = ({ onNavigate, onServiceSelect }: MobileOffersProps) => {
                                 <span className="text-3xl font-bold text-green-500">{totalCashback.toFixed(2)}</span>
                             </div>
                             <span className="text-[10px] font-black text-gray-600 uppercase tracking-[0.2em]">Total Earned</span>
+                        </div>
+
+                        {/* Pending */}
+                        <div className="bg-[#050505] border border-white/5 rounded-3xl p-5 flex flex-col justify-between h-32">
+                            <div>
+                                <span className="text-3xl font-bold text-white">₹</span>
+                                <span className="text-3xl font-bold text-white">{pendingCashback.toFixed(2)}</span>
+                            </div>
+                            <span className="text-[10px] font-black text-gray-600 uppercase tracking-[0.2em]">Pending</span>
                         </div>
                     </div>
                 </section>

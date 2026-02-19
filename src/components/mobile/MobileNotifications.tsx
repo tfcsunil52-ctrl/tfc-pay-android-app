@@ -37,7 +37,7 @@ const MobileNotifications = ({
     };
 
     return (
-        <div className={`fixed inset-0 z-50 flex flex-col bg-white dark:bg-transparent animate-in slide-in-from-right duration-300 ${isDarkMode ? 'dark' : ''}`}>
+        <div className={`fixed inset-0 z-50 flex flex-col bg-background animate-in slide-in-from-right duration-300 ${isDarkMode ? 'dark' : ''}`}>
             {/* Header */}
             <header className="px-4 py-4 border-b border-border flex items-center justify-between bg-card/50 backdrop-blur-md">
                 <div className="flex items-center gap-3">

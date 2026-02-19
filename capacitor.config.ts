@@ -7,7 +7,7 @@ const config: CapacitorConfig = {
   server: {
     androidScheme: 'https',
     // Live Reload URL: Comment out 'url' below for production builds
-    url: 'http://10.19.24.9:3000/tfc-pay-android-app/',
+    url: 'http://192.168.2.111:3000/tfc-pay-android-app/',
     cleartext: true
   }
 };

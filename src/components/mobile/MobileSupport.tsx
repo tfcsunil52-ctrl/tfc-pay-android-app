@@ -55,7 +55,7 @@ const MobileSupport = ({ initialMessage, onClearMessage, tickets = [], onResolve
 
     if (showTickets) {
         return (
-            <div className="flex flex-col h-full bg-background overlay-gradient-bg animate-in slide-in-from-right duration-300">
+            <div className="flex flex-col h-full bg-background animate-in slide-in-from-right duration-300">
                 <header className="px-4 py-4 border-b border-border flex items-center gap-3 bg-card/50 backdrop-blur-md sticky top-0 z-10">
                     <button onClick={() => setShowTickets(false)} className="p-2 hover:bg-muted rounded-full transition-colors">
                         <ArrowLeft className="w-5 h-5" />

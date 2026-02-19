@@ -12,7 +12,6 @@ import { Avatar, AvatarFallback } from "../ui/Avatar";
 import { Input } from "../ui/Input";
 import { SettingsItem, Divider } from "./shared/SettingsItem";
 import { ProfileInputField } from "./profile/ProfileInputField";
-import { getAssetPath } from "../../utils/assets";
 import { TransferView } from "./profile/TransferView";
 import { BankAccounts } from "./profile/BankAccounts";
 import TransactionReceipt from "./TransactionReceipt";
@@ -126,7 +125,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
             setActiveSubPanel("wallet");
         } else if (title === "Language") {
             alert("Language settings coming soon!");
-        } else if (title === "About Recharge Bill") {
+        } else if (title === "About TFCpay") {
             // Simple alert or open link
             alert("TFC Pay v1.0.0\nBuilt for seamless payments.");
         } else if (title === "Rate Us") {
@@ -151,7 +150,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
     // PIN Setup / Change sub-panel
     if (activeSubPanel === "pin-setup") {
         return (
-            <div className="fixed inset-0 z-[100] bg-white dark:bg-transparent">
+            <div className="fixed inset-0 z-[100] bg-background">
                 <AppLock
                     mode="setup"
                     onUnlock={() => setActiveSubPanel(null)}
@@ -170,7 +169,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
 
     if (activeSubPanel === "wallet") {
         return (
-            <div className={`flex flex-col h-full overlay-gradient-bg absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}>
+            <div className={`flex flex-col h-full bg-background absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}>
                 <div className="flex items-center p-4 border-b border-border bg-card/50 backdrop-blur-md z-10">
                     <button onClick={handleBack} className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center hover:bg-card/80 transition-colors">
                         <ArrowLeft className="w-5 h-5 text-foreground" />
@@ -284,7 +283,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
 
     if (activeSubPanel === "profile") {
         return (
-            <div className={`flex flex-col h-full overlay-gradient-bg absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}>
+            <div className={`flex flex-col h-full bg-background absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}>
                 <div className="flex items-center p-4 border-b border-border bg-card/50 backdrop-blur-md z-10">
                     <button onClick={handleBack} className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center">
                         <ArrowLeft className="w-5 h-5 text-foreground" />
@@ -297,7 +296,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                             <Avatar className="w-24 h-24 border-2 border-green-700 dark:border-green-500">
                                 <AvatarFallback className="bg-green-600/20 dark:bg-green-500/20 text-green-700 dark:text-green-500 text-3xl font-bold">JD</AvatarFallback>
                             </Avatar>
-                            <button className="absolute bottom-0 right-0 w-8 h-8 bg-[#021a10] rounded-full flex items-center justify-center border-2 border-background">
+                            <button className="absolute bottom-0 right-0 w-8 h-8 bg-green-700 dark:bg-green-500 rounded-full flex items-center justify-center border-2 border-background">
                                 <Camera className="w-4 h-4 text-white dark:text-black" />
                             </button>
                         </div>
@@ -338,7 +337,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                         </Card>
                     </div>
 
-                    <Button className="w-full bg-[#021a10] hover:bg-[#021a10]/90 text-white font-bold h-12 rounded-xl mt-4 shadow-lg" onClick={handleBack}>
+                    <Button className="w-full bg-green-700 hover:bg-green-800 dark:bg-green-500 dark:hover:bg-green-400 text-white dark:text-black font-bold h-12 rounded-xl mt-4 shadow-lg shadow-green-700/10 dark:shadow-green-500/10" onClick={handleBack}>
                         Save Changes
                     </Button>
                 </div>
@@ -348,7 +347,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
 
     if (activeSubPanel === "pan") {
         return (
-            <div className={`flex flex-col h-full overlay-gradient-bg absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}>
+            <div className={`flex flex-col h-full bg-background absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}>
                 <div className="flex items-center p-4 border-b border-border bg-card/50 backdrop-blur-md z-10">
                     <button onClick={handleBack} className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center">
                         <ArrowLeft className="w-5 h-5 text-foreground" />
@@ -364,7 +363,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                         <label className="text-xs font-semibold text-muted-foreground uppercase ml-1">Enter PAN Number</label>
                         <Input placeholder="ABCDE1234F" value={panNumber} onChange={(e) => setPanNumber(e.target.value.toUpperCase())} maxLength={10} className="bg-card border-border h-12 text-lg" />
                     </div>
-                    <Button className="w-full bg-[#021a10] hover:bg-[#021a10]/90 text-white font-bold h-12 rounded-xl" onClick={handleBack}>Update PAN</Button>
+                    <Button className="w-full bg-green-700 hover:bg-green-800 dark:bg-green-500 dark:hover:bg-green-400 text-white dark:text-black font-bold h-12 rounded-xl" onClick={handleBack}>Update PAN</Button>
                 </div>
             </div>
         );
@@ -372,7 +371,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
 
     if (activeSubPanel === "aadhaar") {
         return (
-            <div className={`flex flex-col h-full overlay-gradient-bg absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}>
+            <div className={`flex flex-col h-full bg-background absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}>
                 <div className="flex items-center p-4 border-b border-border bg-card/50 backdrop-blur-md z-10">
                     <button onClick={handleBack} className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center">
                         <ArrowLeft className="w-5 h-5 text-foreground" />
@@ -388,7 +387,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                         <label className="text-xs font-semibold text-muted-foreground uppercase ml-1">Enter Aadhaar Number</label>
                         <Input placeholder="XXXX XXXX XXXX" value={aadhaarNumber} onChange={(e) => setAadhaarNumber(e.target.value)} maxLength={12} className="bg-card border-border h-12 text-lg" />
                     </div>
-                    <Button className="w-full bg-[#021a10] hover:bg-[#021a10]/90 text-white font-bold h-12 rounded-xl" onClick={handleBack}>Update Aadhaar</Button>
+                    <Button className="w-full bg-green-700 hover:bg-green-800 dark:bg-green-500 dark:hover:bg-green-400 text-white dark:text-black font-bold h-12 rounded-xl" onClick={handleBack}>Update Aadhaar</Button>
                 </div>
             </div>
         );
@@ -396,7 +395,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
 
     if (activeSubPanel === "gst") {
         return (
-            <div className={`flex flex-col h-full overlay-gradient-bg absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}>
+            <div className={`flex flex-col h-full bg-background absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}>
                 <div className="flex items-center p-4 border-b border-border bg-card/50 backdrop-blur-md z-10">
                     <button onClick={handleBack} className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center hover:bg-card/80 transition-colors">
                         <ArrowLeft className="w-5 h-5 text-foreground" />
@@ -415,7 +414,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                             <p className="text-[10px] text-muted-foreground italic ml-1">Please ensure to enter your 15-digit GSTIN accurately.</p>
                         </div>
                     </div>
-                    <Button className="w-full bg-[#021a10] hover:bg-[#021a10]/90 text-white font-bold h-12 rounded-xl shadow-lg" onClick={() => {
+                    <Button className="w-full bg-green-700 hover:bg-green-800 dark:bg-green-500 dark:hover:bg-green-400 text-white dark:text-black font-bold h-12 rounded-xl shadow-lg shadow-green-700/10 dark:shadow-green-500/10" onClick={() => {
                         if (gstNumber.length < 15) { alert("Please enter a valid 15-digit GST number"); return; }
                         alert("GST Number Updated Successfully!");
                         handleBack();
@@ -427,7 +426,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
 
     if (activeSubPanel === "refer") {
         return (
-            <div className={`flex flex-col h-full overlay-gradient-bg absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}>
+            <div className={`flex flex-col h-full bg-background absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}>
                 <div className="flex items-center p-4 border-b border-border bg-card/50 backdrop-blur-md z-10">
                     <button onClick={handleBack} className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center hover:bg-card/80 transition-colors">
                         <ArrowLeft className="w-5 h-5 text-foreground" />
@@ -490,7 +489,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                                     alert("Sharing not supported on this device");
                                 }
                             }}>
-                                <div className="w-10 h-10 rounded-full bg-[#021a10] flex items-center justify-center text-white shadow-sm">
+                                <div className="w-10 h-10 rounded-full bg-green-700 dark:bg-green-500 flex items-center justify-center text-white shadow-sm">
                                     <Share2 className="w-5 h-5" />
                                 </div>
                                 <span className="text-xs font-medium text-foreground">More</span>
@@ -534,7 +533,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
 
     if (activeSubPanel === "email") {
         return (
-            <div className={`flex flex-col h-full overlay-gradient-bg absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}>
+            <div className={`flex flex-col h-full bg-background absolute inset-0 z-[60] overflow-hidden ${isClosing ? 'animate-out slide-out-to-right duration-300' : 'animate-in slide-in-from-right duration-300'}`}>
                 <div className="flex items-center p-4 border-b border-border bg-card/50 backdrop-blur-md z-10">
                     <button onClick={handleBack} className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center">
                         <ArrowLeft className="w-5 h-5 text-foreground" />
@@ -550,14 +549,14 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                         <label className="text-xs font-semibold text-muted-foreground uppercase ml-1">Enter New Email</label>
                         <Input type="email" placeholder="email@example.com" value={email} onChange={(e) => setEmail(e.target.value)} className="bg-card border-border h-12 text-lg" />
                     </div>
-                    <Button className="w-full bg-[#021a10] hover:bg-[#021a10]/90 text-white font-bold h-12 rounded-xl" onClick={handleBack}>Update Email ID</Button>
+                    <Button className="w-full bg-green-700 hover:bg-green-800 dark:bg-green-500 dark:hover:bg-green-400 text-white dark:text-black font-bold h-12 rounded-xl" onClick={handleBack}>Update Email ID</Button>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className={`flex flex-col h-full overlay-gradient-bg absolute inset-0 z-50 overflow-hidden ${isClosing ? 'animate-out slide-out-to-left duration-300' : 'animate-in slide-in-from-left duration-300'}`}>
+        <div className={`flex flex-col h-full bg-background absolute inset-0 z-50 overflow-hidden ${isClosing ? 'animate-out slide-out-to-left duration-300' : 'animate-in slide-in-from-left duration-300'}`}>
             {/* Header - Fixed at top */}
             <div className="flex items-center p-4 border-b border-border bg-card/50 backdrop-blur-md z-10">
                 <button
@@ -583,7 +582,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                                 </Avatar>
                                 <button
                                     onClick={() => setActiveSubPanel("profile")}
-                                    className="absolute -bottom-1 -right-1 w-6 h-6 bg-[#021a10] rounded-full flex items-center justify-center transition-all active:scale-90"
+                                    className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-700 dark:bg-green-500 rounded-full flex items-center justify-center transition-all active:scale-90"
                                 >
                                     <Edit2 className="w-3 h-3 text-white dark:text-black" />
                                 </button>
@@ -657,13 +656,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                                 description="Your profile details"
                                 onClick={() => handleAction("Profile")}
                             />
-                            <Divider />
-                            <SettingsItem
-                                icon={Building2}
-                                title="Link Bank Account"
-                                description="Add or remove bank accounts"
-                                onClick={() => handleAction("add-bank")}
-                            />
+
                             <Divider />
                             <SettingsItem
                                 icon={FileText}
@@ -756,7 +749,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                                             onToggleAppLock?.(!appLockEnabled);
                                         }
                                     }}
-                                    className={`relative w-12 h-7 rounded-full transition-all duration-300 ${appLockEnabled ? 'bg-[#021a10]' : 'bg-muted-foreground/30'}`}
+                                    className={`relative w-12 h-7 rounded-full transition-all duration-300 ${appLockEnabled ? 'bg-green-700 dark:bg-green-500' : 'bg-muted-foreground/30'}`}
                                     role="switch"
                                     aria-checked={appLockEnabled}
                                     aria-label="Toggle app lock"
@@ -783,7 +776,7 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                                         </div>
                                         <button
                                             onClick={() => onToggleBiometric?.(!biometricEnabled)}
-                                            className={`relative w-12 h-7 rounded-full transition-all duration-300 ${biometricEnabled ? 'bg-[#021a10]' : 'bg-muted-foreground/30'}`}
+                                            className={`relative w-12 h-7 rounded-full transition-all duration-300 ${biometricEnabled ? 'bg-green-700 dark:bg-green-500' : 'bg-muted-foreground/30'}`}
                                             role="switch"
                                             aria-checked={biometricEnabled}
                                             aria-label="Toggle biometric unlock"
@@ -832,9 +825,9 @@ const MobileProfileSettings = ({ onClose, onNavigate, onThemeToggle, isDarkMode,
                         <CardContent className="p-0">
                             <SettingsItem
                                 icon={Info}
-                                title="About Recharge Bill"
-                                description="Privacy Policy, Terms & About Recharge Bill"
-                                onClick={() => handleAction("About Recharge Bill")}
+                                title="About TFCpay"
+                                description="Privacy Policy, Terms & About TFCpay"
+                                onClick={() => handleAction("About TFCpay")}
                             />
                             <Divider />
                             <SettingsItem

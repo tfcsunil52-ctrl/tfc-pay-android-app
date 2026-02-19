@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Check, ShieldCheck, Share2, Download, Loader2 } from "lucide-react";
+import { Share2, ArrowLeft, ShieldCheck } from "lucide-react";
 import { toPng } from "html-to-image";
 import { Button } from "../ui/Button";
 import type { Transaction } from "../../types";
@@ -14,6 +14,9 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
 
     const receiptRef = useRef<HTMLDivElement>(null);
     const [isProcessing, setIsProcessing] = useState(false);
+
+    const [forceFail, setForceFail] = useState(false); // TEMPORARY: For visual testing
+    const isSuccess = !forceFail && transaction.status !== 'failed';
 
     const numberToWords = (num: number): string => {
         const a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen '];
@@ -31,7 +34,6 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
             str += (_n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(_n[5])] || b[_n[5][0]] + ' ' + a[_n[5][1]]) : '';
             return str;
         };
-
         return inWords(num).trim();
     };
 
@@ -46,25 +48,17 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
         if (!receiptRef.current) return null;
         try {
             setIsProcessing(true);
-            // Wait a tiny bit for any layout adjustments
             await new Promise(resolve => setTimeout(resolve, 100));
-
             const dataUrl = await toPng(receiptRef.current, {
                 quality: 1,
-                pixelRatio: 3, // Ultra-sharp
+                pixelRatio: 3,
                 backgroundColor: '#000000',
                 cacheBust: true,
                 width: 360,
-                height: 640,
                 style: {
                     transform: 'scale(1)',
                     transformOrigin: 'top center',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '20px 0',
-                    height: '640px',
+                    padding: '0',
                     width: '360px'
                 }
             });
@@ -80,181 +74,220 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
     const handleShare = async () => {
         const dataUrl = await captureScreenshot();
         if (!dataUrl) return;
-
         try {
             const blob = await (await fetch(dataUrl)).blob();
-            const file = new File([blob], `TFC-Pay-Receipt-${transaction.referenceId || Date.now()}.png`, { type: 'image/png' });
-
+            const file = new File([blob], `TFC-Pay-Receipt-${transaction.id || Date.now()}.png`, { type: 'image/png' });
             if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
                 await navigator.share({
                     files: [file],
                     title: 'TFC Pay Transaction Receipt',
-                    text: `Payment of ₹${transaction.amount} successful to ${transaction.name}`
+                    text: `Payment of ${transaction.amount} ${isSuccess ? 'successful' : 'failed'}`
                 });
             } else {
-                handleDownload(dataUrl);
+                const link = document.createElement('a');
+                link.download = `TFC-Pay-Receipt-${transaction.id || Date.now()}.png`;
+                link.href = dataUrl;
+                link.click();
             }
         } catch (error) {
             console.error('Sharing failed:', error);
-            handleDownload(dataUrl);
         }
     };
 
-    const handleDownload = (dataUrlProp?: string) => {
-        const triggerDownload = (url: string) => {
-            const link = document.createElement('a');
-            link.download = `TFC-Pay-Receipt-${transaction.referenceId || Date.now()}.png`;
-            link.href = url;
-            link.click();
-        };
+    const DetailRow = ({ label, value, highlight = false }: { label: string, value: string | number, highlight?: boolean }) => (
+        <div className="flex justify-between items-start py-[3px]">
+            <span className="text-[11px] font-semibold text-white/80 truncate mr-3">{label}</span>
+            <span className={`text-[11px] font-medium text-right shrink-0 ${highlight ? (isSuccess ? 'text-green-400' : 'text-red-400') : 'text-white/60'}`}>
+                {value}
+            </span>
+        </div>
+    );
 
-        if (dataUrlProp && typeof dataUrlProp === 'string') {
-            triggerDownload(dataUrlProp);
-        } else {
-            captureScreenshot().then(url => {
-                if (url) triggerDownload(url);
-            });
-        }
-    };
+    // Theme colors
+    const accentColor = isSuccess ? '#4ade80' : '#ef4444';
+    const lightingColor = isSuccess ? 'rgba(74,222,128,0.5)' : 'rgba(239,68,68,0.5)';
+    const statusIcon = isSuccess
+        ? getAssetPath("/success icon for invoice.webp")
+        : getAssetPath("/failed icon for invoice.webp");
+
+    const amountClean = transaction.amount.replace(/[^\d,.]/g, '');
 
     return (
-        <div className="fixed inset-0 z-[100] bg-white dark:bg-transparent flex flex-col animate-in slide-in-from-bottom duration-500 font-sans">
-            <div className="flex-1 overflow-y-auto" id="receipt-scroll-area">
-                {/* Wrap content for screenshot capture */}
-                <div ref={receiptRef} className="p-4 pt-8 pb-8 space-y-4 bg-white dark:bg-transparent">
-                    {/* Header */}
-                    <header className="flex flex-col items-center pb-4">
-                        <div className="flex items-center gap-1 mb-1">
-                            <span className="text-2xl font-[900] text-[#4ade80] tracking-tight">TFC</span>
-                            <span className="text-2xl font-[900] text-white tracking-tight">PAY</span>
-                        </div>
-                        <p className="text-[9px] text-white font-medium tracking-[0.2em] uppercase opacity-90">Payment Receipt</p>
-                    </header>
+        <div className="fixed inset-0 z-[100] bg-black flex flex-col font-sans text-white">
+            {/* Top Bar */}
+            <div className="flex items-center justify-between px-4 py-3 relative z-20">
+                <button onClick={onClose} className="flex items-center gap-2 text-white active:opacity-60 transition-opacity">
+                    <ArrowLeft className="w-5 h-5" />
+                    <span className="font-semibold text-base">Back</span>
+                </button>
 
-                    {/* Success Card */}
-                    <div className="bg-[#10281b] rounded-t-[20px] rounded-b-[20px] p-6 pb-5 flex flex-col items-center shadow-2xl relative overflow-hidden w-full max-w-[340px] mx-auto border border-white/5">
-                        {/* Background Glow */}
-                        <div className="absolute top-0 right-0 w-40 h-40 bg-[#4ade80] opacity-5 blur-[50px] rounded-full pointer-events-none -mt-10 -mr-10" />
+                {/* TEMPORARY TESTING BUTTON */}
+                <button
+                    onClick={() => setForceFail(!forceFail)}
+                    className="bg-yellow-500 text-black px-2 py-1 text-[10px] rounded font-bold absolute left-24 z-50"
+                >
+                    {forceFail ? "RESET" : "TEST FAIL"}
+                </button>
+                <button
+                    onClick={handleShare}
+                    disabled={isProcessing}
+                    className="px-5 py-2 rounded-full flex items-center gap-2 font-bold text-sm shadow-sm active:scale-95 transition-all bg-transparent border-2 border-white/50 text-white overflow-hidden relative animate-gold-shine"
+                >
+                    <Share2 className="w-4 h-4" />
+                    Share
+                </button>
+            </div>
 
-                        {/* Badge */}
-                        <div className="bg-[#1f4a2c] flex items-center gap-2 px-3 py-1.5 rounded-full mb-4">
-                            <div className="w-4 h-4 rounded-full bg-[#22c55e] flex items-center justify-center">
-                                <Check className="w-3 h-3 text-white stroke-[4]" />
-                            </div>
-                            <span className="text-white text-[13px] font-bold tracking-wide">Payment Successful</span>
-                        </div>
+            <div className="flex-1 overflow-y-auto pb-24">
+                <div ref={receiptRef} className="flex flex-col items-center min-h-full relative bg-black">
+                    {/* Side Lighting Effects */}
+                    <div
+                        className="absolute top-[20%] -left-16 w-[180px] h-[400px] rounded-full blur-[90px] pointer-events-none opacity-60"
+                        style={{ background: lightingColor }}
+                    />
+                    <div
+                        className="absolute top-[20%] -right-16 w-[180px] h-[400px] rounded-full blur-[90px] pointer-events-none opacity-60"
+                        style={{ background: lightingColor }}
+                    />
 
-                        {/* Amount */}
-                        <div className="text-center w-full">
-                            <div className="flex items-center justify-center text-[#4ade80] font-bold">
-                                <span className="text-3xl mr-1 self-start mt-2">₹</span>
-                                <span className="text-[3rem] leading-none tracking-tight">{transaction.amount.replace(/[^\d,.]/g, '')}</span>
-                            </div>
-                            <p className="text-[#aebbb3] text-[12px] font-normal capitalize tracking-wide mb-4 opacity-80">
-                                {getAmountInWords(transaction.amount)}
-                            </p>
-
-                            {/* Quick Actions inside Amount Card */}
-                            <div className="flex items-center gap-2 w-full pt-4 border-t border-white/[0.05]">
-                                <Button
-                                    onClick={handleShare}
-                                    disabled={isProcessing}
-                                    variant="outline" size="sm" className="flex-1 bg-white/[0.03] border-white/10 text-white text-[10px] h-8 px-2 rounded-lg flex items-center justify-center gap-1.5 active:bg-white/10 transition-colors"
-                                >
-                                    {isProcessing ? <Loader2 className="w-3 h-3 animate-spin" /> : <Share2 className="w-3 h-3" />}
-                                    Share
-                                </Button>
-                                <Button
-                                    onClick={() => handleDownload()}
-                                    disabled={isProcessing}
-                                    variant="outline" size="sm" className="flex-1 bg-white/[0.03] border-white/10 text-white text-[10px] h-8 px-2 rounded-lg flex items-center justify-center gap-1.5 active:bg-white/10 transition-colors"
-                                >
-                                    {isProcessing ? <Loader2 className="w-3 h-3 animate-spin" /> : <Download className="w-3 h-3" />}
-                                    Download
-                                </Button>
-                            </div>
-                        </div>
+                    {/* TFCPAY Logo */}
+                    <div className="relative z-10 mt-6 mb-6">
+                        <img
+                            src={getAssetPath("/tfcpay-logo.png")}
+                            alt="TFCPAY"
+                            className="h-8 w-auto object-contain"
+                        />
                     </div>
 
+                    {/* 3D Shield Icon */}
+                    <div className="relative z-10 mb-4">
+                        <img
+                            src={statusIcon}
+                            alt={isSuccess ? "Payment Successful" : "Payment Failed"}
+                            className="w-[140px] h-auto object-contain drop-shadow-2xl"
+                        />
+                    </div>
+
+                    {/* Amount */}
+                    <div className="relative z-10 text-center mb-2">
+                        <div className="flex items-baseline justify-center font-[900]" style={{ color: accentColor }}>
+                            <span className="text-3xl mr-1">₹</span>
+                            <span className="text-[3.2rem] leading-none tracking-tight">{amountClean}</span>
+                        </div>
+                        {/* Accent underline bar */}
+                        <div className="mx-auto mt-3 mb-1 w-12 h-[3px] rounded-full" style={{ backgroundColor: accentColor }} />
+                        <p className="text-white/40 text-[11px] font-medium capitalize tracking-wide mt-2">
+                            {getAmountInWords(transaction.amount)}
+                        </p>
+                    </div>
+
+                    {/* Spacer */}
+                    <div className="h-6" />
+
                     {/* Details Card */}
-                    <div className="bg-[#1c1d21] rounded-t-[20px] shadow-2xl relative w-full max-w-[340px] mx-auto group overflow-hidden">
-                        <div className="p-5 space-y-4 pb-12">
+                    <div className="w-[88%] max-w-[360px] bg-[#1c1d21] rounded-t-[24px] shadow-2xl relative overflow-hidden">
+                        <div className="p-6 space-y-5 pb-14">
                             {/* To Section */}
                             <div className="flex flex-col">
-                                <p className="text-white text-[13px] font-bold">
+                                <p className="text-white text-[15px] font-bold">
                                     To: {transaction.name}
                                 </p>
-                                <p className="text-[#9ca3af] text-[11px] font-medium opacity-70">
+                                <p className="text-white/40 text-[12px] font-medium mt-0.5">
                                     {transaction.method || "TFC Pay Wallet"}
                                 </p>
                             </div>
 
                             {/* Dashed Line */}
-                            <div className="w-full border-t border-dashed border-white/5" />
+                            <div className="w-full border-t border-dashed border-white/[0.07]" />
 
                             {/* From Section */}
                             <div className="flex flex-col">
-                                <p className="text-white text-[13px] font-bold">
+                                <p className="text-white text-[15px] font-bold">
                                     From: Ramesh Kumar
                                 </p>
-                                <p className="text-[#9ca3af] text-[11px] font-medium opacity-70">
+                                <p className="text-white/40 text-[12px] font-medium mt-0.5">
                                     State Bank Of India - 3094
                                 </p>
                             </div>
 
-                            {/* Metadata */}
-                            <div className="pt-0.5 space-y-0.5">
-                                <p className="text-[#9ca3af] text-[10px] font-medium opacity-50">
-                                    UPI Ref ID: {transaction.referenceId || "315824749631"}
+                            {/* Dashed Line */}
+                            <div className="w-full border-t border-dashed border-white/[0.07]" />
+
+                            {/* Transaction Details */}
+                            <div className="space-y-0">
+                                <DetailRow label="Date & time" value={`${transaction.date || '02-02-2026'} ${transaction.time || '23:18:47 PM'}`} />
+                                <DetailRow label="Number" value={transaction.referenceId || '8368646881'} />
+                                <DetailRow label="Order ID" value={`TFCREC${(transaction.id || '327028989').substring(0, 9)}05001`} />
+                                <DetailRow label="Txn ID" value={`RBREC${(transaction.id || '326731989').substring(0, 9)}01005`} />
+                                <DetailRow label="Operator ID" value="BR000568018849" />
+                                <DetailRow label="Total Amount Paid" value={`₹ ${amountClean}`} />
+                                <DetailRow label="Cashback Applied!" value={isSuccess ? "-₹ 3.11" : "₹ 0.00"} highlight />
+                                <DetailRow label="Paid From Wallet" value="₹ 100.00" />
+                                <DetailRow label="Paid Online" value="₹ 135.89" />
+                                <DetailRow label="TDS" value="₹ 0.00" />
+                                <DetailRow label="GST" value="₹ 0.00" />
+                            </div>
+
+                            {/* Response Status */}
+                            <div className="text-center pt-2">
+                                <p className="text-[11px] font-bold tracking-wider" style={{ color: isSuccess ? '#9ca3af' : '#ef4444' }}>
+                                    {isSuccess ? 'Response Success' : 'Response Failed'}
                                 </p>
-                                <p className="text-[#9ca3af] text-[10px] font-medium opacity-50">
-                                    {transaction.date || "05 Jun"}, {transaction.time || "03:28 PM"}
-                                </p>
+                            </div>
+
+                            {/* Action Buttons */}
+                            <div className="flex gap-3 pt-2">
+                                <button
+                                    onClick={() => { }} // Add help handler later
+                                    className={`flex-1 font-bold py-2.5 rounded-full shadow-sm active:scale-[0.98] transition-all tracking-wide text-xs ${isSuccess ? 'bg-green-500 hover:bg-green-400 text-black' : 'bg-red-500 hover:bg-red-400 text-white'}`}
+                                >
+                                    Get Help
+                                </button>
+                                <button
+                                    onClick={onClose}
+                                    className="flex-1 font-bold py-2.5 rounded-full shadow-lg active:scale-[0.98] transition-all tracking-wide text-xs border-2 bg-transparent"
+                                    style={{ borderColor: accentColor, color: accentColor }}
+                                >
+                                    Done
+                                </button>
                             </div>
                         </div>
 
-                        {/* Zigzag Paper Tear Effect - Placed inside the overflow-hidden card */}
-                        <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-10">
-                            <svg
-                                className="block w-full h-[12px] text-black fill-current"
-                                viewBox="0 0 1200 30"
-                                preserveAspectRatio="none"
-                            >
-                                <path d="M0,30 L15,0 L30,30 L45,0 L60,30 L75,0 L90,30 L105,0 L120,30 L135,0 L150,30 L165,0 L180,30 L195,0 L210,30 L225,0 L240,30 L255,0 L270,30 L285,0 L300,30 L315,0 L330,30 L345,0 L360,30 L375,0 L390,30 L405,0 L420,30 L435,0 L450,30 L465,0 L480,30 L495,0 L510,30 L525,0 L540,30 L555,0 L570,30 L585,0 L600,30 L615,0 L630,30 L645,0 L660,30 L675,0 L690,30 L705,0 L720,30 L735,0 L750,30 L765,0 L780,30 L795,0 L810,30 L825,0 L840,30 L855,0 L870,30 L885,0 L900,30 L915,0 L930,30 L945,0 L960,30 L975,0 L990,30 L1005,0 L1020,30 L1035,0 L1050,30 L1065,0 L1080,30 L1095,0 L1110,30 L1125,0 L1140,30 L1155,0 L1170,30 L1185,0 L1200,30 V30 H0 Z" />
+                        {/* Zigzag Paper Tear Effect */}
+                        <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none h-[15px]">
+                            <svg className="block w-full h-full text-black fill-current" viewBox="0 0 1200 30" preserveAspectRatio="none">
+                                <defs>
+                                    <pattern id="tear-pattern" x="0" y="0" width="40" height="30" patternUnits="userSpaceOnUse">
+                                        <path d="M0,30 Q20,0 40,30" fill="currentColor" />
+                                    </pattern>
+                                </defs>
+                                <rect width="1200" height="30" fill="url(#tear-pattern)" />
                             </svg>
                         </div>
                     </div>
 
                     {/* Footer Badges */}
-                    <div className="flex flex-col items-center gap-4 pt-4 pb-2 text-center">
+                    <div className="flex flex-col items-center gap-4 pt-8 pb-6 text-center">
                         <div className="flex items-center gap-2">
-                            <ShieldCheck className="w-3.5 h-3.5 text-[#4ade80] fill-[#4ade80]/10" />
-                            <span className="text-white text-[10px] font-bold tracking-widest uppercase opacity-80">100% Secure Payments</span>
+                            <ShieldCheck className="w-4 h-4" style={{ color: accentColor }} />
+                            <span className="text-white text-[10px] font-bold tracking-widest uppercase opacity-70">100% Secure Payments</span>
                         </div>
 
                         {/* Bharat BillPay Logo */}
                         <div className="flex flex-col items-center">
-                            <p className="text-[7px] text-gray-500 font-bold uppercase tracking-widest mb-1 opacity-70">Powered BY</p>
+                            <p className="text-[7px] text-gray-500 font-bold uppercase tracking-widest mb-1 opacity-60">Powered By</p>
                             <img
-                                src={`${getAssetPath("/bharat-billpay-seeklogo.svg")}?v=${Date.now()}`}
+                                src={`${getAssetPath("/bharat-billpay-seeklogo.svg")}?v=1`}
                                 alt="Bharat BillPay"
                                 crossOrigin="anonymous"
-                                className="h-10 w-auto object-contain opacity-90"
+                                className="h-8 w-auto object-contain opacity-80"
                             />
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* Always Visible Close Button */}
-            <div className="p-4 pt-2 border-t border-white/5 bg-white/80 dark:bg-transparent/80 backdrop-blur-xl">
-                <Button
-                    onClick={onClose}
-                    className="w-full bg-[#021a10] hover:bg-[#021a10]/90 text-white font-[900] rounded-xl h-12 text-sm shadow-lg active:scale-[0.98] transition-all uppercase tracking-wider"
-                >
-                    Close
-                </Button>
-            </div>
+
         </div>
     );
 };

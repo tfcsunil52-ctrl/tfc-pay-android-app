@@ -98,7 +98,7 @@ const AppLock = ({
     };
 
     return (
-        <div className="fixed inset-0 z-[100] bg-white dark:bg-transparent flex flex-col items-center justify-between p-6 pb-12 animate-in fade-in duration-300">
+        <div className="fixed inset-0 z-[100] bg-background flex flex-col items-center justify-between p-6 pb-12 animate-in fade-in duration-300">
             <div className="flex-1 flex flex-col items-center justify-center w-full max-w-sm">
                 {/* Header Icon */}
                 <div className={`w-20 h-20 rounded-3xl flex items-center justify-center mb-6 shadow-inner transition-all duration-500 ${biometricActive
@@ -107,11 +107,11 @@ const AppLock = ({
                     }`}>
                     {mode === 'setup' ? (
                         <div className="relative">
-                            <Lock className="w-10 h-10 text-[#021a10] dark:text-white" strokeWidth={1.5} />
-                            <ArrowRight className="w-4 h-4 text-[#021a10] dark:text-white absolute -right-2 top-0 bg-background rounded-full" />
+                            <Lock className="w-10 h-10 text-green-700 dark:text-green-500" strokeWidth={1.5} />
+                            <ArrowRight className="w-4 h-4 text-green-700 dark:text-green-500 absolute -right-2 top-0 bg-background rounded-full" />
                         </div>
                     ) : (biometricActive && biometricSuccess) ? (
-                        <ShieldCheck className="w-10 h-10 text-[#021a10] dark:text-white animate-in zoom-in duration-300" strokeWidth={1.5} />
+                        <ShieldCheck className="w-10 h-10 text-green-700 dark:text-green-500 animate-in zoom-in duration-300" strokeWidth={1.5} />
                     ) : (
                         <Lock className="w-10 h-10 text-green-700 dark:text-green-500" strokeWidth={1.5} />
                     )}
@@ -159,7 +159,7 @@ const AppLock = ({
                                 <div
                                     key={i}
                                     className={`w-4 h-4 rounded-full border-2 transition-all duration-200 ${i < pin.length
-                                        ? "bg-[#021a10] border-[#021a10] scale-110 shadow-[0_0_10px_rgba(6,49,64,0.5)]"
+                                        ? "bg-green-700 border-green-700 dark:bg-green-500 dark:border-green-500 scale-110 shadow-[0_0_10px_rgba(0,255,135,0.5)]"
                                         : "bg-transparent border-muted-foreground/30"
                                         } ${error ? "border-red-500 bg-red-500/20" : ""}`}
                                 />
@@ -186,7 +186,7 @@ const AppLock = ({
 
                             <button
                                 onClick={handleBiometricAuth}
-                                className={`w-16 h-16 rounded-2xl flex items-center justify-center text-[#021a10] dark:text-white transition-all active:scale-95 ${mode === 'setup' || !biometricEnabled ? 'opacity-0 pointer-events-none' : ''}`}
+                                className={`w-16 h-16 rounded-2xl flex items-center justify-center text-green-700 dark:text-green-500 transition-all active:scale-95 ${mode === 'setup' || !biometricEnabled ? 'opacity-0 pointer-events-none' : ''}`}
                             >
                                 <Fingerprint className="w-8 h-8" />
                             </button>

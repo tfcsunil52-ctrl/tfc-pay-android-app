@@ -243,7 +243,7 @@ const MobileSignup = ({ onSignup, onBackToLogin, isDarkMode = true }: MobileSign
                             <Button
                                 onClick={handleSubmit}
                                 disabled={isSubmitting}
-                                className="w-full h-12 bg-[#021a10] hover:bg-[#021a10]/90 text-white font-bold text-sm rounded-xl shadow-lg group disabled:opacity-50 disabled:cursor-not-allowed transition-all mt-2"
+                                className="w-full h-12 bg-green-700 hover:bg-green-800 dark:bg-green-500 dark:hover:bg-green-400 text-white dark:text-black font-bold text-sm rounded-xl shadow-lg shadow-green-700/20 dark:shadow-green-500/20 group disabled:opacity-50 disabled:cursor-not-allowed transition-all mt-2"
                             >
                                 <span>{isSubmitting ? 'Creating Account...' : 'Create Account'}</span>
                                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />

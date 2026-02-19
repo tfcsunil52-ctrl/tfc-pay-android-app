@@ -140,6 +140,7 @@ const UnifiedTransfer = ({ onBack, initialTab = 'mobile', hideTabs = false }: Un
                                     size="sm"
                                     variant="outline"
                                     onClick={handleVerifyIFSC}
+                                    isLoading={ifscStatus === 'verifying'}
                                     className={`h-9 text-xs font-bold rounded-lg border-2 ${ifscStatus === 'valid'
                                         ? "border-green-500 text-green-700 dark:text-green-500 bg-green-50 dark:bg-green-500/10"
                                         : ifscStatus === 'invalid'
@@ -233,7 +234,7 @@ const UnifiedTransfer = ({ onBack, initialTab = 'mobile', hideTabs = false }: Un
     }
 
     return (
-        <div className="flex flex-col h-full bg-background overlay-gradient-bg animate-in slide-in-from-right duration-300 fixed inset-0 z-50">
+        <div className="flex flex-col h-full bg-background animate-in slide-in-from-right duration-300 fixed inset-0 z-50">
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-border bg-card/50 backdrop-blur-md sticky top-0 z-10">
                 <div className="flex items-center">
@@ -263,13 +264,13 @@ const UnifiedTransfer = ({ onBack, initialTab = 'mobile', hideTabs = false }: Un
                 <div className="flex p-4 gap-2">
                     <button
                         onClick={() => setActiveTab('mobile')}
-                        className={`flex-1 py-3 rounded-2xl font-bold transition-all ${activeTab === 'mobile' ? 'bg-[#021a10] text-white' : 'bg-muted text-muted-foreground'}`}
+                        className={`flex-1 py-3 rounded-2xl font-bold transition-all ${activeTab === 'mobile' ? 'bg-green-700 text-white dark:bg-green-500 dark:text-black' : 'bg-muted text-muted-foreground'}`}
                     >
                         To Mobile
                     </button>
                     <button
                         onClick={() => setActiveTab('bank')}
-                        className={`flex-1 py-3 rounded-2xl font-bold transition-all ${activeTab === 'bank' ? 'bg-[#021a10] text-white' : 'bg-muted text-muted-foreground'}`}
+                        className={`flex-1 py-3 rounded-2xl font-bold transition-all ${activeTab === 'bank' ? 'bg-green-700 text-white dark:bg-green-500 dark:text-black' : 'bg-muted text-muted-foreground'}`}
                     >
                         To Beneficiary
                     </button>

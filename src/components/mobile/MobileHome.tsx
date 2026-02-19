@@ -30,7 +30,6 @@ interface MobileHomeProps {
     onRewardsClick?: () => void;
     onNotificationsClick?: () => void;
     unreadNotifications?: number;
-    onGetHelp?: (message: string) => void;
 }
 
 // Rolling number animation component
@@ -89,15 +88,16 @@ const quickServices = [
     { icon: Fuel, label: "Piped Gas", targetTitle: "Piped Gas", image: "/New icons/Piped Gas.webp" },
     { icon: Phone, label: "Landline", targetTitle: "Landline", image: "/New icons/Landline.webp" },
     { icon: Droplets, label: "Water", targetTitle: "Water Bill", image: "/New icons/Water Bill.webp" },
-].map(s => ({ ...s, image: s.image ? getAssetPath(s.image) : undefined }));
+]
+    .map(s => ({ ...s, image: s.image ? getAssetPath(s.image) : undefined }));
 
 // Banner carousel component
 const BannerCarousel = ({ onNavigate }: { onNavigate: (tab: TabType) => void }) => {
     const [currentSlide, setCurrentSlide] = useState(0);
     const banners = [
-        { src: "/offer-banner.webp", alt: "5% Cashback" },
-        { src: "/offer-banner-2.webp", alt: "Flat ₹100 Cashback" },
-        { src: "/offer-banner-3.webp", alt: "20% Off on DTH" }
+        { src: "/offer-banner.webp", alt: "Upto 5% Mobile Cashback" },
+        { src: "/offer-banner-2.webp", alt: "Upto 4% DTH Cashback" },
+        { src: "/offer-banner-3.webp", alt: "All Utility Bills" }
     ].map(b => ({ ...b, src: getAssetPath(b.src) }));
 
     useEffect(() => {
@@ -124,7 +124,7 @@ const BannerCarousel = ({ onNavigate }: { onNavigate: (tab: TabType) => void }) 
                             <button
                                 key={index}
                                 onClick={() => setCurrentSlide(index)}
-                                className={`h-1.5 rounded-full transition-all duration-300 ${index === currentSlide ? "w-4 bg-[#021a10]" : "w-1.5 bg-white/50"}`}
+                                className={`h-1.5 rounded-full transition-all duration-300 ${index === currentSlide ? "w-4 bg-green-700 dark:bg-green-500" : "w-1.5 bg-white/50"}`}
                             />
                         ))}
                     </div>
@@ -154,8 +154,7 @@ const MobileHome = ({
     onSeeAllServices,
     onRewardsClick,
     onNotificationsClick,
-    unreadNotifications = 0,
-    onGetHelp
+    unreadNotifications = 0
 }: MobileHomeProps) => {
     const [isScanning, setIsScanning] = useState(false);
     const [transferMode, setTransferMode] = useState<'contact' | 'mobile' | 'bank' | 'beneficiary' | 'self' | 'spending' | null>(null);
@@ -171,14 +170,14 @@ const MobileHome = ({
             </div>
 
             {/* Sticky Header */}
-            <header className="sticky top-0 z-30 px-4 py-3 bg-white/80 dark:bg-card/80 backdrop-blur-md border-b border-border shadow-sm">
+            <header className="sticky top-0 z-30 px-4 py-3 bg-white dark:bg-card border-b border-border shadow-sm">
                 <div className="flex items-center justify-between relative">
                     <button
                         onClick={() => onProfileClick?.()}
                         className="flex-shrink-0 hover:scale-105 transition-transform"
                     >
                         <Avatar className="w-10 h-10 border-2 border-green-700 dark:border-green-500 shadow-sm">
-                            <AvatarFallback className="bg-[#021a10] text-white text-sm font-bold">JD</AvatarFallback>
+                            <AvatarFallback className="bg-green-700 dark:bg-green-500 text-white dark:text-black text-sm font-bold">JD</AvatarFallback>
                         </Avatar>
                     </button>
                     <div className="absolute left-1/2 -translate-x-1/2">
@@ -235,167 +234,157 @@ const MobileHome = ({
                 {/* Banner Carousel */}
                 <BannerCarousel onNavigate={onNavigate} />
 
-                {/* Money Transfer */}
+                {/* Transfer & Tools */}
                 <section className="relative z-10">
                     <div className="flex items-center justify-between mb-3 px-1">
                         <h3 className="font-bold text-foreground text-sm flex items-center gap-2">
-                            <div className="w-1.5 h-4 bg-green-600 dark:bg-green-500 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.4)]" />
+                            <div className="w-1.5 h-4 bg-green-700 dark:bg-green-500 rounded-full" />
                             Transfer & Tools
                         </h3>
                     </div>
-                    <div className="grid grid-cols-4 gap-2">
-                        {/* CC to Bank */}
-                        <button
-                            className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
-                            onClick={() => onProfileClick?.("transfer-cc")}
-                        >
-                            <div className="w-12 h-12 rounded-full bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
-                                <CreditCard className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
-                                <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
-                                    <ArrowUpRight className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
+                    {/* Padding Box Removed */}
+                    <div className="relative z-10 pt-1">
+                        <div className="grid grid-cols-4 gap-2">
+                            {/* CC to Bank */}
+                            <button
+                                className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
+                                onClick={() => onProfileClick?.("transfer-cc")}
+                            >
+                                <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
+                                    <CreditCard className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
+                                    <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
+                                        <ArrowUpRight className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
+                                    </div>
                                 </div>
-                            </div>
-                            <span className="text-[10px] font-medium text-center leading-tight text-foreground">CC to Bank</span>
-                        </button>
+                                <span className="text-[10px] font-medium text-center leading-tight text-foreground">CC to Bank</span>
+                            </button>
 
-
-                        {/* Beneficiary */}
-                        <button
-                            className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
-                            onClick={() => setTransferMode('beneficiary')}
-                        >
-                            <div className="w-12 h-12 rounded-full bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
-                                <User className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
-                                <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
-                                    <Plus className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
+                            {/* Beneficiary */}
+                            <button
+                                className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
+                                onClick={() => setTransferMode('beneficiary')}
+                            >
+                                <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
+                                    <User className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
+                                    <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
+                                        <Plus className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
+                                    </div>
                                 </div>
-                            </div>
-                            <span className="text-[10px] font-medium text-center leading-tight text-foreground">Beneficiary</span>
-                        </button>
+                                <span className="text-[10px] font-medium text-center leading-tight text-foreground">Beneficiary</span>
+                            </button>
 
-                        {/* Report */}
-                        <button
-                            className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
-                            onClick={() => setTransferMode('spending')}
-                        >
-                            <div className="w-12 h-12 rounded-full bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
-                                <BarChart2 className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
-                                <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
-                                    <Eye className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
+                            {/* Report */}
+                            <button
+                                className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
+                                onClick={() => setTransferMode('spending')}
+                            >
+                                <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
+                                    <BarChart2 className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
+                                    <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
+                                        <PieChart className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
+                                    </div>
                                 </div>
-                            </div>
-                            <span className="text-[10px] font-medium text-center leading-tight text-foreground">Report</span>
-                        </button>
+                                <span className="text-[10px] font-medium text-center leading-tight text-foreground">Report</span>
+                            </button>
 
-                        {/* Complain */}
-                        <button
-                            className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
-                            onClick={() => onGetHelp?.("I want to raise a complaint")}
-                        >
-                            <div className="w-12 h-12 rounded-full bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
-                                <AlertTriangle className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
-                                <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
-                                    <Headphones className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
+                            {/* Complain */}
+                            <button
+                                className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
+                                onClick={() => onNavigate("profile")}
+                            >
+                                <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
+                                    <AlertTriangle className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
+                                    <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
+                                        <Headphones className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
+                                    </div>
                                 </div>
-                            </div>
-                            <span className="text-[10px] font-medium text-center leading-tight text-foreground">Complain</span>
-                        </button>
+                                <span className="text-[10px] font-medium text-center leading-tight text-foreground">Complain</span>
+                            </button>
+                        </div>
                     </div>
                 </section>
 
                 {/* Action Buttons */}
-                {/* Action Buttons */}
-                <section className="bg-gradient-to-br from-[#011a0e] via-[#000805] to-[#011a0e] rounded-3xl border border-white/5 p-3 shadow-[inset_0_1px_10px_rgba(0,0,0,0.5),0_8px_20px_rgba(0,0,0,0.3)] relative z-10 overflow-hidden group">
-                    {/* Lighting effect on the edge */}
-                    <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-green-500/30 to-transparent opacity-50" />
-                    <div className="absolute bottom-0 left-1/4 right-1/4 h-[8px] bg-green-500/5 blur-md rounded-full" />
-
-                    <div className="flex items-center justify-between px-2 relative z-10">
-                        {/* Wallet */}
-                        <button
-                            className="flex-1 flex flex-col items-center gap-1 active:scale-95 transition-all group/icon"
+                <section className="rounded-2xl border border-blue-50/50 p-2 bg-white shadow-lg relative z-10 dark:bg-card dark:border-border dark:shadow-none">
+                    <div className="grid grid-cols-3 gap-2">
+                        <Card
+                            className="bg-blue-500/15 border border-blue-200/50 cursor-pointer hover:scale-[1.02] active:scale-95 transition-all shadow-none dark:bg-blue-500/10 dark:border-0"
                             onClick={() => onProfileClick?.("wallet")}
                         >
-                            <div className="w-11 h-11 rounded-2xl bg-orange-600/10 dark:bg-orange-500/10 flex items-center justify-center mb-0.5 group-hover/icon:bg-orange-500/20 transition-colors shadow-sm">
-                                <Wallet className="w-6 h-6 text-orange-600 dark:text-orange-500" strokeWidth={2.5} />
-                            </div>
-                            <span className="text-[11px] font-bold text-foreground">Wallet</span>
-                            <span className="text-[10px] text-muted-foreground">
-                                ₹<RollingNumber value={balance} startAt={previousBalance} />
-                            </span>
+                            <CardContent className="py-2 px-1 flex flex-col items-center gap-1">
+                                <Wallet className="w-5 h-5 text-blue-600" strokeWidth={2} />
+                                <span className="text-[11px] font-bold text-foreground">Wallet</span>
+                                <span className="text-[10px] text-muted-foreground">
+                                    ₹<RollingNumber value={balance} startAt={previousBalance} />
+                                </span>
+                            </CardContent>
+                        </Card>
+
+                        <button onClick={() => onRewardsClick?.()} className="h-full">
+                            <Card className="bg-orange-500/15 border border-orange-200/50 cursor-pointer hover:scale-[1.02] active:scale-95 transition-all h-full shadow-none dark:bg-orange-500/10 dark:border-0">
+                                <CardContent className="py-2 px-1 flex flex-col items-center gap-1">
+                                    <Gift className="w-5 h-5 text-orange-600" strokeWidth={2} />
+                                    <span className="text-[11px] font-bold text-foreground">Rewards</span>
+                                    <span className="text-[10px] text-muted-foreground">5 New</span>
+                                </CardContent>
+                            </Card>
                         </button>
 
-                        <div className="w-px h-10 bg-white/5 mx-2" />
-
-                        {/* Rewards */}
-                        <button
-                            className="flex-1 flex flex-col items-center gap-1 active:scale-95 transition-all group/icon"
-                            onClick={() => onRewardsClick?.()}
-                        >
-                            <div className="w-11 h-11 rounded-2xl bg-rose-600/10 dark:bg-rose-500/10 flex items-center justify-center mb-0.5 group-hover/icon:bg-rose-500/20 transition-colors shadow-sm">
-                                <Gift className="w-6 h-6 text-rose-600 dark:text-rose-500" strokeWidth={2.5} />
-                            </div>
-                            <span className="text-[11px] font-bold text-foreground">Rewards</span>
-                            <span className="text-[10px] text-muted-foreground">5 New</span>
-                        </button>
-
-                        <div className="w-px h-10 bg-white/5 mx-2" />
-
-                        {/* Refer */}
-                        <button
-                            className="flex-1 flex flex-col items-center gap-1 active:scale-95 transition-all group/icon"
+                        <Card
+                            className="bg-purple-500/15 border border-purple-200/50 cursor-pointer hover:scale-[1.02] active:scale-95 transition-all shadow-none dark:bg-purple-500/10 dark:border-0"
                             onClick={() => onProfileClick?.("refer")}
                         >
-                            <div className="w-11 h-11 rounded-2xl bg-sky-600/10 dark:bg-sky-500/10 flex items-center justify-center mb-0.5 group-hover/icon:bg-sky-500/20 transition-colors shadow-sm">
-                                <Users className="w-6 h-6 text-sky-600 dark:text-sky-500" strokeWidth={2.5} />
-                            </div>
-                            <span className="text-[11px] font-bold text-foreground">Refer</span>
-                            <span className="text-[10px] text-muted-foreground">Win ₹100</span>
-                        </button>
+                            <CardContent className="py-2 px-1 flex flex-col items-center gap-1">
+                                <Users className="w-5 h-5 text-purple-600" strokeWidth={2} />
+                                <span className="text-[11px] font-bold text-foreground">Refer</span>
+                                <span className="text-[10px] text-muted-foreground">Get ₹100</span>
+                            </CardContent>
+                        </Card>
                     </div>
                 </section>
 
                 {/* Recharge & Pay Bills */}
                 <section>
-                    <div className="flex items-center justify-between mb-3 px-1">
-                        <h3 className="font-bold text-foreground text-sm flex items-center gap-2">
-                            <div className="w-1.5 h-4 bg-green-600 dark:bg-green-500 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.4)]" />
-                            Recharge & Pay Bills
-                        </h3>
+                    <div className="flex items-center justify-between mb-3">
+                        <h3 className="font-semibold text-foreground text-sm">Recharge & Pay Bills</h3>
                     </div>
-                    <div className="grid grid-cols-4 gap-3">
-                        {quickServices.map((service, index) => (
-                            <button
-                                key={index}
-                                className="flex flex-col items-center gap-1.5 active:scale-95 transition-transform"
-                                onClick={() => onServiceSelect?.(service.targetTitle || service.label)}
-                            >
-                                {service.image ? (
-                                    <div className="w-10 h-10 flex items-center justify-center">
-                                        <img src={service.image} alt={service.label} className="w-full h-full object-contain" />
-                                    </div>
-                                ) : (
-                                    <div className="w-10 h-10 rounded-full bg-green-600/10 dark:bg-green-500/10 flex items-center justify-center">
-                                        <service.icon className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
-                                    </div>
-                                )}
-                                <span className="text-[10px] text-muted-foreground text-center font-medium leading-tight">{service.label}</span>
-                            </button>
-                        ))}
-                    </div>
+                    {/* Padding Box Removed */}
+                    <div className="relative z-10 pt-1">
+                        <div className="grid grid-cols-4 gap-3">
+                            {quickServices.map((service, index) => (
+                                <button
+                                    key={index}
+                                    className="flex flex-col items-center gap-1.5 active:scale-95 transition-transform"
+                                    onClick={() => onServiceSelect?.(service.targetTitle || service.label)}
+                                >
+                                    {service.image ? (
+                                        <div className="w-10 h-10 flex items-center justify-center">
+                                            <img src={service.image} alt={service.label} className="w-full h-full object-contain" />
+                                        </div>
+                                    ) : (
+                                        <div className="w-10 h-10 rounded-xl bg-green-600/10 dark:bg-green-500/10 flex items-center justify-center">
+                                            <service.icon className="w-5 h-5 text-green-700 dark:text-green-500" />
+                                        </div>
+                                    )}
+                                    <span className="text-[10px] text-muted-foreground text-center font-medium leading-tight">{service.label}</span>
+                                </button>
+                            ))}
+                        </div>
 
-                    <div className="mt-4 px-1">
-                        <button
-                            onClick={() => onSeeAllServices?.()}
-                            className="w-full flex items-center justify-center gap-2 text-xs font-bold text-green-700 dark:text-green-500 bg-green-50 dark:bg-green-900/20 py-3 rounded-full hover:bg-green-100 dark:hover:bg-green-900/30 transition-all active:scale-[0.98] border border-green-700/5 dark:border-green-500/5 shadow-sm"
-                        >
-                            <span>View More</span>
-                            <div className="arrow-animated">
-                                <ChevronRight className="w-3.5 h-3.5" />
-                                <ChevronRight className="w-3.5 h-3.5" />
-                                <ChevronRight className="w-3.5 h-3.5" />
-                            </div>
-                        </button>
+                        <div className="mt-4 px-1">
+                            <button
+                                onClick={() => onSeeAllServices?.()}
+                                className="w-full flex items-center justify-center gap-2 text-xs font-bold text-green-700 dark:text-green-500 bg-green-50 dark:bg-green-900/20 py-3 rounded-full hover:bg-green-100 dark:hover:bg-green-900/30 transition-all active:scale-[0.98] border border-green-700/5 dark:border-green-500/5 shadow-sm"
+
+                            >
+                                <span>View More</span>
+                                <div className="arrow-animated">
+                                    <ChevronRight className="w-3.5 h-3.5" />
+                                    <ChevronRight className="w-3.5 h-3.5" />
+                                    <ChevronRight className="w-3.5 h-3.5" />
+                                </div>
+                            </button>
+                        </div>
                     </div>
                 </section>
 
@@ -404,12 +393,9 @@ const MobileHome = ({
 
                 {/* Recent Activity */}
                 <section>
-                    <div className="flex items-center justify-between mb-3 px-1">
-                        <div className="flex items-center gap-2">
-                            <div className="w-1.5 h-4 bg-green-600 dark:bg-green-500 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.4)]" />
-                            <h3 className="font-bold text-foreground text-sm">Recent Activity</h3>
-                        </div>
-                        <button className="text-green-700 dark:text-green-500 text-xs font-semibold" onClick={() => onNavigate("history")}>View All</button>
+                    <div className="flex items-center justify-between mb-3">
+                        <h3 className="font-semibold text-foreground">Recent Activity</h3>
+                        <button className="text-green-700 dark:text-green-500 text-xs" onClick={() => onNavigate("history")}>View All</button>
                     </div>
                     <div className="space-y-2">
                         {transactions.map((tx, index) => (
@@ -460,7 +446,7 @@ const MobileHome = ({
             )}
             {transferMode === 'beneficiary' && <BeneficiaryManagement onBack={() => setTransferMode(null)} />}
             {transferMode === 'spending' && (
-                <div className="fixed inset-0 z-50 bg-background overlay-gradient-bg animate-in slide-in-from-right duration-300">
+                <div className="fixed inset-0 z-50 bg-background animate-in slide-in-from-right duration-300">
                     <MobileHistory
                         isDarkMode={isDarkMode}
                         transactions={transactions}
@@ -471,7 +457,7 @@ const MobileHome = ({
             )}
             {
                 transferMode === 'self' && (
-                    <div className="fixed inset-0 z-50 bg-background overlay-gradient-bg animate-in slide-in-from-right duration-300">
+                    <div className="fixed inset-0 z-50 bg-background animate-in slide-in-from-right duration-300">
                         <TransferView
                             onBack={() => setTransferMode(null)}
                             title="Wallet to Bank"

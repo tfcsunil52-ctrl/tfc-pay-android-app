@@ -47,7 +47,11 @@ const quickServices = [
     { icon: "/New icons/House tax.webp", title: "House Tax" },
 ];
 
-
+const categories = [
+    { id: "recharge", label: "Recharge" },
+    { id: "bills", label: "Bill Payment" },
+    { id: "premium", label: "Premium" },
+];
 
 const services = {
     recharge: [
@@ -108,6 +112,7 @@ const MobileServices = ({
     onServiceConsumed,
     onNavigate
 }: MobileServicesProps) => {
+    const [activeCategory, setActiveCategory] = useState("recharge");
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedService, setSelectedService] = useState<any>(null);
     const [isDeepLinked, setIsDeepLinked] = useState(false);
@@ -148,8 +153,8 @@ const MobileServices = ({
         );
     }
 
-    const allAvailableServices = [...services.recharge, ...services.bills, ...services.premium];
-    const filteredServices = allAvailableServices.filter((service) =>
+    const currentServices = services[activeCategory as keyof typeof services];
+    const filteredServices = currentServices.filter((service) =>
         service.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
@@ -162,26 +167,27 @@ const MobileServices = ({
             </div>
 
             <div className="flex-1 overflow-y-auto p-4 space-y-5 relative z-10">
-                {/* Search - Moved to top, added padding to avoid back button */}
-                <div className="relative mb-2 pl-12">
-                    <Search className="absolute left-[3.75rem] top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                    <Input
-                        placeholder="Search services..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-10 h-12 bg-card border-border text-foreground placeholder:text-muted-foreground shadow-sm focus:ring-green-500"
-                    />
-                </div>
-
                 {/* Header */}
                 <header className="pl-12">
                     <h1 className="text-xl font-bold text-foreground mb-1">All Services</h1>
                     <p className="text-sm text-muted-foreground">Pay bills & recharge instantly</p>
                 </header>
 
+                {/* Search */}
+                <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <Input
+                        placeholder="Search services..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="pl-10 bg-card border-border text-foreground placeholder:text-muted-foreground"
+                    />
+                </div>
+
+
                 {/* Quick Services Grid */}
                 <section className="grid grid-cols-5 gap-3">
-                    {quickServices.map((service, index) => (
+                    {quickServices.filter(s => s.title.toLowerCase().includes(searchQuery.toLowerCase())).map((service, index) => (
                         <button
                             key={index}
                             onClick={() => setSelectedService(service)}
@@ -197,38 +203,79 @@ const MobileServices = ({
                     ))}
                 </section>
 
-                {/* Services List - Merged categories */}
-                <div className="space-y-3">
-                    <h2 className="text-sm font-bold text-foreground px-1 mb-2">Service Categories</h2>
-                    {filteredServices.map((service, index) => (
-                        <Card
-                            key={index}
-                            className="bg-white dark:bg-card border-green-700/10 dark:border-border hover:border-green-700/50 dark:hover:border-green-500/50 transition-all cursor-pointer group hover:scale-[1.01] hover:shadow-lg hover:shadow-green-700/5"
-                            onClick={() => setSelectedService(service)}
-                        >
-                            <CardContent className="p-4">
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-12 h-12 bg-green-600/10 dark:bg-green-500/10 rounded-xl flex items-center justify-center">
-                                            <img src={getAssetPath(service.icon)} alt={service.title} className="w-8 h-8 object-contain" />
-                                        </div>
-                                        <div>
-                                            <h3 className="font-semibold text-foreground">{service.title}</h3>
-                                            <p className="text-sm text-muted-foreground">{service.description}</p>
-                                        </div>
+                {/* Upcoming Bills */}
+                <section className="space-y-3">
+                    <h3 className="font-bold text-foreground text-sm flex items-center gap-2 px-1 mt-2">
+                        Upcoming Bills
+                        <span className="bg-red-500/10 text-red-600 dark:text-red-400 text-[10px] px-2 py-0.5 rounded-full font-bold border border-red-500/20">1 Overdue</span>
+                    </h3>
+
+                    <div className="space-y-3">
+                        {/* Overdue Bill - Red Theme */}
+                        <Card className="bg-card border-none ring-1 ring-red-500/30 shadow-sm relative overflow-hidden group">
+                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-red-500" />
+                            <CardContent className="p-3 pl-4 flex items-center justify-between relative z-10">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center">
+                                        <img src={getAssetPath("/New icons/mobile postpaid.webp")} alt="Mobile Postpaid" className="w-6 h-6 object-contain" />
                                     </div>
-                                    <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                                    <div>
+                                        <p className="font-bold text-sm text-foreground">Mobile Postpaid</p>
+                                        <p className="text-[11px] text-red-600 dark:text-red-400 font-medium flex items-center gap-1">
+                                            Overdue by 2 days
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col items-end gap-1">
+                                    <p className="font-bold text-foreground">₹499</p>
+                                    <Button
+                                        size="sm"
+                                        className="h-7 text-[10px] font-bold bg-red-500 hover:bg-red-600 text-white border-0 px-4 rounded-full shadow-sm shadow-red-500/20"
+                                        onClick={() => setSelectedService(quickServices.find(s => s.title === "Mobile Postpaid") || quickServices[1])}
+                                    >
+                                        PAY NOW
+                                    </Button>
                                 </div>
                             </CardContent>
                         </Card>
-                    ))}
-                </div>
+
+                        {/* Due Soon Bill - Green Theme */}
+                        <Card className="bg-card border-none ring-1 ring-border shadow-sm relative overflow-hidden group">
+                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-green-500" />
+                            <CardContent className="p-3 pl-4 flex items-center justify-between relative z-10">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center">
+                                        <img src={getAssetPath("/New icons/Electricity Bill.webp")} alt="Electricity" className="w-6 h-6 object-contain" />
+                                    </div>
+                                    <div>
+                                        <p className="font-bold text-sm text-foreground">Electricity Bill</p>
+                                        <p className="text-[11px] text-muted-foreground font-medium">
+                                            Due in 5 days
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col items-end gap-1">
+                                    <p className="font-bold text-foreground">₹1,250</p>
+                                    <Button
+                                        size="sm"
+                                        variant="outline"
+                                        className="h-7 text-[10px] font-bold border-green-500/30 text-green-700 dark:text-green-500 hover:bg-green-50 dark:hover:bg-green-900/20 px-4 rounded-full"
+                                        onClick={() => setSelectedService(quickServices.find(s => s.title === "Electricity Bill") || quickServices[4])}
+                                    >
+                                        PAY
+                                    </Button>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
+                </section>
+
 
                 {/* Promo Banner */}
                 <Card className="bg-gradient-to-r from-green-600/20 to-green-600/10 dark:from-green-500/20 dark:to-green-500/10 border-green-700/30 dark:border-green-500/30">
                     <CardContent className="p-4">
                         <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 bg-[#021a10] rounded-full flex items-center justify-center">
+                            <div className="w-12 h-12 bg-green-700 dark:bg-green-500 rounded-full flex items-center justify-center">
                                 <img src={getAssetPath("/New icons/Electricity Bill.webp")} alt="Electricity" className="w-8 h-8 object-contain brightness-0 invert" />
                             </div>
                             <div className="flex-1">
@@ -240,7 +287,7 @@ const MobileServices = ({
                     </CardContent>
                 </Card>
             </div>
-        </div>
+        </div >
     );
 };
 
@@ -391,7 +438,7 @@ const PaymentView = ({ service, onBack, onPayment }: PaymentViewProps) => {
     }
 
     return (
-        <div className="flex flex-col h-full bg-background overlay-gradient-bg animate-in slide-in-from-right duration-300 relative z-[70]">
+        <div className="flex flex-col h-full bg-background animate-in slide-in-from-right duration-300 relative z-[70]">
             {/* Header */}
             <header className="flex items-center p-4 border-b border-border bg-white dark:bg-card sticky top-0 z-10">
                 <button
@@ -420,7 +467,7 @@ const PaymentView = ({ service, onBack, onPayment }: PaymentViewProps) => {
                 {/* Offer Carousel for Payment View */}
                 <div className="bg-green-500/5 dark:bg-green-500/10 rounded-2xl p-4 border border-green-700/10 dark:border-green-500/10 overflow-hidden relative">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-[#021a10] flex items-center justify-center flex-shrink-0 animate-pulse">
+                        <div className="w-10 h-10 rounded-full bg-green-700 dark:bg-green-500 flex items-center justify-center flex-shrink-0 animate-pulse">
                             <Gift className="w-5 h-5 text-white dark:text-black" />
                         </div>
                         <div className="flex-1">
@@ -1191,7 +1238,7 @@ const PaymentView = ({ service, onBack, onPayment }: PaymentViewProps) => {
                 <Button
                     onClick={handlePay}
                     disabled={loading}
-                    className="w-full h-12 bg-[#021a10] text-white font-bold text-lg hover:bg-[#021a10]/90 shadow-lg"
+                    className="w-full h-12 bg-green-700 text-white dark:text-black dark:bg-green-500 font-bold text-lg hover:bg-green-800 dark:hover:bg-green-400 shadow-lg shadow-green-700/20 dark:shadow-green-500/20"
                 >
                     {loading ? (
                         <div className="flex items-center gap-2">
