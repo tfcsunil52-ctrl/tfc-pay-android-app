@@ -49,20 +49,21 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
         try {
             setIsProcessing(true);
             await new Promise(resolve => setTimeout(resolve, 100));
-            const screenH = window.innerHeight;
+            const contentH = receiptRef.current.scrollHeight;
+            const contentW = receiptRef.current.scrollWidth;
             const dataUrl = await toPng(receiptRef.current, {
                 quality: 1,
                 pixelRatio: 3,
                 backgroundColor: '#000000',
                 cacheBust: true,
-                width: 393,
-                height: screenH,
+                width: contentW,
+                height: contentH,
                 style: {
                     transform: 'scale(1)',
                     transformOrigin: 'top center',
                     padding: '0',
-                    width: '393px',
-                    height: `${screenH}px`,
+                    width: `${contentW}px`,
+                    height: `${contentH}px`,
                     overflow: 'hidden'
                 }
             });
@@ -142,8 +143,9 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
                 </button>
             </div>
 
-            <div className="flex-1 overflow-hidden">
-                <div ref={receiptRef} className="flex flex-col items-center h-full relative bg-black">
+            <div className="flex-1 overflow-auto">
+                {/* ===== SCREENSHOT CAPTURE AREA START ===== */}
+                <div ref={receiptRef} className="flex flex-col items-center relative bg-black">
                     {/* Side Lighting Effects */}
                     <div
                         className="absolute top-[20%] -left-16 w-[180px] h-[400px] rounded-full blur-[90px] pointer-events-none opacity-60"
@@ -189,8 +191,8 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
                     <div className="h-2" />
 
                     {/* Details Card */}
-                    <div className="w-[94%] max-w-[420px] bg-[#1c1d21] rounded-t-[24px] shadow-2xl relative overflow-hidden flex-1 flex flex-col">
-                        <div className="p-4 space-y-2 pb-8 flex-1 flex flex-col justify-between">
+                    <div className="w-[94%] max-w-[420px] bg-[#1c1d21] rounded-t-[24px] shadow-2xl relative overflow-hidden">
+                        <div className="p-4 space-y-2 pb-4">
                             {/* To Section */}
                             <div className="flex flex-col">
                                 <p className="text-white text-[15px] font-bold">
@@ -233,27 +235,10 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
                             </div>
 
                             {/* Response Status */}
-                            <div className="text-center pt-1">
+                            <div className="text-center pt-1 pb-2">
                                 <p className="text-[11px] font-bold tracking-wider" style={{ color: isSuccess ? '#9ca3af' : '#ef4444' }}>
                                     {isSuccess ? 'Response Success' : 'Response Failed'}
                                 </p>
-                            </div>
-
-                            {/* Action Buttons */}
-                            <div className="flex gap-3 pt-1">
-                                <button
-                                    onClick={() => { }} // Add help handler later
-                                    className={`flex-1 font-bold py-2.5 rounded-full shadow-sm active:scale-[0.98] transition-all tracking-wide text-xs ${isSuccess ? 'bg-green-500 hover:bg-green-400 text-black' : 'bg-red-500 hover:bg-red-400 text-white'}`}
-                                >
-                                    Get Help
-                                </button>
-                                <button
-                                    onClick={onClose}
-                                    className="flex-1 font-bold py-2.5 rounded-full shadow-lg active:scale-[0.98] transition-all tracking-wide text-xs border-2 bg-transparent"
-                                    style={{ borderColor: accentColor, color: accentColor }}
-                                >
-                                    Done
-                                </button>
                             </div>
                         </div>
 
@@ -270,7 +255,7 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
                         </div>
                     </div>
 
-                    {/* Footer Badges */}
+                    {/* Footer Badges - still in screenshot */}
                     <div className="flex flex-col items-center gap-1 pt-2 pb-2 text-center">
                         <div className="flex items-center gap-2">
                             <ShieldCheck className="w-4 h-4" style={{ color: accentColor }} />
@@ -288,6 +273,24 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
                             />
                         </div>
                     </div>
+                </div>
+                {/* ===== SCREENSHOT CAPTURE AREA END ===== */}
+
+                {/* Action Buttons - OUTSIDE screenshot area */}
+                <div className="flex gap-3 px-4 pt-3 pb-2">
+                    <button
+                        onClick={() => { }} // Add help handler later
+                        className={`flex-1 font-bold py-2.5 rounded-full shadow-sm active:scale-[0.98] transition-all tracking-wide text-xs ${isSuccess ? 'bg-green-500 hover:bg-green-400 text-black' : 'bg-red-500 hover:bg-red-400 text-white'}`}
+                    >
+                        Get Help
+                    </button>
+                    <button
+                        onClick={onClose}
+                        className="flex-1 font-bold py-2.5 rounded-full shadow-lg active:scale-[0.98] transition-all tracking-wide text-xs border-2 bg-transparent"
+                        style={{ borderColor: accentColor, color: accentColor }}
+                    >
+                        Done
+                    </button>
                 </div>
             </div>
 
