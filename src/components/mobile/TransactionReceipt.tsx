@@ -49,17 +49,21 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
         try {
             setIsProcessing(true);
             await new Promise(resolve => setTimeout(resolve, 100));
+            const screenH = window.innerHeight;
             const dataUrl = await toPng(receiptRef.current, {
                 quality: 1,
                 pixelRatio: 3,
                 backgroundColor: '#000000',
                 cacheBust: true,
-                width: 360,
+                width: 393,
+                height: screenH,
                 style: {
                     transform: 'scale(1)',
                     transformOrigin: 'top center',
                     padding: '0',
-                    width: '360px'
+                    width: '393px',
+                    height: `${screenH}px`,
+                    overflow: 'hidden'
                 }
             });
             return dataUrl;
@@ -95,7 +99,7 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
     };
 
     const DetailRow = ({ label, value, highlight = false }: { label: string, value: string | number, highlight?: boolean }) => (
-        <div className="flex justify-between items-start py-[3px]">
+        <div className="flex justify-between items-start py-[2px]">
             <span className="text-[11px] font-semibold text-white/80 truncate mr-3">{label}</span>
             <span className={`text-[11px] font-medium text-right shrink-0 ${highlight ? (isSuccess ? 'text-green-400' : 'text-red-400') : 'text-white/60'}`}>
                 {value}
@@ -138,8 +142,8 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
                 </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto pb-24">
-                <div ref={receiptRef} className="flex flex-col items-center min-h-full relative bg-black">
+            <div className="flex-1 overflow-hidden">
+                <div ref={receiptRef} className="flex flex-col items-center h-full relative bg-black">
                     {/* Side Lighting Effects */}
                     <div
                         className="absolute top-[20%] -left-16 w-[180px] h-[400px] rounded-full blur-[90px] pointer-events-none opacity-60"
@@ -151,42 +155,42 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
                     />
 
                     {/* TFCPAY Logo */}
-                    <div className="relative z-10 mt-6 mb-6">
+                    <div className="relative z-10 mt-2 mb-2">
                         <img
                             src={getAssetPath("/tfcpay-logo.png")}
                             alt="TFCPAY"
-                            className="h-8 w-auto object-contain"
+                            className="h-4 w-auto object-contain"
                         />
                     </div>
 
                     {/* 3D Shield Icon */}
-                    <div className="relative z-10 mb-4">
+                    <div className="relative z-10 mb-1">
                         <img
                             src={statusIcon}
                             alt={isSuccess ? "Payment Successful" : "Payment Failed"}
-                            className="w-[140px] h-auto object-contain drop-shadow-2xl"
+                            className="w-[80px] h-auto object-contain drop-shadow-2xl"
                         />
                     </div>
 
                     {/* Amount */}
-                    <div className="relative z-10 text-center mb-2">
+                    <div className="relative z-10 text-center mb-1">
                         <div className="flex items-baseline justify-center font-[900]" style={{ color: accentColor }}>
-                            <span className="text-3xl mr-1">₹</span>
-                            <span className="text-[3.2rem] leading-none tracking-tight">{amountClean}</span>
+                            <span className="text-2xl mr-1">₹</span>
+                            <span className="text-[2.4rem] leading-none tracking-tight">{amountClean}</span>
                         </div>
                         {/* Accent underline bar */}
-                        <div className="mx-auto mt-3 mb-1 w-12 h-[3px] rounded-full" style={{ backgroundColor: accentColor }} />
-                        <p className="text-white/40 text-[11px] font-medium capitalize tracking-wide mt-2">
+                        <div className="mx-auto mt-2 mb-0 w-12 h-[3px] rounded-full" style={{ backgroundColor: accentColor }} />
+                        <p className="text-white/40 text-[11px] font-medium capitalize tracking-wide mt-1">
                             {getAmountInWords(transaction.amount)}
                         </p>
                     </div>
 
                     {/* Spacer */}
-                    <div className="h-6" />
+                    <div className="h-2" />
 
                     {/* Details Card */}
-                    <div className="w-[88%] max-w-[360px] bg-[#1c1d21] rounded-t-[24px] shadow-2xl relative overflow-hidden">
-                        <div className="p-6 space-y-5 pb-14">
+                    <div className="w-[94%] max-w-[420px] bg-[#1c1d21] rounded-t-[24px] shadow-2xl relative overflow-hidden flex-1 flex flex-col">
+                        <div className="p-4 space-y-2 pb-8 flex-1 flex flex-col justify-between">
                             {/* To Section */}
                             <div className="flex flex-col">
                                 <p className="text-white text-[15px] font-bold">
@@ -229,14 +233,14 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
                             </div>
 
                             {/* Response Status */}
-                            <div className="text-center pt-2">
+                            <div className="text-center pt-1">
                                 <p className="text-[11px] font-bold tracking-wider" style={{ color: isSuccess ? '#9ca3af' : '#ef4444' }}>
                                     {isSuccess ? 'Response Success' : 'Response Failed'}
                                 </p>
                             </div>
 
                             {/* Action Buttons */}
-                            <div className="flex gap-3 pt-2">
+                            <div className="flex gap-3 pt-1">
                                 <button
                                     onClick={() => { }} // Add help handler later
                                     className={`flex-1 font-bold py-2.5 rounded-full shadow-sm active:scale-[0.98] transition-all tracking-wide text-xs ${isSuccess ? 'bg-green-500 hover:bg-green-400 text-black' : 'bg-red-500 hover:bg-red-400 text-white'}`}
@@ -267,7 +271,7 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
                     </div>
 
                     {/* Footer Badges */}
-                    <div className="flex flex-col items-center gap-4 pt-8 pb-6 text-center">
+                    <div className="flex flex-col items-center gap-1 pt-2 pb-2 text-center">
                         <div className="flex items-center gap-2">
                             <ShieldCheck className="w-4 h-4" style={{ color: accentColor }} />
                             <span className="text-white text-[10px] font-bold tracking-widest uppercase opacity-70">100% Secure Payments</span>
@@ -280,7 +284,7 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
                                 src={`${getAssetPath("/bharat-billpay-seeklogo.svg")}?v=1`}
                                 alt="Bharat BillPay"
                                 crossOrigin="anonymous"
-                                className="h-8 w-auto object-contain opacity-80"
+                                className="h-6 w-auto object-contain opacity-80"
                             />
                         </div>
                     </div>

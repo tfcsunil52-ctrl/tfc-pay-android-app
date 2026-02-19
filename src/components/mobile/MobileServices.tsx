@@ -193,7 +193,7 @@ const MobileServices = ({
                             onClick={() => setSelectedService(service)}
                             className="flex flex-col items-center gap-2 p-2 rounded-xl hover:bg-card transition-colors"
                         >
-                            <div className="w-14 h-14 bg-green-600/10 dark:bg-green-500/10 rounded-2xl flex items-center justify-center mb-1">
+                            <div className="w-14 h-14 bg-green-600/10 dark:bg-green-500/10 rounded-full flex items-center justify-center mb-1">
                                 <img src={getAssetPath(service.icon)} alt={service.title} className="w-9 h-9 object-contain" />
                             </div>
                             <span className="text-[10px] text-center text-muted-foreground leading-tight line-clamp-2">

@@ -250,7 +250,7 @@ const MobileHome = ({
                                 className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
                                 onClick={() => onProfileClick?.("transfer-cc")}
                             >
-                                <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
+                                <div className="w-12 h-12 rounded-full bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
                                     <CreditCard className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
                                     <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
                                         <ArrowUpRight className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
@@ -264,7 +264,7 @@ const MobileHome = ({
                                 className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
                                 onClick={() => setTransferMode('beneficiary')}
                             >
-                                <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
+                                <div className="w-12 h-12 rounded-full bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
                                     <User className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
                                     <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
                                         <Plus className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
@@ -278,7 +278,7 @@ const MobileHome = ({
                                 className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
                                 onClick={() => setTransferMode('spending')}
                             >
-                                <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
+                                <div className="w-12 h-12 rounded-full bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
                                     <BarChart2 className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
                                     <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
                                         <PieChart className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
@@ -292,7 +292,7 @@ const MobileHome = ({
                                 className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
                                 onClick={() => onComplainClick ? onComplainClick() : onNavigate("profile")}
                             >
-                                <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
+                                <div className="w-12 h-12 rounded-full bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
                                     <AlertTriangle className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
                                     <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
                                         <Headphones className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
@@ -304,43 +304,45 @@ const MobileHome = ({
                     </div>
                 </section>
 
-                {/* Action Buttons */}
-                <section className="rounded-2xl border border-green-100 p-2 bg-white shadow-[0_4px_16px_-4px_rgba(21,128,61,0.15),0_2px_8px_-2px_rgba(0,0,0,0.06)] relative z-10 dark:bg-card dark:border-border dark:shadow-none">
-                    <div className="grid grid-cols-3 gap-2">
-                        <Card
-                            className="bg-blue-50 border border-blue-200 cursor-pointer hover:scale-[1.02] active:scale-95 transition-all shadow-sm dark:shadow-none dark:bg-blue-500/10 dark:border-0"
-                            onClick={() => onProfileClick?.("wallet")}
-                        >
-                            <CardContent className="py-2 px-1 flex flex-col items-center gap-1">
-                                <Wallet className="w-5 h-5 text-blue-600" strokeWidth={2} />
-                                <span className="text-[11px] font-bold text-foreground">Wallet</span>
-                                <span className="text-[10px] text-muted-foreground">
-                                    ₹<RollingNumber value={balance} startAt={previousBalance} />
-                                </span>
-                            </CardContent>
-                        </Card>
+                {/* Action Buttons — Capsule */}
+                <section className="rounded-full border border-green-200 dark:border-border bg-white dark:bg-card shadow-[0_2px_12px_-4px_rgba(21,128,61,0.12)] dark:shadow-none relative z-10 flex items-center overflow-hidden">
+                    {/* Wallet */}
+                    <button
+                        className="flex-1 flex flex-col items-center gap-0.5 py-2.5 active:scale-95 active:bg-green-50 dark:active:bg-white/5 transition-all"
+                        onClick={() => onProfileClick?.("wallet")}
+                    >
+                        <Wallet className="w-5 h-5 text-blue-600" strokeWidth={2} />
+                        <span className="text-[11px] font-bold text-foreground">Wallet</span>
+                        <span className="text-[10px] text-muted-foreground">
+                            ₹<RollingNumber value={balance} startAt={previousBalance} />
+                        </span>
+                    </button>
 
-                        <button onClick={() => onRewardsClick?.()} className="h-full">
-                            <Card className="bg-orange-50 border border-orange-200 cursor-pointer hover:scale-[1.02] active:scale-95 transition-all h-full shadow-sm dark:shadow-none dark:bg-orange-500/10 dark:border-0">
-                                <CardContent className="py-2 px-1 flex flex-col items-center gap-1">
-                                    <Gift className="w-5 h-5 text-orange-600" strokeWidth={2} />
-                                    <span className="text-[11px] font-bold text-foreground">Rewards</span>
-                                    <span className="text-[10px] text-muted-foreground">5 New</span>
-                                </CardContent>
-                            </Card>
-                        </button>
+                    {/* Divider */}
+                    <div className="w-px h-10 bg-green-200 dark:bg-border shrink-0" />
 
-                        <Card
-                            className="bg-purple-50 border border-purple-200 cursor-pointer hover:scale-[1.02] active:scale-95 transition-all shadow-sm dark:shadow-none dark:bg-purple-500/10 dark:border-0"
-                            onClick={() => onProfileClick?.("refer")}
-                        >
-                            <CardContent className="py-2 px-1 flex flex-col items-center gap-1">
-                                <Users className="w-5 h-5 text-purple-600" strokeWidth={2} />
-                                <span className="text-[11px] font-bold text-foreground">Refer</span>
-                                <span className="text-[10px] text-muted-foreground">Get ₹100</span>
-                            </CardContent>
-                        </Card>
-                    </div>
+                    {/* Rewards */}
+                    <button
+                        className="flex-1 flex flex-col items-center gap-0.5 py-2.5 active:scale-95 active:bg-green-50 dark:active:bg-white/5 transition-all"
+                        onClick={() => onRewardsClick?.()}
+                    >
+                        <Gift className="w-5 h-5 text-orange-600" strokeWidth={2} />
+                        <span className="text-[11px] font-bold text-foreground">Rewards</span>
+                        <span className="text-[10px] text-muted-foreground">5 New</span>
+                    </button>
+
+                    {/* Divider */}
+                    <div className="w-px h-10 bg-green-200 dark:bg-border shrink-0" />
+
+                    {/* Refer */}
+                    <button
+                        className="flex-1 flex flex-col items-center gap-0.5 py-2.5 active:scale-95 active:bg-green-50 dark:active:bg-white/5 transition-all"
+                        onClick={() => onProfileClick?.("refer")}
+                    >
+                        <Users className="w-5 h-5 text-purple-600" strokeWidth={2} />
+                        <span className="text-[11px] font-bold text-foreground">Refer</span>
+                        <span className="text-[10px] text-muted-foreground">Get ₹100</span>
+                    </button>
                 </section>
 
                 {/* Recharge & Pay Bills */}
