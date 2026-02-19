@@ -33,11 +33,12 @@ interface MobileSupportProps {
     onClearMessage?: () => void;
     tickets?: SupportTicket[];
     onResolveTicket?: (id: string) => void;
+    openChat?: boolean;
 }
 
-const MobileSupport = ({ initialMessage, onClearMessage, tickets = [], onResolveTicket }: MobileSupportProps) => {
+const MobileSupport = ({ initialMessage, onClearMessage, tickets = [], onResolveTicket, openChat = false }: MobileSupportProps) => {
     const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
-    const [showChat, setShowChat] = useState(!!initialMessage);
+    const [showChat, setShowChat] = useState(!!initialMessage || openChat);
     const [showTickets, setShowTickets] = useState(false);
     const [chatTicketId, setChatTicketId] = useState<string | undefined>(undefined);
 

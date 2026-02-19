@@ -30,6 +30,7 @@ interface MobileHomeProps {
     onRewardsClick?: () => void;
     onNotificationsClick?: () => void;
     unreadNotifications?: number;
+    onComplainClick?: () => void;
 }
 
 // Rolling number animation component
@@ -142,19 +143,11 @@ const BannerCarousel = ({ onNavigate }: { onNavigate: (tab: TabType) => void }) 
 };
 
 const MobileHome = ({
-    onNavigate,
-    onProfileClick,
-    isDarkMode,
-    balance = 2450,
-    previousBalance = 0,
-    onBalanceSeen,
-    transactions = [],
-    onAddMoney,
-    onServiceSelect,
-    onSeeAllServices,
-    onRewardsClick,
-    onNotificationsClick,
-    unreadNotifications = 0
+    onNavigate, onProfileClick, isDarkMode, balance = 0,
+    previousBalance = 0, onBalanceSeen, transactions = [],
+    onAddMoney, onServiceSelect, onSeeAllServices,
+    onRewardsClick, onNotificationsClick, unreadNotifications = 0,
+    onComplainClick
 }: MobileHomeProps) => {
     const [isScanning, setIsScanning] = useState(false);
     const [transferMode, setTransferMode] = useState<'contact' | 'mobile' | 'bank' | 'beneficiary' | 'self' | 'spending' | null>(null);
@@ -297,7 +290,7 @@ const MobileHome = ({
                             {/* Complain */}
                             <button
                                 className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
-                                onClick={() => onNavigate("profile")}
+                                onClick={() => onComplainClick ? onComplainClick() : onNavigate("profile")}
                             >
                                 <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
                                     <AlertTriangle className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />

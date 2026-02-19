@@ -59,6 +59,7 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
     // Unread count is now managed by useNotifications hook
     const [isLocked, setIsLocked] = useState(appLockEnabled && hasPinSet); // App starts locked if PIN is set and lock is enabled
     const [supportMessage, setSupportMessage] = useState<string | undefined>(undefined);
+    const [openChatFromHome, setOpenChatFromHome] = useState(false);
     const [showSplash, setShowSplash] = useState(true);
 
     if (showSplash) {
@@ -70,10 +71,17 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
         setActiveTab(tab);
         setSelectedService(null);
         setSupportMessage(undefined);
+        setOpenChatFromHome(false);
     };
 
     const handleGetHelp = (message: string) => {
         setSupportMessage(message);
+        setActiveTab('profile');
+    };
+
+    // Handle complain button → jump straight to live chat
+    const handleComplainClick = () => {
+        setOpenChatFromHome(true);
         setActiveTab('profile');
     };
 
@@ -203,6 +211,7 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
                         onRewardsClick={() => setShowRewards(true)}
                         onNotificationsClick={() => setShowNotifications(true)}
                         unreadNotifications={unreadCount}
+                        onComplainClick={handleComplainClick}
                     />
                 );
             case "offers":
@@ -215,6 +224,7 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
                     onClearMessage={() => setSupportMessage(undefined)}
                     tickets={tickets}
                     onResolveTicket={handleResolveTicket}
+                    openChat={openChatFromHome}
                 />;
             default:
                 return <MobileHome onNavigate={handleNavigate} />;
