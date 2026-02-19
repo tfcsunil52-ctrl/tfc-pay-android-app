@@ -42,7 +42,7 @@ const formatTime = (date: Date): string => {
     return `${hours}:${minutes} ${ampm}`;
 };
 
-export function useWallet(initialBalance = 2450): UseWalletReturn {
+export function useWallet(initialBalance = 4000): UseWalletReturn {
     // Load balance and transactions from localStorage
     const [balance, setBalance] = useState(() => {
         const saved = localStorage.getItem('tfc_wallet_balance');
