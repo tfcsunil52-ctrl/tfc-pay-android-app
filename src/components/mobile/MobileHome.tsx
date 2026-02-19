@@ -358,12 +358,10 @@ const MobileHome = ({
                                     onClick={() => onServiceSelect?.(service.targetTitle || service.label)}
                                 >
                                     {service.image ? (
-                                        <div className="w-12 h-12 flex items-center justify-center rounded-2xl bg-green-50 border border-green-200 shadow-sm dark:shadow-none dark:bg-transparent dark:border-none transition-all group-hover:bg-green-100">
-                                            <img src={service.image} alt={service.label} className="w-7 h-7 object-contain" />
-                                        </div>
+                                        <img src={service.image} alt={service.label} className="w-9 h-9 object-contain" />
                                     ) : (
-                                        <div className="w-12 h-12 rounded-2xl bg-green-600/10 dark:bg-green-500/10 flex items-center justify-center">
-                                            <service.icon className="w-6 h-6 text-green-700 dark:text-green-500" />
+                                        <div className="w-14 h-14 rounded-2xl bg-green-600/10 dark:bg-green-500/10 flex items-center justify-center">
+                                            <service.icon className="w-7 h-7 text-green-700 dark:text-green-500" />
                                         </div>
                                     )}
                                     <span className="text-[10px] text-muted-foreground text-center font-medium leading-tight">{service.label}</span>
