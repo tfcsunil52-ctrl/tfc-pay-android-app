@@ -3,3 +3,14 @@ dist
 dist-ssr
 *.local
 .DS_Store
+
+# IDE and Cache
+.idea/
+.cf/
+.vscode/
+
+# Native/Mobile specific folders
+tfc-pay-native/
+android/
+ios/
+capacitor.config.ts

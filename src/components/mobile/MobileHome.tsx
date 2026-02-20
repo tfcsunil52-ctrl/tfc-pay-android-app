@@ -169,8 +169,8 @@ const MobileHome = ({
                         onClick={() => onProfileClick?.()}
                         className="flex-shrink-0 hover:scale-105 transition-transform"
                     >
-                        <Avatar className="w-10 h-10 border-2 border-green-700 dark:border-green-500 shadow-sm">
-                            <AvatarFallback className="bg-green-700 dark:bg-green-500 text-white dark:text-black text-sm font-bold">JD</AvatarFallback>
+                        <Avatar className="w-10 h-10 border-2 border-green-700 dark:border-green-500 shadow-sm rounded-xl">
+                            <AvatarFallback className="bg-green-700 dark:bg-green-500 text-white dark:text-black text-sm font-bold rounded-xl">JD</AvatarFallback>
                         </Avatar>
                     </button>
                     <div className="absolute left-1/2 -translate-x-1/2">
@@ -190,13 +190,13 @@ const MobileHome = ({
                     <div className="flex items-center gap-3">
                         <button
                             onClick={() => alert("QR Scanning Coming Soon!")}
-                            className="w-10 h-10 bg-card rounded-full flex items-center justify-center border border-border flex-shrink-0 shadow-sm hover:scale-105 active:scale-95 transition-all"
+                            className="w-10 h-10 bg-card rounded-xl flex items-center justify-center border border-border flex-shrink-0 shadow-sm hover:scale-105 active:scale-95 transition-all"
                         >
                             <QrCode className="w-5 h-5 text-foreground" />
                         </button>
                         <button
                             onClick={onNotificationsClick}
-                            className="w-10 h-10 bg-card rounded-full flex items-center justify-center border border-border relative flex-shrink-0 shadow-sm hover:scale-105 active:scale-95 transition-all"
+                            className="w-10 h-10 bg-card rounded-xl flex items-center justify-center border border-border relative flex-shrink-0 shadow-sm hover:scale-105 active:scale-95 transition-all"
                         >
                             <Bell className="w-5 h-5 text-muted-foreground" />
                             {unreadNotifications > 0 && (
@@ -221,7 +221,7 @@ const MobileHome = ({
                     </div>
                     <Button
                         size="sm"
-                        className={`rounded-full px-5 h-9 font-bold active:scale-95 transition-all overflow-hidden relative ${isDarkMode
+                        className={`rounded-xl px-5 h-9 font-bold active:scale-95 transition-all overflow-hidden relative ${isDarkMode
                             ? "bg-transparent border-2 border-foreground/70 text-foreground animate-gold-shine"
                             : "bg-white text-green-700 border-2 border-green-700 shadow-sm animate-silver-shine"
                             }`}
@@ -250,9 +250,9 @@ const MobileHome = ({
                                 className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
                                 onClick={() => onProfileClick?.("transfer-cc")}
                             >
-                                <div className="w-12 h-12 rounded-full bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
+                                <div className="w-12 h-12 rounded-xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
                                     <CreditCard className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
-                                    <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
+                                    <div className="absolute -top-1 -right-1 w-5 h-5 rounded-md bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
                                         <ArrowUpRight className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
                                     </div>
                                 </div>
@@ -264,9 +264,9 @@ const MobileHome = ({
                                 className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
                                 onClick={() => setTransferMode('beneficiary')}
                             >
-                                <div className="w-12 h-12 rounded-full bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
+                                <div className="w-12 h-12 rounded-xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
                                     <User className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
-                                    <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
+                                    <div className="absolute -top-1 -right-1 w-5 h-5 rounded-md bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
                                         <Plus className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
                                     </div>
                                 </div>
@@ -278,9 +278,9 @@ const MobileHome = ({
                                 className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
                                 onClick={() => setTransferMode('spending')}
                             >
-                                <div className="w-12 h-12 rounded-full bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
+                                <div className="w-12 h-12 rounded-xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
                                     <BarChart2 className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
-                                    <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
+                                    <div className="absolute -top-1 -right-1 w-5 h-5 rounded-md bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
                                         <PieChart className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
                                     </div>
                                 </div>
@@ -292,9 +292,9 @@ const MobileHome = ({
                                 className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
                                 onClick={() => onComplainClick ? onComplainClick() : onNavigate("profile")}
                             >
-                                <div className="w-12 h-12 rounded-full bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
+                                <div className="w-12 h-12 rounded-xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
                                     <AlertTriangle className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
-                                    <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
+                                    <div className="absolute -top-1 -right-1 w-5 h-5 rounded-md bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
                                         <Headphones className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
                                     </div>
                                 </div>
@@ -305,7 +305,7 @@ const MobileHome = ({
                 </section>
 
                 {/* Action Buttons — Capsule */}
-                <section className="rounded-full border border-green-200 dark:border-border bg-white dark:bg-card shadow-[0_2px_12px_-4px_rgba(21,128,61,0.12)] dark:shadow-none relative z-10 flex items-center overflow-hidden">
+                <section className="rounded-2xl border border-green-200 dark:border-border bg-white dark:bg-card shadow-[0_2px_12px_-4px_rgba(21,128,61,0.12)] dark:shadow-none relative z-10 flex items-center overflow-hidden">
                     {/* Wallet */}
                     <button
                         className="flex-1 flex flex-col items-center gap-0.5 py-2.5 active:scale-95 active:bg-green-50 dark:active:bg-white/5 transition-all"
@@ -346,42 +346,40 @@ const MobileHome = ({
                 </section>
 
                 {/* Recharge & Pay Bills */}
-                <section>
-                    <div className="flex items-center justify-between mb-3">
+                <section className="bg-white dark:bg-card border border-border rounded-3xl p-4 shadow-sm relative z-10">
+                    <div className="flex items-center justify-between mb-4 px-1">
                         <h3 className="font-semibold text-foreground text-sm">Recharge & Pay Bills</h3>
                     </div>
-                    {/* Padding Box Removed */}
                     <div className="relative z-10 pt-1">
-                        <div className="grid grid-cols-4 gap-3">
+                        <div className="grid grid-cols-4 gap-4">
                             {quickServices.map((service, index) => (
                                 <button
                                     key={index}
                                     className="flex flex-col items-center gap-1.5 active:scale-95 transition-transform"
                                     onClick={() => onServiceSelect?.(service.targetTitle || service.label)}
                                 >
-                                    {service.image ? (
-                                        <img src={service.image} alt={service.label} className="w-9 h-9 object-contain" />
-                                    ) : (
-                                        <div className="w-14 h-14 rounded-2xl bg-green-600/10 dark:bg-green-500/10 flex items-center justify-center">
-                                            <service.icon className="w-7 h-7 text-green-700 dark:text-green-500" />
-                                        </div>
-                                    )}
+                                    <div className="w-12 h-12 bg-slate-100 dark:bg-white/5 rounded-xl flex items-center justify-center border border-border/50">
+                                        {service.image ? (
+                                            <img src={service.image} alt={service.label} className="w-7 h-7 object-contain" />
+                                        ) : (
+                                            <service.icon className="w-6 h-6 text-green-700 dark:text-green-500" />
+                                        )}
+                                    </div>
                                     <span className="text-[10px] text-muted-foreground text-center font-medium leading-tight">{service.label}</span>
                                 </button>
                             ))}
                         </div>
 
-                        <div className="mt-4 px-1">
+                        <div className="mt-5">
                             <button
                                 onClick={() => onSeeAllServices?.()}
-                                className="w-full flex items-center justify-center gap-2 text-xs font-bold text-green-700 dark:text-green-500 bg-green-50 dark:bg-green-900/20 py-3 rounded-full hover:bg-green-100 dark:hover:bg-green-900/30 transition-all active:scale-[0.98] border border-green-200 dark:border-green-500/10 shadow-[0_2px_8px_-2px_rgba(21,128,61,0.2)] dark:shadow-none"
-
+                                className="w-full flex items-center justify-center gap-2 text-xs font-bold text-green-700 dark:text-green-500 bg-green-50 dark:bg-green-900/20 py-3 rounded-xl hover:bg-green-100 dark:hover:bg-green-900/30 transition-all active:scale-[0.98] border border-green-200 dark:border-green-500/10 shadow-sm"
                             >
                                 <span>View More</span>
-                                <div className="arrow-animated">
-                                    <ChevronRight className="w-3.5 h-3.5" />
-                                    <ChevronRight className="w-3.5 h-3.5" />
-                                    <ChevronRight className="w-3.5 h-3.5" />
+                                <div className="flex">
+                                    <ChevronRight className="w-3.5 h-3.5 -ml-1" />
+                                    <ChevronRight className="w-3.5 h-3.5 -ml-1" />
+                                    <ChevronRight className="w-3.5 h-3.5 -ml-1" />
                                 </div>
                             </button>
                         </div>
@@ -402,7 +400,7 @@ const MobileHome = ({
                             <Card key={index} className="bg-card border-border">
                                 <CardContent className="p-3 flex items-center justify-between">
                                     <div className="flex items-center gap-3">
-                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${tx.isCredit ? 'bg-green-600/20 dark:bg-green-500/20' : 'bg-red-600/10 dark:bg-red-500/10'}`}>
+                                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${tx.isCredit ? 'bg-green-600/20 dark:bg-green-500/20' : 'bg-red-600/10 dark:bg-red-500/10'}`}>
                                             {typeof tx.icon === 'string' ? (
                                                 <img src={getAssetPath(tx.icon)} alt={tx.name} className="w-6 h-6 object-contain" />
                                             ) : (

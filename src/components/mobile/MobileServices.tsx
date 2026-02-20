@@ -193,7 +193,7 @@ const MobileServices = ({
                             onClick={() => setSelectedService(service)}
                             className="flex flex-col items-center gap-2 p-2 rounded-xl hover:bg-card transition-colors"
                         >
-                            <div className="w-14 h-14 bg-green-600/10 dark:bg-green-500/10 rounded-full flex items-center justify-center mb-1">
+                            <div className="w-14 h-14 bg-green-600/10 dark:bg-green-500/10 rounded-xl flex items-center justify-center mb-1 border border-border/50">
                                 <img src={getAssetPath(service.icon)} alt={service.title} className="w-9 h-9 object-contain" />
                             </div>
                             <span className="text-[10px] text-center text-muted-foreground leading-tight line-clamp-2">
@@ -272,10 +272,10 @@ const MobileServices = ({
 
 
                 {/* Promo Banner */}
-                <Card className="bg-gradient-to-r from-green-600/20 to-green-600/10 dark:from-green-500/20 dark:to-green-500/10 border-green-700/30 dark:border-green-500/30">
+                <Card className="bg-gradient-to-r from-green-600/20 to-green-600/10 dark:from-green-500/20 dark:to-green-500/10 border-green-700/30 dark:border-green-500/30 rounded-2xl">
                     <CardContent className="p-4">
                         <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 bg-green-700 dark:bg-green-500 rounded-full flex items-center justify-center">
+                            <div className="w-12 h-12 bg-green-700 dark:bg-green-500 rounded-xl flex items-center justify-center">
                                 <img src={getAssetPath("/New icons/Electricity Bill.webp")} alt="Electricity" className="w-8 h-8 object-contain brightness-0 invert" />
                             </div>
                             <div className="flex-1">
@@ -443,7 +443,7 @@ const PaymentView = ({ service, onBack, onPayment }: PaymentViewProps) => {
             <header className="flex items-center p-4 border-b border-border bg-white dark:bg-card sticky top-0 z-10">
                 <button
                     onClick={onBack}
-                    className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center hover:bg-card/80 transition-colors"
+                    className="w-10 h-10 rounded-xl bg-card border border-border flex items-center justify-center hover:bg-card/80 transition-colors"
                 >
                     <ArrowLeft className="w-5 h-5 text-foreground" />
                 </button>
@@ -467,7 +467,7 @@ const PaymentView = ({ service, onBack, onPayment }: PaymentViewProps) => {
                 {/* Offer Carousel for Payment View */}
                 <div className="bg-green-500/5 dark:bg-green-500/10 rounded-2xl p-4 border border-green-700/10 dark:border-green-500/10 overflow-hidden relative">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-green-700 dark:bg-green-500 flex items-center justify-center flex-shrink-0 animate-pulse">
+                        <div className="w-10 h-10 rounded-xl bg-green-700 dark:bg-green-500 flex items-center justify-center flex-shrink-0 animate-pulse">
                             <Gift className="w-5 h-5 text-white dark:text-black" />
                         </div>
                         <div className="flex-1">
