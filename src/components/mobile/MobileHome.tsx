@@ -221,7 +221,7 @@ const MobileHome = ({
                     </div>
                     <Button
                         size="sm"
-                        className={`rounded-xl px-5 h-9 font-bold active:scale-95 transition-all overflow-hidden relative ${isDarkMode
+                        className={`rounded-full px-4 h-9 font-bold active:scale-95 transition-all overflow-hidden relative ${isDarkMode
                             ? "bg-transparent border-2 border-foreground/70 text-foreground animate-gold-shine"
                             : "bg-white text-green-700 border-2 border-green-700 shadow-sm animate-silver-shine"
                             }`}
@@ -376,10 +376,10 @@ const MobileHome = ({
                                 className="w-full flex items-center justify-center gap-2 text-xs font-bold text-green-700 dark:text-green-500 bg-green-50 dark:bg-green-900/20 py-3 rounded-xl hover:bg-green-100 dark:hover:bg-green-900/30 transition-all active:scale-[0.98] border border-green-200 dark:border-green-500/10 shadow-sm"
                             >
                                 <span>View More</span>
-                                <div className="flex">
-                                    <ChevronRight className="w-3.5 h-3.5 -ml-1" />
-                                    <ChevronRight className="w-3.5 h-3.5 -ml-1" />
-                                    <ChevronRight className="w-3.5 h-3.5 -ml-1" />
+                                <div className="arrow-animated">
+                                    <ChevronRight className="w-3.5 h-3.5" />
+                                    <ChevronRight className="w-3.5 h-3.5" />
+                                    <ChevronRight className="w-3.5 h-3.5" />
                                 </div>
                             </button>
                         </div>
