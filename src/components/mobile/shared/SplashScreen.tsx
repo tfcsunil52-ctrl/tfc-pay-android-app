@@ -51,7 +51,7 @@ const SplashScreen = ({ onComplete, isDarkMode = true }: SplashScreenProps) => {
                 animation: 'simplePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
             }}>
                 <img
-                    src={getAssetPath("/tfcpay-logo.png")}
+                    src={getAssetPath(isDarkMode ? "/tfcpay-logo.png" : "/tfcpay-logo-light.png")}
                     alt="TFC Pay"
                     style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                 />

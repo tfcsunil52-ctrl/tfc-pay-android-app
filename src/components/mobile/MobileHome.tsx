@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import {
     Bell, Smartphone, Tv, Zap, Car, ChevronRight, Wallet,
-    Building2, Gift, Users, QrCode, Repeat, Landmark, User,
+    Building2, Gift, Users, QrCode, Repeat, Landmark, User, Sun, Moon,
     MonitorPlay, Flame, Fuel, Phone, Wifi, Droplets, CreditCard, Home, Plus, ArrowDownLeft, ArrowUpRight, Check, PieChart, BarChart2, AlertTriangle, Link, Eye, Headphones, ArrowUp, ArrowDown, ArrowDownRight
 } from "lucide-react";
 import { Card, CardContent } from "../ui/Card";
@@ -20,6 +20,7 @@ interface MobileHomeProps {
     onNavigate: (tab: TabType) => void;
     onProfileClick?: (subPanel?: string) => void;
     isDarkMode?: boolean;
+    onThemeToggle?: () => void;
     balance?: number;
     previousBalance?: number;
     onBalanceSeen?: () => void;
@@ -77,18 +78,18 @@ const RollingNumber = ({ value, startAt, onComplete }: { value: number; startAt:
 
 // Quick services configuration
 const quickServices = [
-    { icon: Smartphone, label: "Mobile", targetTitle: "Mobile Prepaid", image: "/New icons/mobile prepaid.webp" },
-    { icon: Tv, label: "DTH", targetTitle: "DTH Recharge", image: "/New icons/DTH Recharge.webp" },
-    { icon: Zap, label: "Electricity", targetTitle: "Electricity", image: "/New icons/Electricity Bill.webp" },
-    { icon: CreditCard, label: "CC Bill", targetTitle: "CC Bill Payment", image: "/New icons/Credit Card Icon v3.webp" },
-    { icon: Home, label: "Rent", targetTitle: "Rent Payment", image: "/New icons/Rent Payment.webp" },
-    { icon: Flame, label: "Gas", targetTitle: "Gas Cylinder", image: "/New icons/Gas Cylinder.webp" },
-    { icon: MonitorPlay, label: "Cable TV", targetTitle: "Cable TV", image: "/New icons/Cable TV.webp" },
-    { icon: Wifi, label: "Broadband", targetTitle: "Broadband", image: "/New icons/Broadband.webp" },
-    { icon: Car, label: "Fastag", targetTitle: "Fastag", image: "/New icons/Fastag.webp" },
-    { icon: Fuel, label: "Piped Gas", targetTitle: "Piped Gas", image: "/New icons/Piped Gas.webp" },
-    { icon: Phone, label: "Landline", targetTitle: "Landline", image: "/New icons/Landline.webp" },
-    { icon: Droplets, label: "Water", targetTitle: "Water Bill", image: "/New icons/Water Bill.webp" },
+    { icon: Smartphone, label: "Mobile", targetTitle: "Mobile Prepaid", image: "/New icons/mobile prepaid.png" },
+    { icon: Tv, label: "DTH", targetTitle: "DTH Recharge", image: "/New icons/DTH Recharge.png" },
+    { icon: Zap, label: "Electricity", targetTitle: "Electricity", image: "/New icons/Electricity Bill.png" },
+    { icon: CreditCard, label: "CC Bill", targetTitle: "CC Bill Payment", image: "/New icons/Credit Card Icon v3.png" },
+    { icon: Home, label: "Rent", targetTitle: "Rent Payment", image: "/New icons/Rent Payment.png" },
+    { icon: Flame, label: "Gas", targetTitle: "Gas Cylinder", image: "/New icons/Gas Cylinder.png" },
+    { icon: MonitorPlay, label: "Cable TV", targetTitle: "Cable TV", image: "/New icons/Cable TV.png" },
+    { icon: Wifi, label: "Broadband", targetTitle: "Broadband", image: "/New icons/Broadband.png" },
+    { icon: Car, label: "Fastag", targetTitle: "Fastag", image: "/New icons/Fastag.png" },
+    { icon: Fuel, label: "Piped Gas", targetTitle: "Piped Gas", image: "/New icons/Piped Gas.png" },
+    { icon: Phone, label: "Landline", targetTitle: "Landline", image: "/New icons/Landline.png" },
+    { icon: Droplets, label: "Water", targetTitle: "Water Bill", image: "/New icons/Water Bill.png" },
 ]
     .map(s => ({ ...s, image: s.image ? getAssetPath(s.image) : undefined }));
 
@@ -133,7 +134,7 @@ const BannerCarousel = ({ onNavigate }: { onNavigate: (tab: TabType) => void }) 
             </div>
             <Button
                 size="sm"
-                className="w-full h-10 text-sm bg-green-700 hover:bg-green-800 dark:bg-green-500 dark:hover:bg-green-400 shadow-[0_4px_12px_-2px_rgba(21,128,61,0.4)] dark:shadow-sm text-white dark:text-black font-bold rounded-full"
+                className="w-full h-10 text-sm bg-[#72ad83] hover:bg-[#65a077] text-white dark:text-black font-bold rounded-xl border-[1.5px] border-black/25 dark:border-black/25 relative overflow-hidden btn-shine"
                 onClick={() => onNavigate("offers")}
             >
                 All Offers
@@ -143,7 +144,7 @@ const BannerCarousel = ({ onNavigate }: { onNavigate: (tab: TabType) => void }) 
 };
 
 const MobileHome = ({
-    onNavigate, onProfileClick, isDarkMode, balance = 0,
+    onNavigate, onProfileClick, isDarkMode, onThemeToggle, balance = 0,
     previousBalance = 0, onBalanceSeen, transactions = [],
     onAddMoney, onServiceSelect, onSeeAllServices,
     onRewardsClick, onNotificationsClick, unreadNotifications = 0,
@@ -162,15 +163,20 @@ const MobileHome = ({
                 <div className="absolute inset-0 bg-grid-slate-900/[0.02] bg-[bottom_center] [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
             </div>
 
+            {/* Premium Dark Mode Background */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 hidden dark:block">
+                <img src={getAssetPath("/dark_bg.webp")} alt="Dark Background" className="absolute inset-0 w-full h-full object-cover opacity-60" />
+            </div>
+
             {/* Sticky Header */}
-            <header className="sticky top-0 z-30 px-4 py-3 bg-white dark:bg-card border-b border-border shadow-sm">
+            <header className="sticky top-0 z-30 px-4 py-3 panel-glass border-b border-border shadow-sm">
                 <div className="flex items-center justify-between relative">
                     <button
                         onClick={() => onProfileClick?.()}
                         className="flex-shrink-0 hover:scale-105 transition-transform"
                     >
-                        <Avatar className="w-10 h-10 border-2 border-green-700 dark:border-green-500 shadow-sm rounded-xl">
-                            <AvatarFallback className="bg-green-700 dark:bg-green-500 text-white dark:text-black text-sm font-bold rounded-xl">JD</AvatarFallback>
+                        <Avatar className="w-10 h-10 border-2 border-green-700 dark:border-green-500 shadow-sm">
+                            <AvatarFallback className="bg-green-700 dark:bg-green-500 text-white dark:text-black text-sm font-bold">JD</AvatarFallback>
                         </Avatar>
                     </button>
                     <div className="absolute left-1/2 -translate-x-1/2">
@@ -189,10 +195,10 @@ const MobileHome = ({
                     </div>
                     <div className="flex items-center gap-3">
                         <button
-                            onClick={() => alert("QR Scanning Coming Soon!")}
+                            onClick={onThemeToggle}
                             className="w-10 h-10 bg-card rounded-xl flex items-center justify-center border border-border flex-shrink-0 shadow-sm hover:scale-105 active:scale-95 transition-all"
                         >
-                            <QrCode className="w-5 h-5 text-foreground" />
+                            {isDarkMode ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-slate-700" />}
                         </button>
                         <button
                             onClick={onNotificationsClick}
@@ -221,9 +227,9 @@ const MobileHome = ({
                     </div>
                     <Button
                         size="sm"
-                        className={`rounded-full px-4 h-9 font-bold active:scale-95 transition-all overflow-hidden relative ${isDarkMode
-                            ? "bg-transparent border-2 border-foreground/70 text-foreground animate-gold-shine"
-                            : "bg-white text-green-700 border-2 border-green-700 shadow-sm animate-silver-shine"
+                        className={`rounded-full px-4 h-9 font-bold active:scale-95 transition-all overflow-hidden relative border-2 ${isDarkMode
+                            ? "bg-transparent border-foreground/70 text-foreground animate-gold-shine"
+                            : "bg-transparent text-black border-black/25 animate-gold-shine"
                             }`}
                         onClick={onAddMoney}
                     >
@@ -238,7 +244,7 @@ const MobileHome = ({
                 <section className="relative z-10">
                     <div className="flex items-center justify-between mb-3 px-1">
                         <h3 className="font-bold text-foreground text-sm flex items-center gap-2">
-                            <div className="w-1.5 h-4 bg-green-700 dark:bg-green-500 rounded-full" />
+                            <div className="w-1.5 h-4 bg-violet-400 dark:bg-violet-400 rounded-full" />
                             Transfer & Tools
                         </h3>
                     </div>
@@ -250,11 +256,12 @@ const MobileHome = ({
                                 className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
                                 onClick={() => onProfileClick?.("transfer-cc")}
                             >
-                                <div className="w-12 h-12 rounded-xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
-                                    <CreditCard className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
-                                    <div className="absolute -top-1 -right-1 w-5 h-5 rounded-md bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
-                                        <ArrowUpRight className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
-                                    </div>
+                                <div className="w-12 h-12 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-active:scale-95 relative">
+                                    <img
+                                        src={getAssetPath(isDarkMode ? "/dark_icons/layer_1.png" : "/light_icons/layer_1.png")}
+                                        alt="CC to Bank"
+                                        className="w-12 h-12 object-contain"
+                                    />
                                 </div>
                                 <span className="text-[10px] font-medium text-center leading-tight text-foreground">CC to Bank</span>
                             </button>
@@ -264,11 +271,12 @@ const MobileHome = ({
                                 className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
                                 onClick={() => setTransferMode('beneficiary')}
                             >
-                                <div className="w-12 h-12 rounded-xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
-                                    <User className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
-                                    <div className="absolute -top-1 -right-1 w-5 h-5 rounded-md bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
-                                        <Plus className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
-                                    </div>
+                                <div className="w-12 h-12 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-active:scale-95 relative">
+                                    <img
+                                        src={getAssetPath(isDarkMode ? "/dark_icons/layer_2.png" : "/light_icons/layer_2.png")}
+                                        alt="Beneficiary"
+                                        className="w-12 h-12 object-contain"
+                                    />
                                 </div>
                                 <span className="text-[10px] font-medium text-center leading-tight text-foreground">Beneficiary</span>
                             </button>
@@ -278,11 +286,12 @@ const MobileHome = ({
                                 className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
                                 onClick={() => setTransferMode('spending')}
                             >
-                                <div className="w-12 h-12 rounded-xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
-                                    <BarChart2 className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
-                                    <div className="absolute -top-1 -right-1 w-5 h-5 rounded-md bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
-                                        <PieChart className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
-                                    </div>
+                                <div className="w-12 h-12 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-active:scale-95 relative">
+                                    <img
+                                        src={getAssetPath(isDarkMode ? "/dark_icons/layer_3.png" : "/light_icons/layer_3.png")}
+                                        alt="Report"
+                                        className="w-12 h-12 object-contain"
+                                    />
                                 </div>
                                 <span className="text-[10px] font-medium text-center leading-tight text-foreground">Report</span>
                             </button>
@@ -292,11 +301,12 @@ const MobileHome = ({
                                 className="flex flex-col items-center gap-1.5 group min-h-[68px] justify-center"
                                 onClick={() => onComplainClick ? onComplainClick() : onNavigate("profile")}
                             >
-                                <div className="w-12 h-12 rounded-xl bg-green-600/10 dark:bg-green-500/10 border-2 border-green-700/20 dark:border-green-500/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-green-700/40 dark:group-hover:border-green-500/40 group-active:scale-95 relative">
-                                    <AlertTriangle className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
-                                    <div className="absolute -top-1 -right-1 w-5 h-5 rounded-md bg-white dark:bg-gray-900 flex items-center justify-center shadow-sm border border-green-700/20 dark:border-green-500/20">
-                                        <Headphones className="w-3 h-3 text-green-700 dark:text-green-500" strokeWidth={2.5} />
-                                    </div>
+                                <div className="w-12 h-12 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-active:scale-95 relative">
+                                    <img
+                                        src={getAssetPath(isDarkMode ? "/dark_icons/layer_4.png" : "/light_icons/layer_4.png")}
+                                        alt="Complain"
+                                        className="w-12 h-12 object-contain"
+                                    />
                                 </div>
                                 <span className="text-[10px] font-medium text-center leading-tight text-foreground">Complain</span>
                             </button>
@@ -305,48 +315,36 @@ const MobileHome = ({
                 </section>
 
                 {/* Action Buttons — Capsule */}
-                <section className="rounded-2xl border border-green-200 dark:border-border bg-white dark:bg-card shadow-[0_2px_12px_-4px_rgba(21,128,61,0.12)] dark:shadow-none relative z-10 flex items-center overflow-hidden">
+                <section className="rounded-2xl bg-white dark:bg-zinc-900 border-[1.5px] border-black/25 dark:border-white/50 relative z-10 flex items-center overflow-hidden">
                     {/* Wallet */}
                     <button
-                        className="flex-1 flex flex-col items-center gap-0.5 py-2.5 active:scale-95 active:bg-green-50 dark:active:bg-white/5 transition-all"
+                        className="flex-1 flex flex-col items-center gap-0.5 py-2.5 active:scale-95 active:bg-green-50 dark:active:bg-green-900/20 transition-all"
                         onClick={() => onProfileClick?.("wallet")}
                     >
-                        <Wallet className="w-5 h-5 text-blue-600" strokeWidth={2} />
-                        <span className="text-[11px] font-bold text-foreground">Wallet</span>
-                        <span className="text-[10px] text-muted-foreground">
+                        <Wallet className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
+                        <span className="text-[11px] font-bold text-black dark:text-white">Wallet</span>
+                        <span className="text-sm font-bold text-green-700 dark:text-green-500">
                             ₹<RollingNumber value={balance} startAt={previousBalance} />
                         </span>
                     </button>
 
                     {/* Divider */}
-                    <div className="w-px h-10 bg-green-200 dark:bg-border shrink-0" />
+                    <div className="w-px h-10 bg-green-700/20 dark:bg-green-500/20 shrink-0" />
 
-                    {/* Rewards */}
-                    <button
-                        className="flex-1 flex flex-col items-center gap-0.5 py-2.5 active:scale-95 active:bg-green-50 dark:active:bg-white/5 transition-all"
-                        onClick={() => onRewardsClick?.()}
-                    >
-                        <Gift className="w-5 h-5 text-orange-600" strokeWidth={2} />
-                        <span className="text-[11px] font-bold text-foreground">Rewards</span>
-                        <span className="text-[10px] text-muted-foreground">5 New</span>
-                    </button>
-
-                    {/* Divider */}
-                    <div className="w-px h-10 bg-green-200 dark:bg-border shrink-0" />
 
                     {/* Refer */}
                     <button
-                        className="flex-1 flex flex-col items-center gap-0.5 py-2.5 active:scale-95 active:bg-green-50 dark:active:bg-white/5 transition-all"
+                        className="flex-1 flex flex-col items-center gap-0.5 py-2.5 active:scale-95 active:bg-green-50 dark:active:bg-green-900/20 transition-all"
                         onClick={() => onProfileClick?.("refer")}
                     >
-                        <Users className="w-5 h-5 text-purple-600" strokeWidth={2} />
-                        <span className="text-[11px] font-bold text-foreground">Refer</span>
-                        <span className="text-[10px] text-muted-foreground">Get ₹100</span>
+                        <Users className="w-5 h-5 text-green-700 dark:text-green-500" strokeWidth={2} />
+                        <span className="text-[11px] font-bold text-black dark:text-white">Refer</span>
+                        <span className="text-sm font-bold text-green-700 dark:text-green-500">Get ₹100</span>
                     </button>
                 </section>
 
                 {/* Recharge & Pay Bills */}
-                <section className="bg-white dark:bg-card border border-border rounded-3xl p-4 shadow-sm relative z-10">
+                <section className="panel-glass-accent border border-border rounded-3xl p-4 shadow-sm relative z-10">
                     <div className="flex items-center justify-between mb-4 px-1">
                         <h3 className="font-semibold text-foreground text-sm">Recharge & Pay Bills</h3>
                     </div>
@@ -358,7 +356,7 @@ const MobileHome = ({
                                     className="flex flex-col items-center gap-1.5 active:scale-95 transition-transform"
                                     onClick={() => onServiceSelect?.(service.targetTitle || service.label)}
                                 >
-                                    <div className="w-12 h-12 bg-slate-100 dark:bg-white/5 rounded-xl flex items-center justify-center border border-border/50">
+                                    <div className="w-12 h-12 rounded-xl icon-container-pastel flex items-center justify-center">
                                         {service.image ? (
                                             <img src={service.image} alt={service.label} className="w-7 h-7 object-contain" />
                                         ) : (
@@ -373,7 +371,7 @@ const MobileHome = ({
                         <div className="mt-5">
                             <button
                                 onClick={() => onSeeAllServices?.()}
-                                className="w-full flex items-center justify-center gap-2 text-xs font-bold text-green-700 dark:text-green-500 bg-green-50 dark:bg-green-900/20 py-3 rounded-xl hover:bg-green-100 dark:hover:bg-green-900/30 transition-all active:scale-[0.98] border border-green-200 dark:border-green-500/10 shadow-sm"
+                                className="w-full flex items-center justify-center gap-2 text-xs font-bold text-white dark:text-black bg-[#72ad83] py-3 rounded-xl transition-all active:scale-[0.98] border-[1.5px] border-black/25 relative overflow-hidden btn-shine"
                             >
                                 <span>View More</span>
                                 <div className="arrow-animated">
@@ -400,7 +398,7 @@ const MobileHome = ({
                             <Card key={index} className="bg-card border-border">
                                 <CardContent className="p-3 flex items-center justify-between">
                                     <div className="flex items-center gap-3">
-                                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${tx.isCredit ? 'bg-green-600/20 dark:bg-green-500/20' : 'bg-red-600/10 dark:bg-red-500/10'}`}>
+                                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center icon-container-glass`}>
                                             {typeof tx.icon === 'string' ? (
                                                 <img src={getAssetPath(tx.icon)} alt={tx.name} className="w-6 h-6 object-contain" />
                                             ) : (

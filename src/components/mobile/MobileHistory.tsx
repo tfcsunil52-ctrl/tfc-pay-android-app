@@ -126,6 +126,11 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
                 <div className="absolute bottom-[10%] right-[10%] w-[60%] h-[40%] rounded-full bg-purple-100/40 blur-[80px]" />
             </div>
 
+            {/* Premium Dark Mode Background */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 hidden dark:block">
+                <img src={getAssetPath("/dark_bg.webp")} alt="Dark Background" className="absolute inset-0 w-full h-full object-cover opacity-60" />
+            </div>
+
             <div className="flex-1 overflow-y-auto p-4 space-y-5 relative z-10">
                 {/* Header */}
                 <header className="flex items-center justify-between">
@@ -147,68 +152,60 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
                 {/* Quick Access Cards */}
                 <section className="grid grid-cols-2 gap-3">
                     <Card
-                        className="bg-white dark:bg-card border-green-700/10 dark:border-border hover:border-green-700/50 dark:hover:border-green-500/50 transition-all cursor-pointer group hover:scale-[1.02] hover:shadow-lg"
+                        className="bg-transparent border-[1.5px] border-border dark:border-border hover:border-green-700/50 dark:hover:border-green-500/50 transition-all cursor-pointer group hover:scale-[1.02] hover:shadow-none"
                         onClick={() => setActiveView('mobile_recharge')}
                     >
-                        <CardContent className="p-4">
-                            <div className="flex flex-col gap-3">
-                                <div className="w-12 h-12 bg-green-600/10 dark:bg-green-500/10 rounded-xl flex items-center justify-center">
-                                    <Smartphone className="w-6 h-6 text-green-700 dark:text-green-500" />
-                                </div>
-                                <div className="flex-1">
-                                    <h3 className="font-semibold text-foreground text-sm">Mobile Recharge</h3>
-                                    <p className="text-xs text-muted-foreground">{transactions.filter(t => t.type === 'mobile_recharge').length} transactions</p>
+                        <CardContent className="p-3.5">
+                            <div className="flex items-center gap-3">
+                                <img src={getAssetPath("/History/mobile_recharge.png")} alt="Mobile Recharge" className="w-10 h-10 object-contain shrink-0" />
+                                <div className="flex-1 min-w-0">
+                                    <h3 className="font-semibold text-foreground text-sm truncate leading-tight">Mobile Recharge</h3>
+                                    <p className="text-xs text-muted-foreground mt-0.5 truncate">{transactions.filter(t => t.type === 'mobile_recharge').length} transactions</p>
                                 </div>
                             </div>
                         </CardContent>
                     </Card>
 
                     <Card
-                        className="bg-white dark:bg-card border-green-700/10 dark:border-border hover:border-green-700/50 dark:hover:border-green-500/50 transition-all cursor-pointer group hover:scale-[1.02] hover:shadow-lg"
+                        className="bg-transparent border-[1.5px] border-border dark:border-border hover:border-green-700/50 dark:hover:border-green-500/50 transition-all cursor-pointer group hover:scale-[1.02] hover:shadow-none"
                         onClick={() => setActiveView('bill_payment')}
                     >
-                        <CardContent className="p-4">
-                            <div className="flex flex-col gap-3">
-                                <div className="w-12 h-12 bg-blue-600/10 dark:bg-blue-500/10 rounded-xl flex items-center justify-center">
-                                    <Zap className="w-6 h-6 text-blue-700 dark:text-blue-500" />
-                                </div>
-                                <div className="flex-1">
-                                    <h3 className="font-semibold text-foreground text-sm">Bill Payments</h3>
-                                    <p className="text-xs text-muted-foreground">{transactions.filter(t => t.type === 'bill_payment').length} transactions</p>
+                        <CardContent className="p-3.5">
+                            <div className="flex items-center gap-3">
+                                <img src={getAssetPath("/History/bill_payments.png")} alt="Bill Payments" className="w-10 h-10 object-contain shrink-0" />
+                                <div className="flex-1 min-w-0">
+                                    <h3 className="font-semibold text-foreground text-sm truncate leading-tight">Bill Payments</h3>
+                                    <p className="text-xs text-muted-foreground mt-0.5 truncate">{transactions.filter(t => t.type === 'bill_payment').length} transactions</p>
                                 </div>
                             </div>
                         </CardContent>
                     </Card>
 
                     <Card
-                        className="bg-white dark:bg-card border-green-700/10 dark:border-border hover:border-green-700/50 dark:hover:border-green-500/50 transition-all cursor-pointer group hover:scale-[1.02] hover:shadow-lg"
+                        className="bg-transparent border-[1.5px] border-border dark:border-border hover:border-green-700/50 dark:hover:border-green-500/50 transition-all cursor-pointer group hover:scale-[1.02] hover:shadow-none"
                         onClick={() => setActiveView('cc_to_bank')}
                     >
-                        <CardContent className="p-4">
-                            <div className="flex flex-col gap-3">
-                                <div className="w-12 h-12 bg-purple-600/10 dark:bg-purple-500/10 rounded-xl flex items-center justify-center">
-                                    <CreditCard className="w-6 h-6 text-purple-700 dark:text-purple-500" />
-                                </div>
-                                <div className="flex-1">
-                                    <h3 className="font-semibold text-foreground text-sm">CC to Bank</h3>
-                                    <p className="text-xs text-muted-foreground">{transactions.filter(t => t.type === 'cc_to_bank').length} transactions</p>
+                        <CardContent className="p-3.5">
+                            <div className="flex items-center gap-3">
+                                <img src={getAssetPath("/History/cc_to_bank.png")} alt="CC to Bank" className="w-10 h-10 object-contain shrink-0" />
+                                <div className="flex-1 min-w-0">
+                                    <h3 className="font-semibold text-foreground text-sm truncate leading-tight">CC to Bank</h3>
+                                    <p className="text-xs text-muted-foreground mt-0.5 truncate">{transactions.filter(t => t.type === 'cc_to_bank').length} transactions</p>
                                 </div>
                             </div>
                         </CardContent>
                     </Card>
 
                     <Card
-                        className="bg-white dark:bg-card border-green-700/10 dark:border-border hover:border-green-700/50 dark:hover:border-green-500/50 transition-all cursor-pointer group hover:scale-[1.02] hover:shadow-lg"
+                        className="bg-transparent border-[1.5px] border-border dark:border-border hover:border-green-700/50 dark:hover:border-green-500/50 transition-all cursor-pointer group hover:scale-[1.02] hover:shadow-none"
                         onClick={() => setActiveView('wallet')}
                     >
-                        <CardContent className="p-4">
-                            <div className="flex flex-col gap-3">
-                                <div className="w-12 h-12 bg-orange-600/10 dark:bg-orange-500/10 rounded-xl flex items-center justify-center">
-                                    <Wallet className="w-6 h-6 text-orange-700 dark:text-orange-500" />
-                                </div>
-                                <div className="flex-1">
-                                    <h3 className="font-semibold text-foreground text-sm">Wallet History</h3>
-                                    <p className="text-xs text-muted-foreground">{transactions.filter(t => t.type === 'wallet').length} transactions</p>
+                        <CardContent className="p-3.5">
+                            <div className="flex items-center gap-3">
+                                <img src={getAssetPath("/History/wallet_history.png")} alt="Wallet History" className="w-10 h-10 object-contain shrink-0" />
+                                <div className="flex-1 min-w-0">
+                                    <h3 className="font-semibold text-foreground text-sm truncate leading-tight">Wallet History</h3>
+                                    <p className="text-xs text-muted-foreground mt-0.5 truncate">{transactions.filter(t => t.type === 'wallet').length} transactions</p>
                                 </div>
                             </div>
                         </CardContent>
@@ -225,13 +222,11 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-shine-occasional z-0 pointer-events-none" />
                     <CardContent className="p-4">
                         <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                                <div className="w-12 h-12 bg-green-700 dark:bg-green-500 rounded-full flex items-center justify-center">
-                                    <PieChartIcon className="w-6 h-6 text-white dark:text-black" />
-                                </div>
+                            <div className="flex items-center gap-4">
+                                <img src={getAssetPath("/History/spending_reports.png")} alt="Spending Reports" className="w-12 h-12 object-contain shrink-0" />
                                 <div>
-                                    <h4 className="font-semibold text-foreground">Spending Reports</h4>
-                                    <p className="text-sm text-muted-foreground">View detailed spending analysis</p>
+                                    <h4 className="font-semibold text-foreground text-base leading-tight">Spending Reports</h4>
+                                    <p className="text-xs text-muted-foreground mt-0.5">View detailed spending analysis</p>
                                 </div>
                             </div>
                             <ChevronRight className="w-5 h-5 text-green-700 dark:text-green-500" />
@@ -290,8 +285,12 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
 
         return (
             <div className="flex flex-col h-full bg-background animate-in slide-in-from-right duration-300 relative">
+                {/* Premium Dark Mode Background */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 hidden dark:block">
+                    <img src={getAssetPath("/dark_bg.webp")} alt="Dark Background" className="absolute inset-0 w-full h-full object-cover opacity-60" />
+                </div>
                 {/* Header */}
-                <header className="flex items-center justify-between p-4 border-b border-border bg-white dark:bg-card sticky top-0 z-10">
+                <header className="flex items-center justify-between p-4 border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-10">
                     <div className="flex items-center gap-3">
                         <button
                             onClick={() => {
@@ -313,7 +312,7 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
                     </div>
                     <div className="flex items-center gap-2">
                         {selectedTransactions.length > 0 && (
-                            <Badge className="bg-green-600/20 dark:bg-green-500/20 text-green-700 dark:text-green-500 border-0">
+                            <Badge className="bg-[#5cbc82] border-[1.5px] border-black/25 dark:border-white/80 text-white btn-shine relative overflow-hidden">
                                 {selectedTransactions.length}
                             </Badge>
                         )}
@@ -329,7 +328,7 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
                 {/* Filter Modal */}
                 {isFilterModalOpen && (
                     <div className="absolute inset-0 z-50 flex items-center justify-center px-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-                        <Card className="w-full max-w-sm bg-card border-border shadow-2xl animate-in zoom-in-95 duration-200">
+                        <Card className="w-full max-w-sm bg-background border-[1.5px] border-border shadow-none animate-in zoom-in-95 duration-200">
                             <CardContent className="p-5 space-y-5">
                                 <h3 className="text-lg font-bold text-foreground">Filter Transactions</h3>
 
@@ -399,7 +398,7 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
                                         Cancel
                                     </Button>
                                     <Button
-                                        className="flex-1 bg-green-700 hover:bg-green-800 text-white"
+                                        className="flex-1 bg-[#5cbc82] border-[1.5px] border-black/25 dark:border-white/80 text-white hover:bg-[#4da872] btn-shine relative overflow-hidden"
                                         onClick={() => {
                                             // Filters are already applied via state, just close modal
                                             setIsFilterModalOpen(false);
@@ -419,7 +418,7 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
                         <button
                             onClick={() => setPeriodFilter('this_month')}
                             className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${periodFilter === 'this_month'
-                                ? 'bg-green-700 text-white dark:bg-green-500 dark:text-black'
+                                ? 'bg-[#5cbc82] border-[1.5px] border-black/25 dark:border-white/80 text-white btn-shine relative overflow-hidden'
                                 : 'bg-card text-muted-foreground border border-border'
                                 }`}
                         >
@@ -428,7 +427,7 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
                         <button
                             onClick={() => setPeriodFilter('15_days')}
                             className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${periodFilter === '15_days'
-                                ? 'bg-green-700 text-white dark:bg-green-500 dark:text-black'
+                                ? 'bg-[#5cbc82] border-[1.5px] border-black/25 dark:border-white/80 text-white btn-shine relative overflow-hidden'
                                 : 'bg-card text-muted-foreground border border-border'
                                 }`}
                         >
@@ -437,7 +436,7 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
                         <button
                             onClick={() => setPeriodFilter('last_month')}
                             className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${periodFilter === 'last_month'
-                                ? 'bg-green-700 text-white dark:bg-green-500 dark:text-black'
+                                ? 'bg-[#5cbc82] border-[1.5px] border-black/25 dark:border-white/80 text-white btn-shine relative overflow-hidden'
                                 : 'bg-card text-muted-foreground border border-border'
                                 }`}
                         >
@@ -526,10 +525,10 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
 
                 {/* Bottom Action Bar */}
                 {selectedTransactions.length > 0 && (
-                    <div className="sticky bottom-0 p-4 bg-white dark:bg-card border-t border-border">
+                    <div className="sticky bottom-0 p-4 bg-transparent border-t border-border">
                         <Button
                             onClick={handleGetHelp}
-                            className="w-full bg-green-700 hover:bg-green-800 dark:bg-green-500 dark:hover:bg-green-400 text-white dark:text-black font-bold"
+                            className="w-full bg-[#5cbc82] border-[1.5px] border-black/25 dark:border-white/80 text-white hover:bg-[#4da872] btn-shine relative overflow-hidden font-bold"
                         >
                             <HelpCircle className="w-5 h-5 mr-2" />
                             Get Help for Selected ({selectedTransactions.length})
@@ -549,9 +548,13 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
         const colors = ['#15803d', '#0ea5e9', '#8b5cf6', '#f59e0b', '#ef4444', '#06b6d4'];
 
         return (
-            <div className="flex flex-col h-full bg-background animate-in slide-in-from-right duration-300">
+            <div className="flex flex-col h-full bg-background animate-in slide-in-from-right duration-300 relative">
+                {/* Premium Dark Mode Background */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 hidden dark:block">
+                    <img src={getAssetPath("/dark_bg.webp")} alt="Dark Background" className="absolute inset-0 w-full h-full object-cover opacity-60" />
+                </div>
                 {/* Header */}
-                <header className="flex items-center p-4 border-b border-border bg-white dark:bg-card sticky top-0 z-10">
+                <header className="flex items-center p-4 border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-10">
                     <button
                         onClick={() => {
                             if (onBack && initialView === 'spending') {
@@ -576,7 +579,7 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
                         <button
                             onClick={() => setPeriodFilter('this_month')}
                             className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${periodFilter === 'this_month'
-                                ? 'bg-green-700 text-white dark:bg-green-500 dark:text-black'
+                                ? 'bg-[#5cbc82] border-[1.5px] border-black/25 dark:border-white/80 text-white btn-shine relative overflow-hidden'
                                 : 'bg-card text-muted-foreground border border-border'
                                 }`}
                         >
@@ -585,7 +588,7 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
                         <button
                             onClick={() => setPeriodFilter('15_days')}
                             className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${periodFilter === '15_days'
-                                ? 'bg-green-700 text-white dark:bg-green-500 dark:text-black'
+                                ? 'bg-[#5cbc82] border-[1.5px] border-black/25 dark:border-white/80 text-white btn-shine relative overflow-hidden'
                                 : 'bg-card text-muted-foreground border border-border'
                                 }`}
                         >
@@ -594,7 +597,7 @@ const MobileHistory = ({ isDarkMode, transactions = [], onGetHelp, activeView: i
                         <button
                             onClick={() => setPeriodFilter('last_month')}
                             className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${periodFilter === 'last_month'
-                                ? 'bg-green-700 text-white dark:bg-green-500 dark:text-black'
+                                ? 'bg-[#5cbc82] border-[1.5px] border-black/25 dark:border-white/80 text-white btn-shine relative overflow-hidden'
                                 : 'bg-card text-muted-foreground border border-border'
                                 }`}
                         >

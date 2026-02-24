@@ -56,7 +56,11 @@ const MobileSupport = ({ initialMessage, onClearMessage, tickets = [], onResolve
 
     if (showTickets) {
         return (
-            <div className="flex flex-col h-full bg-background animate-in slide-in-from-right duration-300">
+            <div className="flex flex-col h-full bg-background animate-in slide-in-from-right duration-300 relative">
+                {/* Premium Dark Mode Background */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 hidden dark:block">
+                    <img src={getAssetPath("/dark_bg.webp")} alt="Dark Background" className="absolute inset-0 w-full h-full object-cover opacity-60" />
+                </div>
                 <header className="px-4 py-4 border-b border-border flex items-center gap-3 bg-card/50 backdrop-blur-md sticky top-0 z-10">
                     <button onClick={() => setShowTickets(false)} className="p-2 hover:bg-muted rounded-full transition-colors">
                         <ArrowLeft className="w-5 h-5" />
@@ -129,6 +133,11 @@ const MobileSupport = ({ initialMessage, onClearMessage, tickets = [], onResolve
             <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 dark:hidden">
                 <div className="absolute top-[10%] left-[20%] w-[60%] h-[40%] rounded-full bg-blue-100/40 blur-[80px]" />
                 <div className="absolute bottom-[20%] right-[10%] w-[50%] h-[30%] rounded-full bg-green-100/40 blur-[80px]" />
+            </div>
+
+            {/* Premium Dark Mode Background */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 hidden dark:block">
+                <img src={getAssetPath("/dark_bg.webp")} alt="Dark Background" className="absolute inset-0 w-full h-full object-cover opacity-60" />
             </div>
 
             <div className="flex-1 overflow-y-auto p-4 space-y-5 pb-20 relative z-10">

@@ -90,7 +90,7 @@ const MobileLogin = ({ onContinue, onSignupClick, onPinLoginClick, hasPinSet = f
 
                 {/* Login Card */}
                 <div className="flex-1 flex flex-col justify-center max-w-sm w-full mx-auto">
-                    <div className="bg-card/50 backdrop-blur-xl border border-border/50 rounded-3xl p-6 shadow-2xl">
+                    <div className="bg-transparent border-[1.5px] border-border/60 rounded-3xl p-6">
                         <div className="mb-6">
                             <label className="text-sm font-medium text-muted-foreground mb-2 block">
                                 Email / Mobile Number
@@ -105,7 +105,7 @@ const MobileLogin = ({ onContinue, onSignupClick, onPinLoginClick, hasPinSet = f
                                     onChange={(e) => setIdentifier(e.target.value)}
                                     onKeyPress={handleKeyPress}
                                     placeholder={getPlaceholder()}
-                                    className="h-12 pl-12 pr-4 bg-background/50 border-border/50 focus:border-green-700 dark:focus:border-green-500 focus:bg-background rounded-xl text-sm transition-all"
+                                    className="h-12 pl-12 pr-4 bg-transparent border-[1.5px] border-border focus:border-green-700 dark:focus:border-green-500 focus:bg-background/30 rounded-xl text-sm transition-all"
                                     autoFocus
                                 />
                             </div>
@@ -118,10 +118,10 @@ const MobileLogin = ({ onContinue, onSignupClick, onPinLoginClick, hasPinSet = f
                                 className="flex items-center gap-3 group cursor-pointer"
                             >
                                 <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all ${rememberMe
-                                    ? 'bg-green-700 border-green-700 dark:bg-green-500 dark:border-green-500'
+                                    ? 'bg-transparent border-green-700 dark:border-green-500'
                                     : 'border-muted-foreground/30 group-hover:border-muted-foreground/50'}`}>
                                     {rememberMe && (
-                                        <svg className="w-3 h-3 text-white dark:text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <svg className="w-3 h-3 text-green-700 dark:text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                                         </svg>
                                     )}
@@ -136,7 +136,7 @@ const MobileLogin = ({ onContinue, onSignupClick, onPinLoginClick, hasPinSet = f
                             <Button
                                 onClick={handleLoginWithOTP}
                                 disabled={!identifier.trim()}
-                                className="w-full h-11 bg-green-700 hover:bg-green-800 dark:bg-green-500 dark:hover:bg-green-400 text-white dark:text-black font-bold text-sm rounded-xl shadow-lg shadow-green-700/10 dark:shadow-green-500/10 group disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                                className="w-full h-11 bg-[#5cbc82] border-[1.5px] border-black/25 dark:border-white/80 text-white btn-shine relative overflow-hidden font-bold text-sm rounded-xl hover:bg-green-200/80 group disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                             >
                                 <span>Login with OTP</span>
                                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -145,8 +145,8 @@ const MobileLogin = ({ onContinue, onSignupClick, onPinLoginClick, hasPinSet = f
                             <Button
                                 onClick={handleLoginWithPassword}
                                 disabled={!identifier.trim()}
-                                variant="outline"
-                                className="w-full h-11 border-2 border-green-700/20 dark:border-green-500/20 text-green-700 dark:text-green-500 font-bold text-sm rounded-xl hover:bg-green-600/5 dark:hover:bg-green-500/5 transition-all"
+                                variant="accent"
+                                className="w-full h-11 font-bold text-sm rounded-xl transition-all"
                             >
                                 Login with Password
                             </Button>
@@ -167,7 +167,7 @@ const MobileLogin = ({ onContinue, onSignupClick, onPinLoginClick, hasPinSet = f
                                 <div className="pt-4 border-t border-border/50">
                                     <button
                                         onClick={onPinLoginClick}
-                                        className="w-full h-12 flex items-center justify-center gap-2 text-sm font-semibold text-green-700 dark:text-green-500 hover:bg-green-600/5 dark:hover:bg-green-500/5 border border-green-700/50 dark:border-green-500/50 rounded-xl transition-all"
+                                        className="w-full h-12 flex items-center justify-center gap-2 text-sm font-semibold text-foreground hover:bg-foreground/5 border-[1.5px] border-border rounded-xl transition-all"
                                     >
                                         <LayoutGrid className="w-4 h-4" />
                                         Login with PIN

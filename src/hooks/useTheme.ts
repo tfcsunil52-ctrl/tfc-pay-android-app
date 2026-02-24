@@ -9,11 +9,25 @@ interface UseThemeReturn {
 }
 
 export function useTheme(initialTheme: ThemeMode = "dark"): UseThemeReturn {
-    const [theme, setThemeState] = useState<ThemeMode>(initialTheme);
+    // Determine initial state from localStorage or fallback
+    const getInitialTheme = (): ThemeMode => {
+        if (typeof window !== "undefined") {
+            const savedTheme = localStorage.getItem("tfc_theme") as ThemeMode;
+            if (savedTheme === "dark" || savedTheme === "light") {
+                return savedTheme;
+            }
+        }
+        return initialTheme;
+    };
+
+    const [theme, setThemeState] = useState<ThemeMode>(getInitialTheme);
 
     const isDarkMode = theme === "dark";
 
     useEffect(() => {
+        // Save to localStorage
+        localStorage.setItem("tfc_theme", theme);
+
         // Apply theme class to document
         if (isDarkMode) {
             document.documentElement.classList.add("dark");

@@ -2,13 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
-/* TFC Pay React - Complete Styles */
-/* Include this file in your main CSS or import directly */
+/* ===== BUTTON SHINE — two sharp rectangles flash ===== */
+@keyframes btn-flash-thick {
+  0% {
+    left: -25%;
+  }
+
+  25% {
+    left: 110%;
+  }
+
+  100% {
+    left: 110%;
+  }
+}
+
+@keyframes btn-flash-thin {
+  0% {
+    left: -15%;
+  }
+
+  25% {
+    left: 115%;
+  }
+
+  100% {
+    left: 115%;
+  }
+}
+
+/* Thick bar */
+.btn-shine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 18%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: skewX(-15deg);
+  left: -25%;
+  animation: btn-flash-thick 2.8s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Thin bright line */
+.btn-shine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 6%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.85);
+  transform: skewX(-15deg);
+  left: -15%;
+  animation: btn-flash-thin 2.8s ease-in-out infinite;
+  animation-delay: 0.06s;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* TFC Pay — Vector-Style Design System */
 
 /* CSS Variables for Theming */
 :root {
   --background: 142 30% 97%;
-  /* Subtle mint tint */
   --foreground: 222.2 47.4% 11.2%;
 
   --card: 0 0% 100%;
@@ -26,15 +84,17 @@
   --muted: 210 40% 96.1%;
   --muted-foreground: 215.4 16.3% 46.9%;
 
-  --accent: 210 40% 96.1%;
-  --accent-foreground: 222.2 47.4% 11.2%;
+  --accent: 270 60% 90%;
+  --accent-foreground: 270 50% 30%;
 
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 210 40% 98%;
 
-  --border: 214.3 31.8% 82%;
-  --input: 214.3 31.8% 91.4%;
+  --border: 220 10% 78%;
+  --input: 220 10% 85%;
   --ring: 142 71% 45%;
+
+  --purple: 270 60% 78%;
 
   --radius: 0.75rem;
 }
@@ -58,15 +118,17 @@
   --muted: 220 20% 15%;
   --muted-foreground: 215 20.2% 65.1%;
 
-  --accent: 142 71% 45%;
-  --accent-foreground: 0 0% 100%;
+  --accent: 270 40% 30%;
+  --accent-foreground: 270 60% 85%;
 
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 210 40% 98%;
 
-  --border: 220 20% 18%;
+  --border: 220 10% 25%;
   --input: 220 20% 18%;
   --ring: 142 71% 45%;
+
+  --purple: 270 50% 55%;
 }
 
 /* Base Styles */
@@ -78,25 +140,16 @@ body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
   transition: background-color 0.3s ease;
-}
-
-body {
-  background-image:
-    radial-gradient(ellipse at 10% 5%, hsl(142 70% 78% / 0.80) 0%, transparent 45%),
-    radial-gradient(circle at 90% 12%, hsl(160 65% 80% / 0.70) 0%, transparent 40%),
-    radial-gradient(ellipse at 50% 50%, hsl(142 55% 85% / 0.55) 0%, transparent 55%),
-    radial-gradient(circle at 5% 80%, hsl(152 60% 82% / 0.65) 0%, transparent 40%),
-    radial-gradient(ellipse at 88% 88%, hsl(142 65% 78% / 0.75) 0%, transparent 45%);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url('/tfc-pay-android-app/Light BG.webp');
+  background-size: cover;
+  background-position: center;
   background-attachment: fixed;
 }
 
 .bg-background {
-  background-image:
-    radial-gradient(ellipse at 8% 8%, hsl(142 70% 78% / 0.75) 0%, transparent 45%),
-    radial-gradient(circle at 92% 10%, hsl(160 65% 80% / 0.65) 0%, transparent 40%),
-    radial-gradient(ellipse at 50% 55%, hsl(142 55% 85% / 0.50) 0%, transparent 55%),
-    radial-gradient(circle at 6% 85%, hsl(152 60% 82% / 0.60) 0%, transparent 38%),
-    radial-gradient(ellipse at 90% 90%, hsl(142 65% 78% / 0.70) 0%, transparent 42%);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45)), url('/tfc-pay-android-app/Light BG.webp');
+  background-size: cover;
+  background-position: center;
 }
 
 .dark body {
@@ -112,18 +165,83 @@ body {
     radial-gradient(circle at 100% 100%, hsl(var(--primary) / 0.08) 0%, transparent 40%);
 }
 
-/* Card shadow for light mode */
+/* ===== OUTLINED CARD SYSTEM ===== */
 .bg-card {
-  box-shadow: 0 8px 24px -8px rgba(21, 128, 61, 0.12), 0 2px 8px -2px rgba(0, 0, 0, 0.06);
-  border: 1px solid hsl(var(--border) / 0.7);
+  background-color: hsla(0, 0%, 100%, 0.75) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: none;
+  border: 1.5px solid hsl(var(--border));
 }
 
 .dark .bg-card {
+  background-color: hsla(220, 20%, 10%, 0.5) !important;
   box-shadow: none;
   border-color: hsl(var(--border));
 }
 
-/* Custom Scrollbar */
+/* ===== ICON CONTAINERS — SOLID WHITE BACKDROP ===== */
+.icon-container-glass {
+  background: #ffffff;
+  border: 1.5px solid hsl(var(--border));
+  box-shadow: none;
+}
+
+.dark .icon-container-glass {
+  background: hsla(220, 20%, 18%, 1);
+  border: 1.5px solid hsl(var(--border));
+}
+
+.icon-container-pastel {
+  background-color: #ffffff;
+  border: 1.5px solid hsl(var(--border));
+  box-shadow: none;
+  position: relative;
+}
+
+.icon-container-pastel::before {
+  display: none;
+}
+
+.dark .icon-container-pastel {
+  background: hsla(220, 20%, 18%, 1);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 1.5px solid hsl(var(--border));
+}
+
+.dark .icon-container-pastel::before {
+  display: none;
+}
+
+/* ===== OUTLINED PANELS ===== */
+.panel-glass {
+  background-color: hsla(0, 0%, 100%, 0.5) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1.5px solid hsl(var(--border));
+  box-shadow: none;
+}
+
+.dark .panel-glass {
+  background-color: hsla(220, 20%, 10%, 0.5) !important;
+  border-color: hsl(var(--border));
+}
+
+.panel-glass-accent {
+  background-color: hsla(0, 0%, 100%, 0.5) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1.5px solid hsl(var(--border));
+  box-shadow: none;
+}
+
+.dark .panel-glass-accent {
+  background-color: hsla(220, 20%, 10%, 0.5) !important;
+  border-color: hsl(var(--border));
+}
+
+/* ===== SCROLLBAR ===== */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -142,13 +260,12 @@ body {
   background: hsl(var(--primary) / 0.5);
 }
 
-/* Firefox scrollbar */
 * {
   scrollbar-width: thin;
   scrollbar-color: hsl(var(--border)) hsl(var(--background));
 }
 
-/* Animations */
+/* ===== ANIMATIONS ===== */
 @keyframes gold-shine {
   0% {
     background-position: 200% 0;
@@ -175,6 +292,17 @@ body {
       transparent 0%,
       transparent 40%,
       rgba(255, 255, 255, 0.7) 50%,
+      transparent 60%,
+      transparent 100%);
+  background-size: 200% 100%;
+  animation: gold-shine 3s ease-in-out infinite;
+}
+
+.animate-dark-shine {
+  background: linear-gradient(110deg,
+      transparent 0%,
+      transparent 40%,
+      rgba(0, 0, 0, 0.15) 50%,
       transparent 60%,
       transparent 100%);
   background-size: 200% 100%;
@@ -320,4 +448,13 @@ body {
 .arrow-animated svg:nth-child(3) {
   animation-delay: 0.4s;
   margin-left: -5px;
+}
+
+/* Green glow for active navigation tabs */
+.active-nav-glow {
+  filter: drop-shadow(0 0 4px rgba(34, 197, 94, 0.4));
+}
+
+.dark .active-nav-glow {
+  filter: drop-shadow(0 0 6px rgba(34, 197, 94, 0.5));
 }

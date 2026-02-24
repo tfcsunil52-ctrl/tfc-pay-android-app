@@ -24,13 +24,14 @@ import { useAuth } from "../hooks/useAuth";
 import { useNotifications } from "../hooks/useNotifications";
 import { useTickets } from "../hooks/useTickets";
 import type { TabType } from "../types";
+import { getAssetPath } from "../utils/assets";
 
 interface TFCPayAppProps {
     initialTab?: TabType;
     initialTheme?: "dark" | "light";
 }
 
-const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProps) => {
+const TFCPayApp = ({ initialTab = "home", initialTheme = "light" }: TFCPayAppProps) => {
     const {
         isAuthenticated, login, logout, signup,
         hasPinSet, appLockEnabled, biometricEnabled,
@@ -185,10 +186,10 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
 
     // Tab navigation items
     const tabs = [
-        { id: "home" as TabType, label: "Home", icon: Home },
-        { id: "offers" as TabType, label: "Offers", icon: Gift },
-        { id: "history" as TabType, label: "History", icon: History },
-        { id: "profile" as TabType, label: "Support", icon: Headphones },
+        { id: "home" as TabType, label: "Home", Icon: Home },
+        { id: "offers" as TabType, label: "Offers", Icon: Gift },
+        { id: "history" as TabType, label: "History", Icon: History },
+        { id: "profile" as TabType, label: "Support", Icon: Headphones },
     ];
 
 
@@ -201,6 +202,7 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
                         onNavigate={handleNavigate}
                         onProfileClick={handleProfileClick}
                         isDarkMode={isDarkMode}
+                        onThemeToggle={toggleTheme}
                         balance={balance}
                         previousBalance={previousBalance}
                         onBalanceSeen={onBalanceSeen}
@@ -322,23 +324,35 @@ const TFCPayApp = ({ initialTab = "home", initialTheme = "dark" }: TFCPayAppProp
                 </main>
 
                 {/* Bottom Navigation */}
-                <nav className="sticky bottom-0 w-full bg-card/80 backdrop-blur-md border-t border-border px-4 py-2 z-40">
-                    <div className="flex items-center justify-around max-w-md mx-auto">
-                        {tabs.map((tab) => (
-                            <button
-                                key={tab.id}
-                                onClick={() => handleNavigate(tab.id)}
-                                className={`flex flex-col items-center gap-1 py-2 px-4 rounded-xl transition-all ${activeTab === tab.id
-                                    ? "bg-green-700/10 text-green-700 dark:bg-green-500/10 dark:text-green-500 scale-105"
-                                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                                    }`}
-                            >
-                                <tab.icon className={`w-5 h-5 ${activeTab === tab.id ? "stroke-2" : ""}`} />
-                                <span className={`text-[10px] ${activeTab === tab.id ? "font-semibold" : ""}`}>
-                                    {tab.label}
-                                </span>
-                            </button>
-                        ))}
+                <nav className={`fixed bottom-0 left-0 right-0 z-50 pt-1 pb-2 px-4 ${isDarkMode ? 'bg-zinc-900 border-t border-zinc-800' : 'bg-white border-t border-zinc-200 shadow-[0_-4px_24px_-4px_rgba(0,0,0,0.1)]'}`}>
+                    <div className="flex justify-between items-center max-w-md mx-auto relative">
+                        {tabs.map((tab) => {
+                            const isActive = activeTab === tab.id;
+                            return (
+                                <button
+                                    key={tab.id}
+                                    onClick={() => handleNavigate(tab.id)}
+                                    className={`flex flex-col items-center justify-center gap-0.5 py-2 px-5 rounded-2xl transition-all ${isActive
+                                        ? "scale-105"
+                                        : "hover:bg-muted/50 opacity-60"
+                                        }`}
+                                >
+                                    <tab.Icon
+                                        className={`w-6 h-6 transition-all ${isActive
+                                            ? "text-green-700 dark:text-green-500"
+                                            : "text-slate-500 dark:text-slate-400"
+                                            }`}
+                                        strokeWidth={isActive ? 2.5 : 1.5}
+                                    />
+                                    <span className={`text-[10px] font-bold transition-all ${isActive
+                                        ? "text-green-700 dark:text-green-500"
+                                        : "text-slate-500 dark:text-slate-400"
+                                        }`}>
+                                        {tab.label}
+                                    </span>
+                                </button>
+                            );
+                        })}
                     </div>
                 </nav>
 

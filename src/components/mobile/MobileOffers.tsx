@@ -1,13 +1,62 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronRight, Sparkles, Tv, Smartphone, Zap, Flame, Ticket, History, X } from "lucide-react";
 import { Card, CardContent } from "../ui/Card";
 import { Badge } from "../ui/Badge";
 import { useRewards } from "../../hooks/useRewards";
+import { getAssetPath } from "../../utils/assets";
 
 interface MobileOffersProps {
     onNavigate?: (tab: import("../../types").TabType) => void;
     onServiceSelect?: (serviceTitle: string) => void;
 }
+
+// Offers Banner carousel component
+const OffersBannerCarousel = ({ onOfferSelect }: { onOfferSelect: (offer: any) => void }) => {
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const banners = [
+        {
+            src: "/Offers/recharge_cashback_banner.png",
+            alt: "5% Cashback on Mobile Recharge",
+            offerData: { title: "upto 5% instant cashback on prepaid mobile recharge", category: "Prepaid", serviceType: "prepaid" }
+        },
+        {
+            src: "/Offers/dth_cashback_banner.png",
+            alt: "4% Cashback on DTH Recharge",
+            offerData: { title: "upto 4% cashback on dth recharge", category: "DTH", serviceType: "dth" }
+        }
+    ].map(b => ({ ...b, src: getAssetPath(b.src) }));
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentSlide((prev) => (prev + 1) % banners.length);
+        }, 3000);
+        return () => clearInterval(timer);
+    }, [banners.length]);
+
+    return (
+        <div className="relative group">
+            <div className="rounded-xl overflow-hidden shadow-[0_4px_20px_-4px_rgba(21,128,61,0.25),0_2px_8px_-2px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_24px_-4px_rgba(21,128,61,0.15)] relative aspect-[2.5/1]">
+                {banners.map((banner, index) => (
+                    <div
+                        key={index}
+                        onClick={() => onOfferSelect(banner.offerData)}
+                        className={`absolute inset-0 cursor-pointer transition-opacity duration-500 ease-in-out ${index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"}`}
+                    >
+                        <img src={banner.src} alt={banner.alt} className="w-full h-full object-cover" />
+                    </div>
+                ))}
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 px-3 py-1.5 bg-black/20 backdrop-blur-md rounded-full z-20 pointer-events-none">
+                    {banners.map((_, index) => (
+                        <div
+                            key={index}
+                            className={`h-1.5 rounded-full transition-all duration-300 ${index === currentSlide ? "w-4 bg-green-700 dark:bg-green-500" : "w-1.5 bg-white/50"}`}
+                        />
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+};
 
 const MobileOffers = ({ onNavigate, onServiceSelect }: MobileOffersProps) => {
     const { offers, totalCashback, pendingCashback } = useRewards();
@@ -78,7 +127,7 @@ const MobileOffers = ({ onNavigate, onServiceSelect }: MobileOffersProps) => {
         const dimension = size === "sm" ? "w-8 h-8" : size === "lg" ? "w-16 h-16" : "w-10 h-10";
         const Icon = getOfferIcon(offer.title, offer.serviceType);
         return (
-            <div className={`${dimension} rounded-2xl flex items-center justify-center flex-shrink-0 bg-green-100 dark:bg-green-500/10 border border-green-300 dark:border-green-500/20 group-hover:bg-green-200 dark:group-hover:bg-green-500/20 transition-all shadow-sm dark:shadow-none`}>
+            <div className={`${dimension} rounded-xl flex items-center justify-center flex-shrink-0 icon-container-glass group-hover:bg-green-200/20 dark:group-hover:bg-green-500/20 transition-all shadow-sm dark:shadow-none`}>
                 <Icon className={`${size === "lg" ? "w-8 h-8" : "w-5 h-5"} text-green-700 dark:text-green-500 group-hover:scale-110 transition-transform`} />
             </div>
         );
@@ -137,7 +186,7 @@ const MobileOffers = ({ onNavigate, onServiceSelect }: MobileOffersProps) => {
                     <div className="p-6 pt-2">
                         <button
                             onClick={() => handleUseOffer(selectedOffer)}
-                            className="w-full bg-green-700 hover:bg-green-600 dark:bg-green-500 dark:hover:bg-green-400 text-white dark:text-black font-bold py-4 rounded-2xl transition-all shadow-lg active:scale-[0.98] flex items-center justify-center gap-2"
+                            className="w-full bg-green-700 hover:bg-green-600 dark:bg-green-500 dark:hover:bg-green-400 text-white dark:text-black font-bold py-4 rounded-xl transition-all shadow-none active:scale-[0.98] flex items-center justify-center gap-2"
                         >
                             <span>Use Offer Now</span>
                             <ChevronRight className="w-4 h-4" />
@@ -157,6 +206,11 @@ const MobileOffers = ({ onNavigate, onServiceSelect }: MobileOffersProps) => {
                 <div className="absolute bottom-[0%] left-[20%] w-[50%] h-[30%] rounded-full bg-teal-100/40 blur-[80px]" />
             </div>
 
+            {/* Premium Dark Mode Background */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 hidden dark:block">
+                <img src={getAssetPath("/dark_bg.webp")} alt="Dark Background" className="absolute inset-0 w-full h-full object-cover opacity-60" />
+            </div>
+
             {/* Header */}
             <div className="p-6 pt-10 pb-4 relative z-10">
                 <h1 className="text-2xl font-bold mb-1 tracking-tight text-foreground">Offers &amp; Rewards</h1>
@@ -173,61 +227,7 @@ const MobileOffers = ({ onNavigate, onServiceSelect }: MobileOffersProps) => {
                     </div>
 
                     <div className="space-y-4">
-                        {/* Mobile Prepaid Card */}
-                        <div
-                            onClick={() => handleUseOffer({ title: "upto 5% instant cashback on prepaid mobile recharge", category: "Prepaid", serviceType: "prepaid" })}
-                            className="border rounded-3xl p-6 relative overflow-hidden group active:scale-[0.98] transition-all cursor-pointer border-green-200 dark:border-green-700/40 shadow-[0_4px_20px_-4px_rgba(21,128,61,0.25),0_2px_8px_-2px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_24px_-4px_rgba(21,128,61,0.35)]"
-                        >
-                            {/* Light mode: pastel gradient background */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-green-50 to-emerald-100 dark:hidden rounded-3xl" />
-                            {/* Dark mode: standard card background */}
-                            <div className="absolute inset-0 hidden dark:block rounded-3xl bg-card" />
-
-                            {/* Content */}
-                            <div className="relative z-10">
-                                <div className="flex items-center justify-between mb-5">
-                                    <Badge className="bg-green-700 dark:bg-green-500 text-white dark:text-black border-0 rounded-lg px-3 py-1 text-[11px] font-bold uppercase tracking-wider">
-                                        PREPAID5
-                                    </Badge>
-                                    <span className="text-[10px] text-green-700 dark:text-green-200 font-semibold flex items-center gap-1.5">
-                                        <History className="w-3 h-3" /> Valid till Dec 31
-                                    </span>
-                                </div>
-                                <h3 className="text-xl font-bold text-green-900 dark:text-white mb-1.5">upto 5% instant cashback on prepaid mobile recharge</h3>
-                                <p className="text-sm text-green-700/80 dark:text-green-100/70 font-medium">Get instant cashback on all prepaid recharges</p>
-                            </div>
-                            {/* Decorative blobs */}
-                            <div className="absolute -bottom-6 -right-6 w-28 h-28 bg-green-200/60 dark:bg-green-400/20 rounded-full blur-2xl pointer-events-none" />
-                            <div className="absolute -top-4 -left-4 w-20 h-20 bg-emerald-200/50 dark:bg-emerald-300/10 rounded-full blur-2xl pointer-events-none" />
-                        </div>
-
-                        {/* DTH Card */}
-                        <div
-                            onClick={() => handleUseOffer({ title: "upto 4% cashback on dth recharge", category: "DTH", serviceType: "dth" })}
-                            className="border rounded-3xl p-6 relative overflow-hidden group active:scale-[0.98] transition-all cursor-pointer border-blue-200 dark:border-blue-700/40 shadow-[0_4px_20px_-4px_rgba(37,99,235,0.2),0_2px_8px_-2px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_24px_-4px_rgba(59,130,246,0.3)]"
-                        >
-                            {/* Light mode: pastel gradient background */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-sky-100 dark:hidden rounded-3xl" />
-                            {/* Dark mode: standard card background */}
-                            <div className="absolute inset-0 hidden dark:block rounded-3xl bg-card" />
-
-                            {/* Content */}
-                            <div className="relative z-10">
-                                <div className="flex items-center justify-between mb-5">
-                                    <Badge className="bg-blue-700 dark:bg-blue-400 text-white dark:text-black border-0 rounded-lg px-3 py-1 text-[11px] font-bold uppercase tracking-wider">
-                                        DTH4
-                                    </Badge>
-                                    <span className="text-[10px] text-blue-700 dark:text-blue-200 font-semibold flex items-center gap-1.5">
-                                        <History className="w-3 h-3" /> Valid till Dec 31
-                                    </span>
-                                </div>
-                                <h3 className="text-xl font-bold text-blue-900 dark:text-white mb-1.5">upto 4% cashback on dth recharge</h3>
-                                <p className="text-sm text-blue-700/80 dark:text-blue-100/70 font-medium">On all DTH service providers</p>
-                            </div>
-                            {/* Decorative blobs */}
-                            <div className="absolute -bottom-6 -right-6 w-28 h-28 bg-blue-200/60 dark:bg-blue-400/20 rounded-full blur-2xl pointer-events-none" />
-                            <div className="absolute -top-4 -left-4 w-20 h-20 bg-sky-200/50 dark:bg-sky-300/10 rounded-full blur-2xl pointer-events-none" />
-                        </div>
+                        <OffersBannerCarousel onOfferSelect={handleUseOffer} />
                     </div>
                 </section>
 
@@ -239,7 +239,7 @@ const MobileOffers = ({ onNavigate, onServiceSelect }: MobileOffersProps) => {
                             <div
                                 key={index}
                                 onClick={() => handleUseOffer(offer)}
-                                className="bg-white dark:bg-card border border-green-100 dark:border-border rounded-3xl p-4 flex items-center gap-4 active:scale-[0.98] transition-all hover:border-green-300 dark:hover:border-green-500/30 cursor-pointer group shadow-[0_2px_12px_-2px_rgba(21,128,61,0.15),0_1px_4px_-1px_rgba(0,0,0,0.06)] dark:shadow-none"
+                                className="panel-glass border border-green-100 dark:border-border rounded-xl p-4 flex items-center gap-4 active:scale-[0.98] transition-all hover:border-green-300 dark:hover:border-green-500/30 cursor-pointer group shadow-[0_2px_12px_-2px_rgba(21,128,61,0.15),0_1px_4px_-1px_rgba(0,0,0,0.06)] dark:shadow-none"
                             >
                                 <OfferIcon offer={offer} />
                                 <div className="flex-1 min-w-0">
@@ -258,7 +258,7 @@ const MobileOffers = ({ onNavigate, onServiceSelect }: MobileOffersProps) => {
                 </section>
 
                 {/* Your Cashback Section */}
-                <section className="bg-white dark:bg-card border border-green-100 dark:border-border rounded-[2rem] p-5 relative overflow-hidden shadow-[0_4px_20px_-4px_rgba(21,128,61,0.18),0_2px_8px_-2px_rgba(0,0,0,0.07)] dark:shadow-none">
+                <section className="panel-glass border border-green-100 dark:border-border rounded-2xl p-5 relative overflow-hidden shadow-[0_4px_20px_-4px_rgba(21,128,61,0.18),0_2px_8px_-2px_rgba(0,0,0,0.07)] dark:shadow-none">
                     {/* subtle green accent blob */}
                     <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-green-300/30 dark:bg-green-500/10 blur-2xl pointer-events-none" />
                     <div className="flex items-center justify-between mb-5">
@@ -267,7 +267,7 @@ const MobileOffers = ({ onNavigate, onServiceSelect }: MobileOffersProps) => {
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         {/* Total Earned */}
-                        <div className="bg-green-50 dark:bg-green-500/10 border border-green-200 dark:border-green-500/20 rounded-2xl p-5 flex flex-col justify-between h-28 shadow-sm dark:shadow-none">
+                        <div className="bg-green-50 dark:bg-green-500/10 border border-green-200 dark:border-green-500/20 rounded-xl p-5 flex flex-col justify-between h-28 shadow-sm dark:shadow-none">
                             <div>
                                 <span className="text-2xl font-bold text-green-700 dark:text-green-500">₹</span>
                                 <span className="text-2xl font-bold text-green-700 dark:text-green-500">{totalCashback.toFixed(2)}</span>
@@ -275,7 +275,7 @@ const MobileOffers = ({ onNavigate, onServiceSelect }: MobileOffersProps) => {
                             <span className="text-[10px] font-black text-green-600 dark:text-muted-foreground uppercase tracking-[0.15em]">Total Earned</span>
                         </div>
                         {/* Pending */}
-                        <div className="bg-slate-50 dark:bg-muted/60 border border-slate-200 dark:border-border rounded-2xl p-5 flex flex-col justify-between h-28 shadow-sm dark:shadow-none">
+                        <div className="bg-slate-50 dark:bg-muted/60 border border-slate-200 dark:border-border rounded-xl p-5 flex flex-col justify-between h-28 shadow-sm dark:shadow-none">
                             <div>
                                 <span className="text-2xl font-bold text-foreground">₹</span>
                                 <span className="text-2xl font-bold text-foreground">{pendingCashback.toFixed(2)}</span>

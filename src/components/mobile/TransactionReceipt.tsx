@@ -4,6 +4,7 @@ import { toPng } from "html-to-image";
 import { Button } from "../ui/Button";
 import type { Transaction } from "../../types";
 import { getAssetPath } from "../../utils/assets";
+import { useTheme } from "../../hooks/useTheme";
 
 interface TransactionReceiptProps {
     transaction: Transaction;
@@ -11,6 +12,7 @@ interface TransactionReceiptProps {
 }
 
 const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) => {
+    const { isDarkMode } = useTheme();
 
     const receiptRef = useRef<HTMLDivElement>(null);
     const [isProcessing, setIsProcessing] = useState(false);
@@ -51,10 +53,11 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
             await new Promise(resolve => setTimeout(resolve, 100));
             const contentH = receiptRef.current.scrollHeight;
             const contentW = receiptRef.current.scrollWidth;
+            const isDarkMode = document.documentElement.classList.contains('dark');
             const dataUrl = await toPng(receiptRef.current, {
                 quality: 1,
                 pixelRatio: 3,
-                backgroundColor: '#000000',
+                backgroundColor: isDarkMode ? '#000000' : '#ffffff',
                 cacheBust: true,
                 width: contentW,
                 height: contentH,
@@ -101,16 +104,18 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
 
     const DetailRow = ({ label, value, highlight = false }: { label: string, value: string | number, highlight?: boolean }) => (
         <div className="flex justify-between items-start py-[2px]">
-            <span className="text-[11px] font-semibold text-white/80 truncate mr-3">{label}</span>
-            <span className={`text-[11px] font-medium text-right shrink-0 ${highlight ? (isSuccess ? 'text-green-400' : 'text-red-400') : 'text-white/60'}`}>
+            <span className="text-[11px] font-semibold text-slate-800 dark:text-white/80 truncate mr-3">{label}</span>
+            <span className={`text-[11px] font-medium text-right shrink-0 ${highlight ? (isSuccess ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400') : 'text-slate-600 dark:text-white/60'}`}>
                 {value}
             </span>
         </div>
     );
 
     // Theme colors
-    const accentColor = isSuccess ? '#4ade80' : '#ef4444';
-    const lightingColor = isSuccess ? 'rgba(74,222,128,0.5)' : 'rgba(239,68,68,0.5)';
+    const accentColor = isSuccess ? (isDarkMode ? '#4ade80' : '#16a34a') : '#ef4444';
+    const lightingColor = isSuccess
+        ? (isDarkMode ? 'rgba(74,222,128,0.5)' : 'rgba(22,163,74,0.3)')
+        : (isDarkMode ? 'rgba(239,68,68,0.5)' : 'rgba(239,68,68,0.3)');
     const statusIcon = isSuccess
         ? getAssetPath("/success icon for invoice.webp")
         : getAssetPath("/failed icon for invoice.webp");
@@ -118,10 +123,10 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
     const amountClean = transaction.amount.replace(/[^\d,.]/g, '');
 
     return (
-        <div className="fixed inset-0 z-[100] bg-black flex flex-col font-sans text-white">
+        <div className="fixed inset-0 z-[100] bg-white dark:bg-black flex flex-col font-sans text-black dark:text-white">
             {/* Top Bar */}
             <div className="flex items-center justify-between px-4 py-3 relative z-20">
-                <button onClick={onClose} className="flex items-center gap-2 text-white active:opacity-60 transition-opacity">
+                <button onClick={onClose} className="flex items-center gap-2 text-black dark:text-white active:opacity-60 transition-opacity">
                     <ArrowLeft className="w-5 h-5" />
                     <span className="font-semibold text-base">Back</span>
                 </button>
@@ -136,7 +141,7 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
                 <button
                     onClick={handleShare}
                     disabled={isProcessing}
-                    className="px-5 py-2 rounded-full flex items-center gap-2 font-bold text-sm shadow-sm active:scale-95 transition-all bg-transparent border-2 border-white/50 text-white overflow-hidden relative animate-gold-shine"
+                    className="px-5 py-2 rounded-full flex items-center gap-2 font-bold text-sm shadow-sm active:scale-95 transition-all bg-transparent border-2 border-black/50 dark:border-white/50 text-black dark:text-white overflow-hidden relative animate-gold-shine"
                 >
                     <Share2 className="w-4 h-4" />
                     Share
@@ -145,23 +150,28 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
 
             <div className="flex-1 overflow-auto">
                 {/* ===== SCREENSHOT CAPTURE AREA START ===== */}
-                <div ref={receiptRef} className="flex flex-col items-center relative bg-black">
+                <div ref={receiptRef} className="flex flex-col items-center relative bg-white dark:bg-black">
                     {/* Side Lighting Effects */}
                     <div
-                        className="absolute top-[20%] -left-16 w-[180px] h-[400px] rounded-full blur-[90px] pointer-events-none opacity-60"
+                        className="absolute top-[20%] -left-16 w-[180px] h-[400px] rounded-full blur-[90px] pointer-events-none opacity-60 dark:opacity-60 opacity-30"
                         style={{ background: lightingColor }}
                     />
                     <div
-                        className="absolute top-[20%] -right-16 w-[180px] h-[400px] rounded-full blur-[90px] pointer-events-none opacity-60"
+                        className="absolute top-[20%] -right-16 w-[180px] h-[400px] rounded-full blur-[90px] pointer-events-none opacity-60 dark:opacity-60 opacity-30"
                         style={{ background: lightingColor }}
                     />
 
                     {/* TFCPAY Logo */}
                     <div className="relative z-10 mt-2 mb-2">
                         <img
+                            src={getAssetPath("/tfcpay-logo-light.png")}
+                            alt="TFCPAY"
+                            className="h-4 w-auto object-contain dark:hidden"
+                        />
+                        <img
                             src={getAssetPath("/tfcpay-logo.png")}
                             alt="TFCPAY"
-                            className="h-4 w-auto object-contain"
+                            className="h-4 w-auto object-contain hidden dark:block"
                         />
                     </div>
 
@@ -182,7 +192,7 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
                         </div>
                         {/* Accent underline bar */}
                         <div className="mx-auto mt-2 mb-0 w-12 h-[3px] rounded-full" style={{ backgroundColor: accentColor }} />
-                        <p className="text-white/40 text-[11px] font-medium capitalize tracking-wide mt-1">
+                        <p className="text-slate-500 dark:text-white/40 text-[11px] font-medium capitalize tracking-wide mt-1">
                             {getAmountInWords(transaction.amount)}
                         </p>
                     </div>
@@ -191,33 +201,33 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
                     <div className="h-2" />
 
                     {/* Details Card */}
-                    <div className="w-[94%] max-w-[420px] bg-[#1c1d21] rounded-t-[24px] shadow-2xl relative overflow-hidden">
+                    <div className="w-[94%] max-w-[420px] bg-slate-100 dark:bg-[#1c1d21] rounded-t-[24px] shadow-[0_-5px_30px_-5px_rgba(0,0,0,0.12)] dark:shadow-2xl relative overflow-hidden">
                         <div className="p-4 space-y-2 pb-4">
                             {/* To Section */}
                             <div className="flex flex-col">
-                                <p className="text-white text-[15px] font-bold">
+                                <p className="text-black dark:text-white text-[15px] font-bold">
                                     To: {transaction.name}
                                 </p>
-                                <p className="text-white/40 text-[12px] font-medium mt-0.5">
+                                <p className="text-slate-500 dark:text-white/40 text-[12px] font-medium mt-0.5">
                                     {transaction.method || "TFC Pay Wallet"}
                                 </p>
                             </div>
 
                             {/* Dashed Line */}
-                            <div className="w-full border-t border-dashed border-white/[0.07]" />
+                            <div className="w-full border-t border-dashed border-black/10 dark:border-white/[0.07]" />
 
                             {/* From Section */}
                             <div className="flex flex-col">
-                                <p className="text-white text-[15px] font-bold">
+                                <p className="text-black dark:text-white text-[15px] font-bold">
                                     From: Ramesh Kumar
                                 </p>
-                                <p className="text-white/40 text-[12px] font-medium mt-0.5">
+                                <p className="text-slate-500 dark:text-white/40 text-[12px] font-medium mt-0.5">
                                     State Bank Of India - 3094
                                 </p>
                             </div>
 
                             {/* Dashed Line */}
-                            <div className="w-full border-t border-dashed border-white/[0.07]" />
+                            <div className="w-full border-t border-dashed border-black/10 dark:border-white/[0.07]" />
 
                             {/* Transaction Details */}
                             <div className="space-y-0">
@@ -244,7 +254,7 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
 
                         {/* Zigzag Paper Tear Effect */}
                         <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none h-[15px]">
-                            <svg className="block w-full h-full text-black fill-current" viewBox="0 0 1200 30" preserveAspectRatio="none">
+                            <svg className="block w-full h-full text-white dark:text-black fill-current" viewBox="0 0 1200 30" preserveAspectRatio="none">
                                 <defs>
                                     <pattern id="tear-pattern" x="0" y="0" width="40" height="30" patternUnits="userSpaceOnUse">
                                         <path d="M0,30 Q20,0 40,30" fill="currentColor" />
@@ -259,7 +269,7 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
                     <div className="flex flex-col items-center gap-1 pt-2 pb-2 text-center">
                         <div className="flex items-center gap-2">
                             <ShieldCheck className="w-4 h-4" style={{ color: accentColor }} />
-                            <span className="text-white text-[10px] font-bold tracking-widest uppercase opacity-70">100% Secure Payments</span>
+                            <span className="text-black dark:text-white text-[10px] font-bold tracking-widest uppercase opacity-70">100% Secure Payments</span>
                         </div>
 
                         {/* Bharat BillPay Logo */}
@@ -280,7 +290,7 @@ const TransactionReceipt = ({ transaction, onClose }: TransactionReceiptProps) =
                 <div className="flex gap-3 px-4 pt-3 pb-2">
                     <button
                         onClick={() => { }} // Add help handler later
-                        className={`flex-1 font-bold py-2.5 rounded-full shadow-sm active:scale-[0.98] transition-all tracking-wide text-xs ${isSuccess ? 'bg-green-500 hover:bg-green-400 text-black' : 'bg-red-500 hover:bg-red-400 text-white'}`}
+                        className={`flex-1 font-bold py-2.5 rounded-full shadow-sm active:scale-[0.98] transition-all tracking-wide text-xs ${isSuccess ? 'bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-400 text-white dark:text-black' : 'bg-red-600 hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-400 text-white'}`}
                     >
                         Get Help
                     </button>
